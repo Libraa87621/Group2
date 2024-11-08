@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="USER.DangKyActivity">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_corner_background"
+        android:padding="24dp"
 
+<<<<<<< HEAD
         <ImageButton
             android:id="@+id/btnimg_menu"
             android:layout_width="0dp"
@@ -47,8 +47,128 @@
             android:layout_weight="0.5"
             android:src="@drawable/imgcart"
             android:scaleType="centerInside"/>
+=======
+        android:layout_gravity="center">
 
+        <!-- Title and Link -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bạn đã sẵn sàng tạo tài khoản chưa ?"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"
+            android:textColor="#333333"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:textColor="#FF0000"
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
+
+        <!-- Form Fields -->
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Họ"
+            android:inputType="textPersonName"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên"
+            android:inputType="textPersonName"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+>>>>>>> a543f8ae5cc37bb7853d63e07c041e80a9d37a17
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/etBirthdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ngày sinh"
+            android:inputType="date"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Xác nhận mật khẩu"
+            android:inputType="textPassword"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#CCCCCC"
+            android:padding="12dp"/>
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo tài khoản"
+            android:backgroundTint="#FFD700"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:textAllCaps="false"/>
+
+        <!-- Social Media Icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_gmail"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_facebook"
+                android:layout_margin="8dp"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_apple"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
     </LinearLayout>
+<<<<<<< HEAD
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,3 +194,6 @@
 
     </LinearLayout>
 </LinearLayout>
+=======
+</ScrollView>
+>>>>>>> a543f8ae5cc37bb7853d63e07c041e80a9d37a17
