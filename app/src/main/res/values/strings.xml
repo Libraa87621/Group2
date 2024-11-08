@@ -3,4 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!-- res/values/strings.xml -->
+    <string-array name="chicken_options">
+        <item>1 miếng gà giòn vui vẻ</item>
+        <item>2 miếng gà giòn vui vẻ</item>
+    </string-array>
+
 </resources>
