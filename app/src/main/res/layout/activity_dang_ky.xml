@@ -10,6 +10,7 @@
     android:orientation="vertical"
     tools:context="USER.DangKyActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,11 +19,11 @@
         android:padding="24dp">
 
         <!-- Top Menu Section -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/btnimg_menu"
@@ -31,6 +32,14 @@
                 android:layout_weight="1"
                 android:src="@drawable/img_menu"
                 android:scaleType="centerInside"/>
+
+            <Button
+                android:id="@+id/btn_resign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng Ký"
+
+                />
 
             <ImageButton
                 android:id="@+id/btnimg_profile"
@@ -47,13 +56,14 @@
                 android:layout_weight="1"
                 android:src="@drawable/imgcart"
                 android:scaleType="centerInside"/>
+
         </LinearLayout>
 
         <!-- Title and Link -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đăng Ký"
+            android:text="Đăng Ký->"
             android:textSize="18sp"
             android:textColor="#FF0000"
             android:paddingBottom="16dp"/>
@@ -136,7 +146,8 @@
             android:textColor="#FFFFFF"
             android:layout_marginTop="16dp"
             android:padding="12dp"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+           />
 
         <!-- Social Media Icons -->
         <LinearLayout
@@ -149,19 +160,19 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_gmail"
+                android:src="@drawable/imggmail"
                 android:layout_margin="8dp"/>
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_facebook"
+                android:src="@drawable/imgfaceboook"
                 android:layout_margin="8dp"/>
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_apple"
+                android:src="@drawable/imgapple"
                 android:layout_margin="8dp"/>
 
         </LinearLayout>
