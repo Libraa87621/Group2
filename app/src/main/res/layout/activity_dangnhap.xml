@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Đăng Ký"/>
+                android:text="Đăng nhập"/>
 
             <ImageButton
                 android:id="@+id/btnimg_profile"
@@ -54,7 +54,15 @@
                 android:scaleType="centerInside"/>
         </LinearLayout>
 
-        <!-- Form and Content Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhâp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:paddingBottom="16dp"/>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,42 +71,6 @@
             android:padding="24dp"
             android:layout_marginTop="16dp">
 
-            <!-- Title and Link -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đăng Ký->"
-                android:textSize="18sp"
-                android:textColor="#FF0000"
-                android:paddingBottom="16dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bạn đã sẵn sàng tạo tài khoản chưa?"
-                android:textSize="16sp"
-                android:paddingBottom="8dp"
-                android:textColor="#333333"/>
-
-            <!-- Form Fields -->
-            <EditText
-                android:id="@+id/etLastName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Họ"
-                android:inputType="textPersonName"
-                android:backgroundTint="#CCCCCC"
-                android:padding="12dp"/>
-
-            <EditText
-                android:id="@+id/etFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Tên"
-                android:inputType="textPersonName"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:padding="12dp"/>
 
             <EditText
                 android:id="@+id/etEmail"
@@ -110,15 +82,7 @@
                 android:backgroundTint="#CCCCCC"
                 android:padding="12dp"/>
 
-            <EditText
-                android:id="@+id/etBirthdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ngày sinh"
-                android:inputType="date"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:padding="12dp"/>
+
 
             <EditText
                 android:id="@+id/etPassword"
@@ -130,29 +94,25 @@
                 android:backgroundTint="#CCCCCC"
                 android:padding="12dp"/>
 
-            <EditText
-                android:id="@+id/etConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Xác nhận mật khẩu"
-                android:inputType="textPassword"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#CCCCCC"
-                android:padding="12dp"/>
+
 
             <!-- Register Button -->
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tạo tài khoản"
+                android:text="Đăng nhập"
                 android:backgroundTint="#FFD700"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="16dp"
                 android:padding="12dp"
                 android:textAllCaps="false"/>
 
-            <!-- Social Media Icons -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quên mật khẩu"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
