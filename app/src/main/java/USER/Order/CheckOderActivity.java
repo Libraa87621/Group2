@@ -1,8 +1,10 @@
-package USER.checkOder;
+package USER.Order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,12 +33,13 @@ public class CheckOderActivity extends AppCompatActivity {
         // Initialize DecimalFormat for formatting prices
         DecimalFormat formatter = new DecimalFormat("#,###");
 
+        int total = 0;
         if (combo != null) {
             String nameChicken = combo.getNameChicken();
             String priceChicken = combo.getPriceChicken();
             String namePotato = combo.getNamePotato();
             String pricePotato = combo.getPricePotato();
-            int total = combo.getTotal();
+            total = combo.getTotal();
             int quantity = combo.getQuantity();
             int imageResId = combo.getImageResId();
 
@@ -48,17 +51,17 @@ public class CheckOderActivity extends AppCompatActivity {
             TextView tvingredientChicken = itemLayout.findViewById(R.id.tvingredientChicken);
             TextView tvingredientPotato = itemLayout.findViewById(R.id.tvingredientPotato);
 
-            // Hiển thị từng món nếu đã chọn
+            // Display each item if selected
             if (!nameChicken.isEmpty()) {
                 tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " đ");
             } else {
-                tvingredientChicken.setVisibility(View.GONE); // Ẩn TextView nếu không chọn món gà
+                tvingredientChicken.setVisibility(View.GONE); // Hide TextView if chicken is not selected
             }
 
             if (!namePotato.isEmpty()) {
                 tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formatter.format(Integer.parseInt(pricePotato)) + " đ");
             } else {
-                tvingredientPotato.setVisibility(View.GONE); // Ẩn TextView nếu không chọn khoai tây
+                tvingredientPotato.setVisibility(View.GONE); // Hide TextView if potato is not selected
             }
 
             tvComboName.setText(nameChicken.isEmpty() ? namePotato : (namePotato.isEmpty() ? nameChicken : nameChicken + " + " + namePotato));
@@ -68,5 +71,15 @@ public class CheckOderActivity extends AppCompatActivity {
             TextView totalPriceTextView = findViewById(R.id.totalPrice);
             totalPriceTextView.setText(formatter.format(total) + " VND");
         }
+
+        // Find the confirm button and set click listener
+        Button btnConfirmOrder = findViewById(R.id.btnConfirmOrder);
+        int finalTotal = total;
+        btnConfirmOrder.setOnClickListener(view -> {
+            // Create an Intent to navigate to OrderInformationActivity and pass totalAmount
+            Intent intent = new Intent(CheckOderActivity.this, OrderInformationActivity.class);
+            intent.putExtra("totalAmount", finalTotal); // Pass total amount
+            startActivity(intent);
+        });
     }
 }

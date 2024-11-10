@@ -18,7 +18,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import USER.checkOder.CheckOderActivity;
+import USER.Order.CheckOderActivity;
 
 public class choosefoodActivity extends AppCompatActivity {
 

@@ -111,7 +111,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnPay"
+            android:id="@+id/btnConfirmOrder"
             android:layout_gravity="center"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
