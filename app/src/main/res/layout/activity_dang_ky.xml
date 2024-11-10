@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#FFFFFF"
-    tools:context="USER.DangKyActivity">
+    tools:context="USER.login_signin.DangKyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,14 +28,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/img_menu"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside"
+                android:contentDescription="Menu"/>
 
             <Button
                 android:id="@+id/btn_resign"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Đăng Ký"/>
+                android:text="Đăng Ký"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="#333333"
+                android:textAllCaps="false"/>
 
             <ImageButton
                 android:id="@+id/btnimg_profile"
@@ -43,7 +47,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/imgprofile"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside"
+                android:contentDescription="Profile"/>
 
             <ImageButton
                 android:id="@+id/btnimg_cart"
@@ -51,7 +56,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/imgcart"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside"
+                android:contentDescription="Cart"/>
         </LinearLayout>
 
         <!-- Form and Content Section -->
@@ -67,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đăng Ký->"
+                android:text="Đăng Ký"
                 android:textSize="18sp"
                 android:textColor="#FF0000"
                 android:paddingBottom="16dp"/>
@@ -145,13 +151,12 @@
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tạo tài khoản"
-                android:backgroundTint="#FFD700"
-                android:textColor="#FFFFFF"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="#FFD700"
                 android:padding="12dp"
+                android:text="Tạo tài khoản"
                 android:textAllCaps="false"
-                android:background="@drawable/buttondangky"/>
+                android:textColor="#FFFFFF" />
 
             <!-- Social Media Icons -->
             <LinearLayout
@@ -165,19 +170,22 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/imggmail"
-                    android:layout_margin="8dp"/>
+                    android:layout_margin="8dp"
+                    android:contentDescription="Gmail"/>
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/imgfaceboook"
-                    android:layout_margin="8dp"/>
+                    android:layout_margin="8dp"
+                    android:contentDescription="Facebook"/>
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/imgapple"
-                    android:layout_margin="8dp"/>
+                    android:layout_margin="8dp"
+                    android:contentDescription="Apple"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

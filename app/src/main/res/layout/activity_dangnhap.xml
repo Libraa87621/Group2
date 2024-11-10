@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#FFFFFF"
-    tools:context="USER.DangKyActivity">
+    tools:context="USER.login_signin.DangKyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package USER;
+package USER.login_signin;
 
 import android.os.Bundle;
 
@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.duan1.R;
 
-public class DangKyActivity extends AppCompatActivity {
+public class ManhinhchoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_dang_ky);
+        setContentView(R.layout.activity_manhinhcho);
 
     }
 }

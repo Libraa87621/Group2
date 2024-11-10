@@ -12,37 +12,44 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DuAn1"
         tools:targetApi="31">
+
+        <!-- USER Activities -->
         <activity
-<<<<<<< HEAD
-            android:name="USER.dangnhapActivity"
+            android:name="USER.login_signin.dangnhapActivity"
             android:exported="false" />
+
         <activity
-            android:name="ADMIN.ChucNangActivity"
-=======
             android:name="USER.checkOder.CheckOderActivity"
->>>>>>> a21731647c1dfb12dbcb4c3af23d666a2475b555
             android:exported="false" />
+
         <activity
             android:name="USER.choosefood.choosefoodActivity"
-            android:exported="true">
+            android:exported="false">
+
+        </activity>
+
+        <activity
+            android:name="USER.login_signin.DangKyActivity"
+            android:exported="false"
+            tools:ignore="MissingClass">
+
+
+        </activity>
+
+        <activity
+            android:name="USER.login_signin.ManhinhchoActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- ADMIN Activities -->
         <activity
-<<<<<<< HEAD
-=======
             android:name="ADMIN.ChucNangActivity"
             android:exported="false" />
-        <activity
-            android:name="USER.DangKyActivity"
-            android:exported="true"></activity>
-        <activity
->>>>>>> a21731647c1dfb12dbcb4c3af23d666a2475b555
-            android:name="USER.ManhinhchoActivity"
-            android:exported="true" />
+
     </application>
 
 </manifest>
