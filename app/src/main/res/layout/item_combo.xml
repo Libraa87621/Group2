@@ -1,59 +1,55 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/bo2goctren"
+    android:layout_marginBottom="8dp">
+
+    <ImageView
+        android:id="@+id/imgCombo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/anhsanpham"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true" />
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@android:color/white"
-        android:layout_marginBottom="8dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <!-- Hình ảnh món ăn -->
-        <ImageView
-            android:id="@+id/imgCombo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/anhsanpham"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true" />
-
-
-        <!-- Thông tin món ăn -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvComboName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="Gà Giòn Vui Vẻ + Khoai tây chiên lớn"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:paddingBottom="8dp"/>
 
-            <!-- Tên combo -->
-            <TextView
-                android:id="@+id/tvComboName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gà Giòn Vui Vẻ + Khoai tây chiên lớn"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:paddingBottom="8dp"/>
-            <TextView
-                android:id="@+id/tvingredientChicken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1 x 1 miếng Gà Giòn Vui Vẻ + 91.000 ₫"
-                android:textSize="15sp"
-                android:textStyle="italic"
-                android:textColor="#000000"
-                android:paddingBottom="8dp"/>
-            <TextView
-                android:id="@+id/tvingredientPotato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="1 x Khoai tây chiên lớn + 25.000 ₫"
-                android:textSize="15sp"
-                android:textColor="#000000"
-                android:paddingBottom="8dp"/>
+        <TextView
+            android:id="@+id/tvingredientChicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 x 1 miếng Gà Giòn Vui Vẻ + 91.000 ₫"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:textColor="#000000"
+            android:paddingBottom="8dp"/>
 
-            <!-- Giá combo -->
+        <TextView
+            android:id="@+id/tvingredientPotato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:text="1 x Khoai tây chiên lớn + 25.000 ₫"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:paddingBottom="8dp"/>
 
-        </LinearLayout>
     </LinearLayout>
+</LinearLayout>

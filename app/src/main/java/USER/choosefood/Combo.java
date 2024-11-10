@@ -4,52 +4,33 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Combo implements Parcelable {
-    private String name;
-    private String details;
-    private String priceDetails;  // Assuming priceDetails contains a price in string format like "$10"
-    private int imageResId;
+    private String nameChicken;        // Tên món Gà
+    private String namePotato;         // Tên món Khoai tây
+    private String priceChicken;       // Giá món Gà
+    private String pricePotato;        // Giá món Khoai tây
+    private int total;                 // Tổng tiền (change to int for numeric representation)
+    private int quantity;              // Số lượng combo
+    private int imageResId;            // Hình ảnh của combo
 
     // Constructor
-    public Combo(String name, String details, String priceDetails, int imageResId) {
-        this.name = name;
-        this.details = details;
-        this.priceDetails = priceDetails;
+    public Combo(String nameChicken, String priceChicken, String namePotato, String pricePotato, int total, int quantity, int imageResId) {
+        this.nameChicken = nameChicken;
+        this.priceChicken = priceChicken;
+        this.namePotato = namePotato;
+        this.pricePotato = pricePotato;
+        this.total = total;  // Store total as an integer
+        this.quantity = quantity;
         this.imageResId = imageResId;
     }
 
-    // Getter methods
-    public String getName() {
-        return name;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public String getPriceDetails() {
-        return priceDetails;
-    }
-
-    public int getImageResId() {
-        return imageResId;
-    }
-
-    // Method to get the total amount (for example, parsing priceDetails)
-    public double getTotalAmount() {
-        try {
-            // Assuming priceDetails is in format "$10"
-            String priceString = priceDetails.replace("$", "");
-            return Double.parseDouble(priceString);
-        } catch (NumberFormatException e) {
-            return 0.0;  // Return 0 if there is an issue with the price string
-        }
-    }
-
-    // Parcelable implementation
+    // Parcelable methods (read, write, and describe contents)
     protected Combo(Parcel in) {
-        name = in.readString();
-        details = in.readString();
-        priceDetails = in.readString();
+        nameChicken = in.readString();
+        priceChicken = in.readString();
+        namePotato = in.readString();
+        pricePotato = in.readString();
+        total = in.readInt();  // Read total as an integer
+        quantity = in.readInt();
         imageResId = in.readInt();
     }
 
@@ -65,16 +46,54 @@ public class Combo implements Parcelable {
         }
     };
 
+    // Getters
+    public String getNameChicken() {
+        return nameChicken;
+    }
+
+    public String getPriceChicken() {
+        return priceChicken;
+    }
+
+    public String getNamePotato() {
+        return namePotato;
+    }
+
+    public String getPricePotato() {
+        return pricePotato;
+    }
+
+    public int getTotal() {
+        return total;  // Return total as an integer
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    // Setters for quantity
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // Parcelable methods to write Combo object into parcel
     @Override
-    public int describeContents() {
-        return 0;
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(nameChicken);
+        parcel.writeString(priceChicken);
+        parcel.writeString(namePotato);
+        parcel.writeString(pricePotato);
+        parcel.writeInt(total);  // Write total as an integer
+        parcel.writeInt(quantity);
+        parcel.writeInt(imageResId);
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(details);
-        dest.writeString(priceDetails);
-        dest.writeInt(imageResId);
+    public int describeContents() {
+        return 0;
     }
 }
