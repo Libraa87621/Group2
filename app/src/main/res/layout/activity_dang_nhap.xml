@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context="USER.login_signin.DangKyActivity">
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:background="@drawable/rounded_corner_background"
+      android:padding="24dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+      <ImageButton
+          android:id="@+id/btnimg_menu"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:src="@drawable/img_menu"
+          android:scaleType="centerInside"/>
+
+      <Button
+          android:id="@+id/btn_resign"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Đăng Ký"
+
+          />
+
+      <ImageButton
+          android:id="@+id/btnimg_profile"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:src="@drawable/imgprofile"
+          android:scaleType="centerInside"/>
+
+      <ImageButton
+          android:id="@+id/btnimg_cart"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:src="@drawable/imgcart"
+          android:scaleType="centerInside"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng Ký->"
+        android:textSize="18sp"
+        android:textColor="#FF0000"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn đã sẵn sàng tạo tài khoản chưa?"
+        android:textSize="16sp"
+        android:paddingBottom="8dp"
+        android:textColor="#333333"/>
+
+    <!-- Form Fields -->
+    <EditText
+        android:id="@+id/etLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ"
+        android:inputType="textPersonName"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên"
+        android:inputType="textPersonName"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etBirthdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày sinh"
+        android:inputType="date"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <EditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Xác nhận mật khẩu"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#CCCCCC"
+        android:padding="12dp"/>
+
+    <!-- Register Button -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tạo tài khoản"
+        android:backgroundTint="#FFD700"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:textAllCaps="false"
+        />
+
+    <!-- Social Media Icons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+      <ImageView
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:src="@drawable/imggmail"
+          android:layout_margin="8dp"/>
+
+      <ImageView
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:src="@drawable/imgfaceboook"
+          android:layout_margin="8dp"/>
+
+      <ImageView
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:src="@drawable/imgapple"
+          android:layout_margin="8dp"/>
+
+    </LinearLayout>
+  </LinearLayout>
+</ScrollView>
