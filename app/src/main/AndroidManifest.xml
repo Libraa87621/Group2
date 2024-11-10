@@ -13,10 +13,13 @@
         android:theme="@style/Theme.DuAn1"
         tools:targetApi="31">
         <activity
-            android:name="USER.Order.CheckOderActivity"
+            android:name="USER.Vocher.contactActivity"
             android:exported="false" />
         <activity
-            android:name="USER.choosefood.choosefoodActivity"
+            android:name="USER.choosefood.ProductDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="USER.Vocher.VocherActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,11 +28,23 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="USER.Home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="USER.Order.CheckOderActivity"
+            android:exported="true" />
+        <activity
+            android:name="USER.Order.OrderInformationActivity"
+            android:exported="true" />
+        <activity
+            android:name="USER.choosefood.choosefoodActivity"
+            android:exported="true" />
+        <activity
             android:name="ADMIN.ChucNangActivity"
             android:exported="false" />
         <activity
             android:name="USER.DangKyActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="USER.ManhinhchoActivity"
             android:exported="true" />

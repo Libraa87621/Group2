@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F8F8F8"/> <!-- Màu nền của checkbox -->
+    <corners android:radius="20dp"/> <!-- Đặt bán kính góc để tạo hình tròn -->
+    <stroke android:color="#000000" android:width="2dp"/> <!-- Đường viền đen -->
+    <size android:width="30dp" android:height="30dp"/> <!-- Đảm bảo kích thước hình tròn -->
+</shape>
