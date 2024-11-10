@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <!-- Thanh menu trên cùng -->
+    <LinearLayout
+        android:id="@+id/thanhMenu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#D32F2F"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <!-- Biểu tượng menu điều hướng -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/img_menu"
+            android:contentDescription="Biểu tượng Menu"
+            />
+
+        <!-- Tiêu đề ở giữa -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LIÊN HỆ JOLLIBEE"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <!-- Nút Pick Up -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PICK UP"
+            android:backgroundTint="#FFEB3B"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- Nội dung cuộn xuống -->
+    <ScrollView
+        android:layout_below="@id/thanhMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Phần Thông Tin Liên Hệ -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thông tin liên hệ"
+                android:textSize="18sp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jollibee Việt Nam"
+                android:textSize="16sp"
+
+                android:drawablePadding="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1900 - 1533"
+                android:textSize="16sp"
+
+                android:drawablePadding="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tầng 26, Tòa nhà CII Tower, số 152 Điện Biên Phủ, Phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam"
+            android:textSize="16sp"
+
+            android:drawablePadding="8dp"
+            android:paddingBottom="16dp"/>
+
+            <!-- Phần Mẫu Liên Hệ -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên của bạn"
+                android:padding="12dp"
+
+                android:inputType="textPersonName"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Số điện thoại"
+                android:padding="12dp"
+
+                android:inputType="phone"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:padding="12dp"
+
+                android:inputType="textEmailAddress"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tin nhắn"
+                android:padding="12dp"
+
+                android:inputType="textMultiLine"
+                android:minLines="4"/>
+
+            <!-- Nút Gửi -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gửi"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#D32F2F"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Phần Bản Đồ (Chỗ Chờ) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:text="Chỗ chờ bản đồ"
+                android:gravity="center"
+                android:background="#D6D6D6"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

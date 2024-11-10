@@ -8,8 +8,9 @@
     android:padding="16dp"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context="USER.login_signin.DangKyActivity">
+    tools:context="USER.login_signin.DangNhapActivity">
 
+    <!-- Top bar with icons and title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -17,7 +18,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <!-- Icon Menu: Căn trái (Start) -->
+        <!-- Menu Icon (left) -->
         <ImageButton
             android:id="@+id/btnimg_menu"
             android:layout_width="30dp"
@@ -27,20 +28,20 @@
             android:scaleType="centerInside"
             android:layout_gravity="start" />
 
-        <!-- Nút Đăng Ký: Căn giữa với khoảng cách -->
+        <!-- Title (centered) -->
         <TextView
             android:id="@+id/btn_resign"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Đăng Ký"
+            android:layout_height="14dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="175dp"
             android:layout_marginEnd="10dp"
+            android:text="Đăng Nhập"
             android:textColor="#000000"
-            android:layout_marginStart="210dp"
-            android:layout_gravity="center" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <!-- Icon Profile -->
+        <!-- Profile Icon -->
         <ImageButton
             android:id="@+id/btnimg_profile"
             android:layout_width="30dp"
@@ -48,11 +49,10 @@
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
             android:src="@drawable/imgprofile"
-
             android:scaleType="centerInside"
             android:layout_gravity="end"/>
 
-        <!-- Icon Cart -->
+        <!-- Cart Icon -->
         <ImageButton
             android:id="@+id/btnimg_cart"
             android:layout_width="30dp"
@@ -63,6 +63,19 @@
             android:layout_gravity="end"/>
     </LinearLayout>
 
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng Nhập "
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:paddingBottom="16dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <!-- Login Form -->
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
@@ -71,54 +84,12 @@
         android:background="@drawable/rounded_corner_background"
         android:padding="36dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đăng Ký  ->"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#CF1111"
-            android:paddingBottom="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn đã sẵn sàng tạo tài khoản chưa?"
-            android:textSize="16sp"
-            android:paddingBottom="8dp"
-            android:textColor="#333333"/>
-
-        <!-- Form Fields -->
         <EditText
-            android:id="@+id/FisrtName"
+            android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:inputType="text"
-            android:textColorHint="#A9A9A9"
-            android:hint="Họ"
-            android:padding="12dp"
-            android:background="@drawable/edittext_border"
-            android:layout_marginBottom="10dp"/>
-
-        <EditText
-            android:id="@+id/LastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:inputType="text"
-            android:textColorHint="#A9A9A9"
-            android:hint="Tên"
-            android:padding="12dp"
-            android:background="@drawable/edittext_border"
-            android:layout_marginBottom="10dp"/>
-
-        <EditText
-            android:id="@+id/Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:textColorHint="#A9A9A9"
             android:hint="Email"
             android:padding="12dp"
@@ -126,59 +97,70 @@
             android:layout_marginBottom="10dp"/>
 
         <EditText
-            android:id="@+id/Date"
+            android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:inputType="text"
-            android:textColorHint="#A9A9A9"
-            android:hint="Ngày Sinh"
-            android:padding="12dp"
-            android:background="@drawable/edittext_border"
-            android:layout_marginBottom="10dp"/>
-
-        <EditText
-            android:id="@+id/Password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textColorHint="#A9A9A9"
             android:hint="Mật khẩu"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginBottom="10dp"/>
 
-        <EditText
-            android:id="@+id/comfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:inputType="text"
-            android:textColorHint="#A9A9A9"
-            android:hint="Xác Nhận Mật Khẩu"
-            android:padding="12dp"
-            android:background="@drawable/edittext_border"
-            android:layout_marginBottom="10dp"/>
-
-        <!-- Register Button -->
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/buttonLogin"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:text="Tạo tài khoản"
+            android:text="Đăng Nhập"
             android:backgroundTint="#FFD700"
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
             android:textAllCaps="false"
-            android:background="@drawable/button_background"
-            />
+            android:background="@drawable/button_background" />
 
-        <!-- Social Media Icons -->
-
+        <TextView
+            android:id="@+id/textViewForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu?"
+            android:textColor="#FF0000"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- Create Account Section -->
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/round_corner_background2"
+        android:padding="36dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn chưa có tài khoản?"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/buttonCreateAccount"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:text="Tạo tài khoản"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_background" />
+    </LinearLayout>
+
+    <!-- Social Media Icons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -186,6 +168,7 @@
         android:padding="10dp"
         android:layout_gravity="center"
         android:gravity="center">
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
