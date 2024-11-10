@@ -1,5 +1,6 @@
 package USER.choosefood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,23 +13,32 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
 
+import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import USER.checkOder.CheckOderActivity;
+
 public class choosefoodActivity extends AppCompatActivity {
 
     private TextView tvChooseChicken;
-    private TextView tvCombo;  // TextView cho combo
-    private TextView tvQuantity; // TextView hiển thị số lượng
-    private TextView tvTotalAmount; // TextView hiển thị tổng tiền
+    private TextView tvCombo;
+    private TextView tvQuantity;
+    private TextView tvTotalAmount;
     private Spinner chickenSpinner;
     private ImageView ivChosenChicken;
-    private TextView tvMessage;  // TextView hiển thị thông báo lỗi
+    private TextView tvMessage;
+    private int quantity = 0; // Default quantity is 0
+    private int chickenPrice = 0;
+    private boolean isChickenSelected = false;
 
-    private int quantity = 1; // Biến lưu số lượng món ăn đã chọn
-    private int pricePerItem = 0; // Giá mỗi món ăn (ban đầu là 0)
-    private boolean isChickenSelected = false; // Biến kiểm tra xem đã chọn món gà hay chưa
+    // New variables for potato selection
+    private Spinner spinnerPotato;
+    private TextView tvChoosePotato;
+    private ImageView ivChosenPotato;
+    private int potatoPrice = 0;
+    private boolean isPotatoSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,101 +48,199 @@ public class choosefoodActivity extends AppCompatActivity {
         tvChooseChicken = findViewById(R.id.tv_choose_chicken);
         chickenSpinner = findViewById(R.id.spinner_chicken);
         ivChosenChicken = findViewById(R.id.iv_chosen_chicken);
-        tvCombo = findViewById(R.id.combo);  // TextView combo
-        tvQuantity = findViewById(R.id.tvQuantity); // TextView số lượng
-        tvTotalAmount = findViewById(R.id.tvTotalAmount); // TextView tổng tiền
-        tvMessage = findViewById(R.id.tvMessage);  // TextView thông báo lỗi
+        tvCombo = findViewById(R.id.combo);
+        tvQuantity = findViewById(R.id.tvQuantity);
+        tvTotalAmount = findViewById(R.id.tvTotalAmount);
+        tvMessage = findViewById(R.id.tvMessage);
 
-        // Tạo danh sách các mục cho Spinner với giá tiền
+        // Potato views
+        tvChoosePotato = findViewById(R.id.tv_choose_potato);
+        spinnerPotato = findViewById(R.id.spinner_potato);
+        ivChosenPotato = findViewById(R.id.iv_chosen_potato);
+        setSpinnerPopupHeight(chickenSpinner, 2);
+        setSpinnerPopupHeight(spinnerPotato, 2);
+
+        // Set up chicken spinner
         List<ChickenItem> chickenItems = new ArrayList<>();
-        chickenItems.add(new ChickenItem("1 miếng gà giòn vui vẻ", R.drawable.chicken_piece_1, 91000)); // Giá 91.000 đồng
-        chickenItems.add(new ChickenItem("2 miếng gà giòn vui vẻ", R.drawable.chicken_piece_2, 182000)); // Giá 182.000 đồng
-
-        // Tạo một Adapter tùy chỉnh
+        chickenItems.add(new ChickenItem(" miếng gà (nhỏ) vui vẻ", R.drawable.chicken_piece_1, 91000));
+        chickenItems.add(new ChickenItem(" miếng gà (lớn) vui vẻ", R.drawable.chicken_piece_2, 182000));
         ChickenAdapter adapter = new ChickenAdapter(this, chickenItems);
         chickenSpinner.setAdapter(adapter);
 
-        // Lắng nghe sự kiện nhấn vào TextView để mở Spinner
+        // Set up potato spinner
+        List<PotatoItem> potatoItems = new ArrayList<>();
+        potatoItems.add(new PotatoItem("Khoai tây chiên nhỏ", R.drawable.potato_lagre, 15000));
+        potatoItems.add(new PotatoItem("Khoai tây chiên lớn", R.drawable.potato_lagre, 25000));
+        PotatoAdapter potatoAdapter = new PotatoAdapter(this, potatoItems);
+        spinnerPotato.setAdapter(potatoAdapter);
+
+        // Chicken selection event
         tvChooseChicken.setOnClickListener(v -> {
             chickenSpinner.performClick();
             chickenSpinner.setVisibility(View.VISIBLE);
         });
 
-        // Lắng nghe sự kiện chọn một mục trong Spinner
         chickenSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 ChickenItem selectedItem = (ChickenItem) parentView.getItemAtPosition(position);
                 tvChooseChicken.setText(selectedItem.getName());
                 ivChosenChicken.setImageResource(selectedItem.getImageResId());
-
-                // Cập nhật TextView combo để hiển thị tên combo đã chọn
-                tvCombo.setText("Combo: " + selectedItem.getName());  // Hiển thị tên combo đã chọn
-
-                // Cập nhật giá món ăn
-                pricePerItem = selectedItem.getPrice();
-
-                // Đánh dấu là đã chọn món gà
+                chickenPrice = selectedItem.getPrice();
                 isChickenSelected = true;
-
-                // Cập nhật tổng tiền
+                // Set default quantity to 1 when chicken is selected
+                quantity = 1;
+                tvQuantity.setText(String.valueOf(quantity));
+                updateComboText();
                 updateTotalAmount();
-
-                // Ẩn Spinner sau khi chọn
                 chickenSpinner.setVisibility(View.GONE);
-
-                // Ẩn thông báo lỗi khi đã chọn món gà
-                tvMessage.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.GONE); // Hide message when chicken is selected
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Không có hành động khi không có lựa chọn
             }
         });
 
-        // Sự kiện cho nút giảm số lượng
+        // Potato selection event
+        tvChoosePotato.setOnClickListener(v -> {
+            spinnerPotato.performClick();
+            spinnerPotato.setVisibility(View.VISIBLE);
+        });
+
+        spinnerPotato.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                PotatoItem selectedItem = (PotatoItem) parentView.getItemAtPosition(position);
+                tvChoosePotato.setText(selectedItem.getName());
+                ivChosenPotato.setImageResource(selectedItem.getImageResId());
+                potatoPrice = selectedItem.getPrice();
+                isPotatoSelected = true;
+                // Set default quantity to 1 when potato is selected
+                quantity = 1;
+                tvQuantity.setText(String.valueOf(quantity));
+                updateComboText();
+                updateTotalAmount();
+                spinnerPotato.setVisibility(View.GONE);
+                tvMessage.setVisibility(View.GONE); // Hide message when potato is selected
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        // Quantity increase and decrease buttons
         Button btnDecrease = findViewById(R.id.btnDecrease);
         btnDecrease.setOnClickListener(v -> {
-            if (isChickenSelected && quantity > 1) {
-                quantity--;  // Giảm số lượng
-                tvQuantity.setText(String.valueOf(quantity));  // Cập nhật số lượng
-                updateTotalAmount(); // Cập nhật tổng tiền
-            } else if (!isChickenSelected) {
-                // Nếu chưa chọn món gà, hiển thị thông báo dưới nút tăng/giảm
-                tvMessage.setText("Vui lòng chọn combo trước!");
-                tvMessage.setVisibility(View.VISIBLE);  // Hiển thị thông báo
+            if (quantity > 0) { // Allow quantity to go down to 0
+                quantity--;
+                tvQuantity.setText(String.valueOf(quantity));
+                updateTotalAmount();
+            } else {
+                // If no item is selected, show message
+                if (!isChickenSelected && !isPotatoSelected) {
+                    tvMessage.setText("Vui lòng chọn ít nhất một món!");
+                    tvMessage.setVisibility(View.VISIBLE);
+                }
             }
         });
 
-        // Sự kiện cho nút tăng số lượng
         Button btnIncrease = findViewById(R.id.btnIncrease);
         btnIncrease.setOnClickListener(v -> {
-            if (isChickenSelected) {
-                quantity++;  // Tăng số lượng
-                tvQuantity.setText(String.valueOf(quantity));  // Cập nhật số lượng
-                updateTotalAmount(); // Cập nhật tổng tiền
+            if (isChickenSelected || isPotatoSelected) { // Allow quantity increase if at least one item is selected
+                quantity++;
+                tvQuantity.setText(String.valueOf(quantity));
+                updateTotalAmount();
             } else {
-                // Nếu chưa chọn món gà, hiển thị thông báo dưới nút tăng/giảm
-                tvMessage.setText("Vui lòng chọn combo trước!");
-                tvMessage.setVisibility(View.VISIBLE);  // Hiển thị thông báo
+                // If no item is selected, show message
+                tvMessage.setText("Vui lòng chọn ít nhất một món!");
+                tvMessage.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Order button
+        // Order button
+        Button btnOrder = findViewById(R.id.btnOrder);
+        btnOrder.setOnClickListener(v -> {
+            if (isChickenSelected || isPotatoSelected) { // Check if at least one item is selected
+                // Create combo string and price
+                String comboName = "";
+                int totalAmount = 0;
+                int comboImageResId = 0;
+
+                if (isChickenSelected) {
+                    comboName += tvChooseChicken.getText().toString();
+                    totalAmount += chickenPrice;
+                    comboImageResId = R.drawable.anhsanpham; // Replace with your actual image resource ID
+                }
+
+                if (isPotatoSelected) {
+                    comboName += (isChickenSelected ? " + " : "") + tvChoosePotato.getText().toString();
+                    totalAmount += potatoPrice;
+                    comboImageResId = R.drawable.potato_lagre; // Replace with your actual image resource ID
+                }
+
+                totalAmount *= quantity; // Total for the selected quantity
+
+                // Create a Combo object
+                Combo combo = new Combo(comboName, String.valueOf(totalAmount), String.valueOf(totalAmount), comboImageResId);
+
+                // Pass Combo object to CheckOderActivity
+                Intent intent = new Intent(choosefoodActivity.this, CheckOderActivity.class);
+                intent.putExtra("combo", combo);  // Passing the Combo object directly
+
+                // Start CheckOderActivity
+                startActivity(intent);
+            } else {
+                // If no item is selected, show message
+                tvMessage.setText("Vui lòng chọn ít nhất một món!");
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    // Hàm cập nhật tổng tiền
-    private void updateTotalAmount() {
-        // Kiểm tra nếu chưa chọn món gà, không cập nhật tổng tiền
-        if (isChickenSelected) {
-            int totalAmount = pricePerItem * quantity;  // Tính tổng tiền
+        // Set the spinner height for a better user experience
+    private void setSpinnerPopupHeight(Spinner spinner, int maxVisibleItems) {
+        try {
+            Field popupField = Spinner.class.getDeclaredField("mPopup");
+            popupField.setAccessible(true);
+            Object popup = popupField.get(spinner);
 
-            // Format số tiền với dấu phẩy
-            String formattedAmount = NumberFormat.getInstance().format(totalAmount);
-
-            // Hiển thị tổng tiền với ký hiệu đ
-            tvTotalAmount.setText(formattedAmount + " đ");
-        } else {
-            tvTotalAmount.setText("0 đ");
+            if (popup instanceof android.widget.ListPopupWindow) {
+                android.widget.ListPopupWindow listPopupWindow = (android.widget.ListPopupWindow) popup;
+                int itemHeight = getResources().getDimensionPixelSize(R.dimen.spinner_item_height); // Define this in dimen file
+                listPopupWindow.setHeight(itemHeight * maxVisibleItems);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    // Update combo text to show selected chicken and potato items
+    private void updateComboText() {
+        String comboText = "Combo: ";
+        if (isChickenSelected) {
+            comboText += tvChooseChicken.getText();
+        }
+        if (isPotatoSelected) {
+            comboText += (isChickenSelected ? " + " : "") + tvChoosePotato.getText();
+        }
+        tvCombo.setText(comboText);
+    }
+
+    // Update the total amount displayed
+    private void updateTotalAmount() {
+        int totalAmount = 0;
+        if (isChickenSelected) {
+            totalAmount += chickenPrice;
+        }
+        if (isPotatoSelected) {
+            totalAmount += potatoPrice;
+        }
+        totalAmount *= quantity; // Total for the selected quantity
+
+        String formattedAmount = NumberFormat.getInstance().format(totalAmount) + " đ";
+        tvTotalAmount.setText(formattedAmount);
     }
 }

@@ -11,15 +11,7 @@ public class PotatoItem {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getImageResId() {
-        return imageResId;
-    }
-
-    public int getPrice() {
-        return price;
-    }
+    public String getName() { return name; }
+    public int getImageResId() { return imageResId; }
+    public int getPrice() { return price; }
 }
