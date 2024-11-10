@@ -1,0 +1,219 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    tools:context="USER.choosefood.choosefoodActivity">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/back"
+        android:background="@android:color/transparent" />
+
+    <ViewFlipper
+        android:id="@+id/imageSlider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:flipInterval="3000"
+        android:autoStart="true"
+        android:inAnimation="@android:anim/fade_in"
+        android:outAnimation="@android:anim/fade_out">
+
+        <!-- Image 1 -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/anhsanpham" />
+
+        <!-- Image 2 -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chicken_piece_1" />
+
+        <!-- Image 3 -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/potato_lagre" />
+    </ViewFlipper>
+
+
+    <TextView
+        android:id="@+id/combo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="Combo:..."
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp" />
+
+    <!-- Phần chọn món gà -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_background">
+
+        <ImageView
+            android:id="@+id/iv_chosen_chicken"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/default_image" />
+
+        <TextView
+            android:id="@+id/tv_choose_chicken"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chọn gà"
+            android:textColor="#000000"
+            android:layout_marginTop="40px"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <Spinner
+            android:id="@+id/spinner_chicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Phần chọn món khoai -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_background">
+
+        <ImageView
+            android:id="@+id/iv_chosen_potato"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/default_image" />
+
+        <TextView
+            android:id="@+id/tv_choose_potato"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chọn Khoai"
+            android:layout_marginTop="40px"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <Spinner
+            android:id="@+id/spinner_potato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Phần tăng giảm số lượng và tổng tiền -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="55dp"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btnDecrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="35dp"
+            android:text="-"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:id="@+id/tvQuantity"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:text="0"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_marginEnd="10dp" />
+
+        <Button
+            android:id="@+id/btnIncrease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="35dp"
+            android:text="+"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="110dp" />
+
+        <TextView
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 đ"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bạn phải chọn combo trước"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btnOrder"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Đặt Hàng"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

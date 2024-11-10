@@ -13,13 +13,17 @@
         android:theme="@style/Theme.DuAn1"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name="USER.dangnhapActivity"
             android:exported="false" />
         <activity
             android:name="ADMIN.ChucNangActivity"
+=======
+            android:name="USER.checkOder.CheckOderActivity"
+>>>>>>> a21731647c1dfb12dbcb4c3af23d666a2475b555
             android:exported="false" />
         <activity
-            android:name="USER.DangKyActivity"
+            android:name="USER.choosefood.choosefoodActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +32,15 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
+=======
+            android:name="ADMIN.ChucNangActivity"
+            android:exported="false" />
+        <activity
+            android:name="USER.DangKyActivity"
+            android:exported="true"></activity>
+        <activity
+>>>>>>> a21731647c1dfb12dbcb4c3af23d666a2475b555
             android:name="USER.ManhinhchoActivity"
             android:exported="true" />
     </application>

@@ -1,5 +1,12 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
     <solid android:color="#FFFFFF"/>
     <corners android:radius="20dp"/>
     <stroke android:width="2dp" android:color="#000000"/>
 </shape>
+=======
+    <solid android:color="#EDEDED" /> <!-- Màu trắng -->
+    <corners android:radius="8dp" /> <!-- Bo góc nhẹ hơn cho Spinner -->
+    <stroke android:width="2dp" android:color="#000000" /> <!-- Đường viền màu đen -->
+</shape>
+>>>>>>> a21731647c1dfb12dbcb4c3af23d666a2475b555
