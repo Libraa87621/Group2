@@ -158,7 +158,10 @@ public class choosefoodActivity extends AppCompatActivity {
         Button btnOrder = findViewById(R.id.btnOrder);
         btnOrder.setOnClickListener(v -> {
             if (isChickenSelected || isPotatoSelected) {
-                // Create combo string and price
+                // Hide the message if items are selected
+                tvMessage.setVisibility(View.GONE);
+
+                // Create combo string and calculate total price
                 StringBuilder comboName = new StringBuilder();
                 int totalAmount = 0;
                 int comboImageResId = 0;
@@ -171,33 +174,32 @@ public class choosefoodActivity extends AppCompatActivity {
                     priceChicken = String.valueOf(chickenPrice);
                     totalAmount += chickenPrice;
                     comboImageResId = R.drawable.anhsanpham; // Replace with actual image resource ID for Chicken
+                    comboName.append(nameChicken);
                 }
 
                 // Check if Potato is selected
                 String namePotato = "";
                 String pricePotato = "";
                 if (isPotatoSelected) {
-                    if (isChickenSelected) {
+                    if (comboName.length() > 0) {
                         comboName.append(" + ");
                     }
                     namePotato = tvChoosePotato.getText().toString();
                     pricePotato = String.valueOf(potatoPrice);
                     totalAmount += potatoPrice;
                     comboImageResId = R.drawable.potato_lagre; // Replace with actual image resource ID for Potato
+                    comboName.append(namePotato);
                 }
 
-                if (quantity > 0) {
-                    totalAmount *= quantity;
-                } else {
-                    totalAmount = 0;
-                }
+                // Adjust total amount based on quantity
+                totalAmount *= Math.max(quantity, 1);
 
                 // Create a Combo object with the updated quantity
-                Combo combo = new Combo(nameChicken, priceChicken, namePotato, pricePotato, totalAmount, quantity, comboImageResId);
+                Combo combo = new Combo(comboName.toString(), priceChicken, namePotato, pricePotato, totalAmount, quantity, comboImageResId);
 
                 // Pass Combo object to CheckOderActivity via Intent
                 Intent intent = new Intent(choosefoodActivity.this, CheckOderActivity.class);
-                intent.putExtra("combo", combo);  // Pass the Combo object with updated quantity
+                intent.putExtra("combo", combo); // Pass the Combo object with updated quantity
                 startActivity(intent);
             } else {
                 tvMessage.setText("Vui lòng chọn ít nhất một món!");

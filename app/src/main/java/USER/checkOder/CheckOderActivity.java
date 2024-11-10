@@ -2,6 +2,7 @@ package USER.checkOder;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,42 +32,41 @@ public class CheckOderActivity extends AppCompatActivity {
         DecimalFormat formatter = new DecimalFormat("#,###");
 
         if (combo != null) {
-            // Extract Combo details
             String nameChicken = combo.getNameChicken();
             String priceChicken = combo.getPriceChicken();
             String namePotato = combo.getNamePotato();
             String pricePotato = combo.getPricePotato();
             int total = combo.getTotal();
-            int quantity = combo.getQuantity();  // Retrieve the quantity for each combo
+            int quantity = combo.getQuantity();
             int imageResId = combo.getImageResId();
 
-            // Inflate the item_combo.xml layout
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout itemLayout = (LinearLayout) inflater.inflate(R.layout.item_combo, container, false);
 
-            // Find views inside the inflated layout
             ImageView imgCombo = itemLayout.findViewById(R.id.imgCombo);
             TextView tvComboName = itemLayout.findViewById(R.id.tvComboName);
             TextView tvingredientChicken = itemLayout.findViewById(R.id.tvingredientChicken);
             TextView tvingredientPotato = itemLayout.findViewById(R.id.tvingredientPotato);
 
-            // Format the prices
-            String formattedPriceChicken = formatter.format(Integer.parseInt(priceChicken));
-            String formattedPricePotato = formatter.format(Integer.parseInt(pricePotato));
-            String formattedTotal = formatter.format(total);
+            // Hiển thị từng món nếu đã chọn
+            if (!nameChicken.isEmpty()) {
+                tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " đ");
+            } else {
+                tvingredientChicken.setVisibility(View.GONE); // Ẩn TextView nếu không chọn món gà
+            }
 
-            // Set data to the views
-            tvComboName.setText(nameChicken + " + " + namePotato);  // Combo name
-            tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formattedPriceChicken + " đ");  // Ingredient details for chicken, now showing dynamic quantity
-            tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formattedPricePotato + " đ");   // Ingredient details for potato, now showing dynamic quantity
+            if (!namePotato.isEmpty()) {
+                tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formatter.format(Integer.parseInt(pricePotato)) + " đ");
+            } else {
+                tvingredientPotato.setVisibility(View.GONE); // Ẩn TextView nếu không chọn khoai tây
+            }
+
+            tvComboName.setText(nameChicken.isEmpty() ? namePotato : (namePotato.isEmpty() ? nameChicken : nameChicken + " + " + namePotato));
             imgCombo.setImageResource(imageResId);
-
-            // Add inflated itemLayout to the container
             container.addView(itemLayout);
 
-            // Set the total price on the TextView
-            TextView totalPriceTextView = findViewById(R.id.totalPrice); // Ensure this ID matches your layout
-            totalPriceTextView.setText(formattedTotal + " VND");
+            TextView totalPriceTextView = findViewById(R.id.totalPrice);
+            totalPriceTextView.setText(formatter.format(total) + " VND");
         }
     }
 }
