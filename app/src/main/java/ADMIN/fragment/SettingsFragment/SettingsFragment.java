@@ -1,7 +1,11 @@
-package ADMIN.qldonhang;
+package ADMIN.fragment.SettingsFragment;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,18 +14,19 @@ import com.example.duan1.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
+public class SettingsFragment extends Fragment {
     private RecyclerView recyclerViewOrders;
     private OrderAdapter orderAdapter;
     private List<Order> orderList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donhang_adm);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.activity_donhang_adm, container, false);
 
-        recyclerViewOrders = findViewById(R.id.recyclerViewOrders);
-        recyclerViewOrders.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
+        recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         orderList = new ArrayList<>();
         // Thêm dữ liệu mẫu
@@ -30,5 +35,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         orderAdapter = new OrderAdapter(orderList);
         recyclerViewOrders.setAdapter(orderAdapter);
+
+        return rootView;
     }
 }

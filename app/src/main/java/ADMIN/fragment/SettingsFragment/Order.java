@@ -1,4 +1,4 @@
-package ADMIN.qldonhang;
+package ADMIN.fragment.SettingsFragment;
 
 public class Order {
     private String date;

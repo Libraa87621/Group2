@@ -1,4 +1,4 @@
-package ADMIN.qldonhang;
+package ADMIN.fragment.SettingsFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;

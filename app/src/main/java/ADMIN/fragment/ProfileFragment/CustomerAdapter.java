@@ -1,4 +1,4 @@
-package ADMIN.qlkhachhang;
+package ADMIN.fragment.ProfileFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.example.duan1.R;
 
 import java.util.List;
 
-    public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.CustomerViewHolder> {
+public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.CustomerViewHolder> {
         private List<Customer> customerItems;
 
         public CustomerAdapter(List<Customer> customerItems) {

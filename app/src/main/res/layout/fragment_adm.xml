@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="bottom">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/fragment_Finance"
+            android:layout_width="match_parent"
+            android:layout_height="652dp" />
+
+        <FrameLayout
+            android:id="@+id/fragment_Setting"
+            android:layout_width="match_parent"
+            android:layout_height="679dp" />
+
+        <FrameLayout
+            android:id="@+id/fragment_Orders"
+            android:layout_width="match_parent"
+            android:layout_height="726dp" />
+
+        <FrameLayout
+            android:id="@+id/fragment_Profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/fragment_Search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/itemBottomAdm"
+        layout="@layout/item_bottom_adm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+</LinearLayout>

@@ -7,9 +7,9 @@
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="70dp"
         android:background="#D32F2F"
+        android:orientation="horizontal"
         android:padding="8dp">
 
         <ImageView
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:text="Quản lý khách hàng"
+            android:layout_gravity="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -47,5 +48,4 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:layout_marginTop="6dp" />
-
 </RelativeLayout>

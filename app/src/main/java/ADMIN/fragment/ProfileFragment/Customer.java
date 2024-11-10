@@ -1,4 +1,4 @@
-package ADMIN.qlkhachhang;
+package ADMIN.fragment.ProfileFragment;
 
 public class Customer {
     private String date;

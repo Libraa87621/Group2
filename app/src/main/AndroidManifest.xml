@@ -28,20 +28,20 @@
         <activity
             android:name="ADMIN.qlkhachhang.CustomerActivity"
             android:exported="true">
+
+        </activity>
+        <activity
+            android:name="USER.ManhinhchoActivity"
+            android:exported="true" />
+        <activity
+            android:name="ADMIN.fragment.fragmentActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="ADMIN.qldonhang.OrdersActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
-            android:name="USER.ManhinhchoActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
