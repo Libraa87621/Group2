@@ -1,123 +1,105 @@
 package USER.login_signin;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.duan1.R;
 
 public class DangKyActivity extends AppCompatActivity {
 
-    private EditText etLastName, etFirstName, etEmail, etBirthdate, etPassword, etConfirmPassword;
-    private Button btnRegister, btnResign;
-    private ImageButton btnMenu, btnProfile, btnCart;
-    private ImageView imgGmail, imgFacebook, imgApple;
+    private EditText etFirstName, etLastName, etEmail, etDate, etPassword, etConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ky);
 
-        // Initialize UI components
-        btnMenu = findViewById(R.id.btnimg_menu);
-        btnResign = findViewById(R.id.btn_resign);
-        btnProfile = findViewById(R.id.btnimg_profile);
-        btnCart = findViewById(R.id.btnimg_cart);
+        // Bind views
+        etFirstName = findViewById(R.id.FisrtName);
+        etLastName = findViewById(R.id.LastName);
+        etEmail = findViewById(R.id.Name);
+        etDate = findViewById(R.id.Date);
+        etPassword = findViewById(R.id.Password);
+        etConfirmPassword = findViewById(R.id.comfirmPassword);
 
-        etLastName = findViewById(R.id.etLastName);
-        etFirstName = findViewById(R.id.etFirstName);
-        etEmail = findViewById(R.id.etEmail);
-        etBirthdate = findViewById(R.id.etBirthdate);
-        etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-
-        btnRegister = findViewById(R.id.btnRegister);
-
-        imgGmail = findViewById(R.id.imgGmail);
-        imgFacebook = findViewById(R.id.img_facebook);
-        imgApple = findViewById(R.id.img_apple);
-
-        // Setup event handlers
-        setupEventHandlers();
-    }
-
-    private void setupEventHandlers() {
-        // Handle menu button click
-        btnMenu.setOnClickListener(v -> {
-            Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        // Handle profile button click
-        btnProfile.setOnClickListener(v -> {
-            Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        // Handle cart button click
-        btnCart.setOnClickListener(v -> {
-            Toast.makeText(this, "Cart clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        // Handle "Đăng Ký" button click
-        btnResign.setOnClickListener(v -> {
-            Toast.makeText(this, "Đăng Ký button clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        // Handle register button click
-        btnRegister.setOnClickListener(v -> {
-            registerUser();
-        });
-
-        // Social media icons click events
-        imgGmail.setOnClickListener(v -> {
-            Toast.makeText(this, "Gmail clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        imgFacebook.setOnClickListener(v -> {
-            Toast.makeText(this, "Facebook clicked", Toast.LENGTH_SHORT).show();
-        });
-
-        imgApple.setOnClickListener(v -> {
-            Toast.makeText(this, "Apple clicked", Toast.LENGTH_SHORT).show();
+        // Register button click listener
+        findViewById(R.id.btnRegister).setOnClickListener(v -> {
+            if (isValidInput()) {
+                // All fields are valid, proceed with registration
+                Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void registerUser() {
-        String lastName = etLastName.getText().toString().trim();
-        String firstName = etFirstName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String birthdate = etBirthdate.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String confirmPassword = etConfirmPassword.getText().toString().trim();
+    // Check if all input fields are valid
+    private boolean isValidInput() {
+        boolean isValid = true;
 
-        // Validate form fields
-        if (lastName.isEmpty() || firstName.isEmpty() || email.isEmpty() || birthdate.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            return;
+        // Collect all errors
+        if (TextUtils.isEmpty(etFirstName.getText().toString())) {
+            etFirstName.setError("Họ không được bỏ trống");
+            isValid = false;
         }
 
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
-            return;
+        if (TextUtils.isEmpty(etLastName.getText().toString())) {
+            etLastName.setError("Tên không được bỏ trống");
+            isValid = false;
         }
 
-        // Registration success message
-        Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+        if (!isValidEmail(etEmail.getText().toString())) {
+            isValid = false;  // The error message is handled in isValidEmail
+        }
 
-        // Clear form fields
-        clearForm();
+        if (TextUtils.isEmpty(etDate.getText().toString())) {
+            etDate.setError("Ngày sinh không được bỏ trống");
+            isValid = false;
+        } else if (!isValidDate(etDate.getText().toString())) {
+            etDate.setError("Ngày sinh không hợp lệ. Định dạng phải là mm/dd/yy (ví dụ: 12/25/24)");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etPassword.getText().toString())) {
+            etPassword.setError("Mật khẩu không được bỏ trống");
+            isValid = false;
+        }
+
+        if (etPassword.getText().toString().length() < 6) {
+            etPassword.setError("Mật khẩu phải có ít nhất 6 ký tự");
+            isValid = false;
+        }
+
+        if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
+            etConfirmPassword.setError("Mật khẩu và Xác nhận mật khẩu không khớp");
+            isValid = false;
+        }
+
+        return isValid;
     }
 
-    private void clearForm() {
-        etLastName.setText("");
-        etFirstName.setText("");
-        etEmail.setText("");
-        etBirthdate.setText("");
-        etPassword.setText("");
-        etConfirmPassword.setText("");
+    // Check if the email is valid
+    private boolean isValidEmail(String email) {
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Email không được bỏ trống");
+            return false;
+        }
+
+        // Validate the email format (example: user@example.com)
+        String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$";
+        if (!email.matches(emailPattern)) {
+            etEmail.setError("Email không hợp lệ. Hãy chắc chắn rằng bạn nhập đúng định dạng (ví dụ: example@mail.com)");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Check if the date is in valid mm/dd/yy format
+    private boolean isValidDate(String date) {
+        // Regular expression to check if the date is in the format mm/dd/yy
+        String datePattern = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/([0-9]{2})$";
+        return date.matches(datePattern);
     }
 }

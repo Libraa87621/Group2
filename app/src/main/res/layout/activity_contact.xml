@@ -18,9 +18,9 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_menu"
+            android:src="@drawable/img_menu"
             android:contentDescription="Biểu tượng Menu"
-            android:tint="#FFFFFF" />
+            />
 
         <!-- Tiêu đề ở giữa -->
         <TextView
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="Jollibee Việt Nam"
                 android:textSize="16sp"
-                android:drawableLeft="@drawable/ic_location"
+
                 android:drawablePadding="8dp"/>
 
             <TextView
@@ -74,14 +74,15 @@
                 android:layout_height="wrap_content"
                 android:text="1900 - 1533"
                 android:textSize="16sp"
-                android:drawableLeft="@drawable/ic_phone"
+
                 android:drawablePadding="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/-strong/-heart:>:o:-((:-h android:text="Tầng 26, Tòa nhà CII Tower, số 152 Điện Biên Phủ, Phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam"
+                android:layout_height="wrap_content"
+                android:text="Tầng 26, Tòa nhà CII Tower, số 152 Điện Biên Phủ, Phường 25, Quận Bình Thạnh, Thành phố Hồ Chí Minh, Việt Nam"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_address"
+
             android:drawablePadding="8dp"
             android:paddingBottom="16dp"/>
 
@@ -91,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Tên của bạn"
                 android:padding="12dp"
-                android:background="@drawable/edit_text_background"
+
                 android:inputType="textPersonName"/>
 
             <EditText
@@ -99,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Số điện thoại"
                 android:padding="12dp"
-                android:background="@drawable/edit_text_background"
+
                 android:inputType="phone"/>
 
             <EditText
@@ -107,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:padding="12dp"
-                android:background="@drawable/edit_text_background"
+
                 android:inputType="textEmailAddress"/>
 
             <EditText
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Tin nhắn"
                 android:padding="12dp"
-                android:background="@drawable/edit_text_background"
+
                 android:inputType="textMultiLine"
                 android:minLines="4"/>
 

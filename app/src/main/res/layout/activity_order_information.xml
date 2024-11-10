@@ -185,6 +185,7 @@
         android:paddingStart="18dp">
 
         <RadioButton
+            android:id="@+id/cbHomeDelivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Giao hàng tận nơi"
@@ -192,6 +193,7 @@
             android:checked="true" />
 
         <RadioButton
+            android:id="@+id/cbPickUpAtStore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hẹn lấy tại cửa hàng"
