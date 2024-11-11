@@ -140,6 +140,14 @@
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginBottom="10dp"/>
+        <LinearLayout
+            android:id="@+id/layoutOldAddresses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
 
         <EditText
             android:id="@+id/edtnote"
@@ -184,21 +192,30 @@
         android:orientation="vertical"
         android:paddingStart="18dp">
 
-        <RadioButton
-            android:id="@+id/cbHomeDelivery"
-            android:layout_width="wrap_content"
+        <!-- Add RadioGroup for selecting shipping method -->
+        <RadioGroup
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giao hàng tận nơi"
-            android:textColor="#000000"
-            android:checked="true" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/cbPickUpAtStore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hẹn lấy tại cửa hàng"
-            android:textColor="#000000" />
+            <RadioButton
+                android:id="@+id/rdoHomeDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giao hàng tận nơi"
+                android:textColor="#000000"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rdoPickUpAtStore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hẹn lấy tại cửa hàng"
+                android:textColor="#000000" />
+
+        </RadioGroup>
     </LinearLayout>
+
 
     <Button
         android:id="@+id/btnNext"
