@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.duan1.R;
 
 import USER.Home.HomeActivity;
@@ -30,6 +29,19 @@ public class DangNhapActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
         textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
+
+        // Get email and password from the Intent
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+        String password = intent.getStringExtra("password");
+
+        // Set email and password to EditText fields if they are not null
+        if (email != null) {
+            editTextEmail.setText(email);
+        }
+        if (password != null) {
+            editTextPassword.setText(password);
+        }
 
         // Set up listeners
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -58,13 +70,17 @@ public class DangNhapActivity extends AppCompatActivity {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
+        // Get email and password from the registration (passed via Intent)
+        Intent intent = getIntent();
+        String registeredEmail = intent.getStringExtra("email");
+        String registeredPassword = intent.getStringExtra("password");
+
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
         } else {
-            // TODO: Authenticate user (connect to your backend or database)
-            if (email.equals("test@example.com") && password.equals("password123")) {
+            // Check if entered email and password match the ones passed from registration
+            if (email.equals(registeredEmail) && password.equals(registeredPassword)) {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                // Redirect to another activity on successful login
                 startActivity(new Intent(DangNhapActivity.this, HomeActivity.class));
                 finish();
             } else {
@@ -74,12 +90,10 @@ public class DangNhapActivity extends AppCompatActivity {
     }
 
     private void createAccount() {
-        // Redirect to CreateAccountActivity
         startActivity(new Intent(DangNhapActivity.this, DangKyActivity.class));
     }
 
     private void forgotPassword() {
-        // TODO: Implement forgot password logic (e.g., open a password reset activity or send a reset email)
         Toast.makeText(this, "Chức năng quên mật khẩu đang được phát triển", Toast.LENGTH_SHORT).show();
     }
 }
