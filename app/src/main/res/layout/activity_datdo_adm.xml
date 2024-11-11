@@ -1,6 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Thanh công cụ trên cùng -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#D32F2F"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/btnMenu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:contentDescription="Menu"
+            android:src="@drawable/img_menu"
+            app:tint="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/btnUser"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="325dp"
+            android:layout_gravity="center"
+            android:contentDescription="User"
+            android:src="@drawable/imgprofile"
+            app:tint="@android:color/white" />
+    </LinearLayout>
+</RelativeLayout>
