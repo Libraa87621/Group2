@@ -19,15 +19,15 @@
             android:layout_gravity="center"
             android:contentDescription="Menu"
             android:src="@drawable/img_menu"
-            app:tint="@android:color/white" />
+            app:tint="@color/black" />
 
         <TextView
-            android:layout_width="304dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="Quản lý khách hàng"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
+            android:layout_marginStart="30dp"
+            android:text="Quản lý đơn hàng"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -38,7 +38,51 @@
             android:layout_gravity="center"
             android:contentDescription="User"
             android:src="@drawable/imgprofile"
-            app:tint="@android:color/white" />
+            app:tint="@color/black" />
+    </LinearLayout>
+
+    <!-- Thanh chức năng bên dưới thanh công cụ -->
+    <LinearLayout
+        android:id="@+id/thanhchucnang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/btnthem"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:contentDescription="Thêm"
+            android:src="@drawable/img_cong"
+            app:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/btnsua"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:contentDescription="Sửa"
+            android:src="@drawable/img_pen"
+            app:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/btxoa"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:contentDescription="Xóa"
+            android:src="@drawable/img_thungrac"
+            app:tint="@color/black" />
     </LinearLayout>
 
     <!-- RecyclerView hiển thị danh sách khách hàng -->
@@ -46,6 +90,6 @@
         android:id="@+id/recyclerViewCustomers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/thanhchucnang"
         android:layout_marginTop="6dp" />
 </RelativeLayout>

@@ -58,7 +58,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:srcCompat="@drawable/_828925" />
+                    app:srcCompat="@drawable/img_cong" />
 
                 <TextView
                     android:layout_width="match_parent"
