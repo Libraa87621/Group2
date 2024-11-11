@@ -16,8 +16,8 @@ import java.util.List;
 
 public class SettingsFragment extends Fragment {
     private RecyclerView recyclerViewOrders;
-    private OrderAdapter orderAdapter;
-    private List<Order> orderList;
+    private SettingAdapter settingAdapter;
+    private List<Setting> settingList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,13 +28,13 @@ public class SettingsFragment extends Fragment {
         recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        orderList = new ArrayList<>();
+        settingList = new ArrayList<>();
         // Thêm dữ liệu mẫu
-        orderList.add(new Order("10/5/2024", "Nguyễn Ngọc Duy", "- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên", true));
-        orderList.add(new Order("11/5/2024", "Lê Văn A", "- 3 Miếng gà giòn\n- 1 nước ngọt", false));
+        settingList.add(new Setting("10/5/2024", "Nguyễn Ngọc Duy", "- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên", true));
+        settingList.add(new Setting("11/5/2024", "Lê Văn A", "- 3 Miếng gà giòn\n- 1 nước ngọt", false));
 
-        orderAdapter = new OrderAdapter(orderList);
-        recyclerViewOrders.setAdapter(orderAdapter);
+        settingAdapter = new SettingAdapter(settingList);
+        recyclerViewOrders.setAdapter(settingAdapter);
 
         return rootView;
     }

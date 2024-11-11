@@ -1,12 +1,12 @@
 package ADMIN.fragment.SettingsFragment;
 
-public class Order {
+public class Setting {
     private String date;
     private String customerName;
     private String items;
     private boolean isCompleted;
 
-    public Order(String date, String customerName, String items, boolean isCompleted) {
+    public Setting(String date, String customerName, String items, boolean isCompleted) {
         this.date = date;
         this.customerName = customerName;
         this.items = items;
