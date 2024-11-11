@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingViewHolder> {
@@ -18,6 +19,42 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
 
     public SettingAdapter(List<Setting> settingList) {
         this.settingList = settingList;
+    }
+
+    // Thêm item
+    public void addItem(Setting newSetting) {
+        settingList.add(newSetting);
+        notifyItemInserted(settingList.size() - 1);
+    }
+
+    // Xóa item
+    public void removeSelectedItems() {
+        for (int i = settingList.size() - 1; i >= 0; i--) {
+            if (settingList.get(i).isSelected()) {
+                settingList.remove(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
+
+    // Sửa item
+    public void editSelectedItems(String newName) {
+        for (Setting setting : settingList) {
+            if (setting.isSelected()) {
+                setting.setCustomerName(newName);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<Setting> getSelectedItems() {
+        List<Setting> selectedItems = new ArrayList<>();
+        for (Setting setting : settingList) {
+            if (setting.isSelected()) {
+                selectedItems.add(setting);
+            }
+        }
+        return selectedItems;
     }
 
     @NonNull
@@ -33,7 +70,12 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
         holder.tvDate.setText(setting.getDate());
         holder.tvCustomerName.setText(setting.getCustomerName());
         holder.tvItems.setText(setting.getItems());
-        holder.checkCompleted.setChecked(setting.isCompleted());
+        holder.checkCompleted.setChecked(setting.isSelected());
+
+        // Đánh dấu item được chọn khi checkbox được tích
+        holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setting.setSelected(isChecked);
+        });
     }
 
     @Override
