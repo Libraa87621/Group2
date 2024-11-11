@@ -18,11 +18,7 @@
         <activity
             android:name="USER.Payment.PaymentActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="USER.login_signin.DangKyActivity"
@@ -38,7 +34,14 @@
             android:exported="true" />
         <activity
             android:name="USER.login_signin.ManhinhchoActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name="USER.Order.OrderInformationActivity"
             android:exported="true" />
