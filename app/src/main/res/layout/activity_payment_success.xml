@@ -52,14 +52,14 @@
             android:textSize="26sp"
             android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/containerLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                <LinearLayout
+                    android:id="@+id/containerLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            </LinearLayout>
+                </LinearLayout>
 
         <LinearLayout
             android:id="@+id/addressLayout"
@@ -147,7 +147,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEstimatedTimeValue"
+                android:id="@+id/tvEstimatedTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -158,6 +158,7 @@
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -193,6 +194,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/paymentMethodLayout"
             android:layout_width="match_parent"
@@ -224,6 +226,7 @@
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -274,8 +277,11 @@
 
                 <TextView
                     android:id="@+id/tvTotalAmountLabel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+
+                    android:layout_weight="1"
                     android:text="Tổng số tiền"
                     android:textColor="#000000"
                     android:textSize="20sp"
@@ -283,9 +289,11 @@
 
                 <TextView
                     android:id="@+id/tvTotalAmountValue"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:gravity="end"
+                    android:layout_weight="0.8"
                     android:text="..."
                     android:textColor="#000000"
                     android:textSize="20sp"

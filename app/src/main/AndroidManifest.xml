@@ -48,7 +48,6 @@
         <activity
             android:name="USER.choosefood.choosefoodActivity"
             android:exported="true" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

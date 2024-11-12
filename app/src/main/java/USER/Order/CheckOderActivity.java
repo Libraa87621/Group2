@@ -24,13 +24,10 @@ public class CheckOderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_oder);
 
-        // Get the Combo object passed from ChooseFoodActivity
+        // Retrieve Combo object from Intent
         Combo combo = getIntent().getParcelableExtra("combo");
 
-        // Find the container LinearLayout where we'll add the inflated item_combo layout
         LinearLayout container = findViewById(R.id.containerLinearLayout);
-
-        // Initialize DecimalFormat for formatting prices
         DecimalFormat formatter = new DecimalFormat("#,###");
 
         int total = 0;
@@ -51,20 +48,22 @@ public class CheckOderActivity extends AppCompatActivity {
             TextView tvingredientChicken = itemLayout.findViewById(R.id.tvingredientChicken);
             TextView tvingredientPotato = itemLayout.findViewById(R.id.tvingredientPotato);
 
-            // Display each item if selected
+            // Set Combo Name with both items
+            tvComboName.setText(nameChicken + " + " + namePotato);
+
+            // Set Chicken and Potato details in the specified format
             if (!nameChicken.isEmpty()) {
-                tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " đ");
+                tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " ₫");
             } else {
-                tvingredientChicken.setVisibility(View.GONE); // Hide TextView if chicken is not selected
+                tvingredientChicken.setVisibility(View.GONE);
             }
 
             if (!namePotato.isEmpty()) {
-                tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formatter.format(Integer.parseInt(pricePotato)) + " đ");
+                tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formatter.format(Integer.parseInt(pricePotato)) + " ₫");
             } else {
-                tvingredientPotato.setVisibility(View.GONE); // Hide TextView if potato is not selected
+                tvingredientPotato.setVisibility(View.GONE);
             }
 
-            tvComboName.setText(nameChicken.isEmpty() ? namePotato : (namePotato.isEmpty() ? nameChicken : nameChicken + " + " + namePotato));
             imgCombo.setImageResource(imageResId);
             container.addView(itemLayout);
 
@@ -72,14 +71,18 @@ public class CheckOderActivity extends AppCompatActivity {
             totalPriceTextView.setText(formatter.format(total) + " VND");
         }
 
-        // Find the confirm button and set click listener
         Button btnConfirmOrder = findViewById(R.id.btnConfirmOrder);
         int finalTotal = total;
+
         btnConfirmOrder.setOnClickListener(view -> {
-            // Create an Intent to navigate to OrderInformationActivity and pass totalAmount
             Intent intent = new Intent(CheckOderActivity.this, OrderInformationActivity.class);
-            intent.putExtra("combo", combo); // Pass Combo object
-            intent.putExtra("totalAmount", finalTotal); // Pass total amount
+
+            // Pass the Combo object
+            intent.putExtra("combo", combo); // Passing Combo object
+
+            // Pass the total amount
+            intent.putExtra("totalAmount", finalTotal);
+
             startActivity(intent);
         });
     }
