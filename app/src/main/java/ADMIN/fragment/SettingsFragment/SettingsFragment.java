@@ -25,14 +25,12 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.activity_donhang_adm, container, false);
 
         recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         settingList = new ArrayList<>();
-        // Thêm dữ liệu mẫu
         settingList.add(new Setting("10/5/2024", "Nguyễn Ngọc Duy", "- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên", true));
         settingList.add(new Setting("11/5/2024", "Lê Văn A", "- 3 Miếng gà giòn\n- 1 nước ngọt", false));
 
@@ -45,7 +43,7 @@ public class SettingsFragment extends Fragment {
 
         // Icon xóa
         ImageView btxoa = rootView.findViewById(R.id.btxoa);
-        btxoa.setOnClickListener(v -> settingAdapter.removeSelectedItems());
+        btxoa.setOnClickListener(v -> onDeleteClick());
 
         // Icon sửa
         ImageView btnsua = rootView.findViewById(R.id.btnsua);
@@ -54,9 +52,15 @@ public class SettingsFragment extends Fragment {
         return rootView;
     }
 
-    // Hiển thị dialog thêm item
+    private void onDeleteClick() {
+        if (settingAdapter.getSelectedItems().isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng chọn ít nhất một item để xóa!", Toast.LENGTH_SHORT).show();
+        } else {
+            settingAdapter.removeSelectedItems();
+        }
+    }
+
     private void showAddDialog() {
-        // Tạo một AlertDialog để thêm item mới
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_setting, null);
         EditText etDate = dialogView.findViewById(R.id.etDate);
         EditText etCustomerName = dialogView.findViewById(R.id.etCustomerName);
@@ -66,7 +70,6 @@ public class SettingsFragment extends Fragment {
                 .setTitle("Thêm Đơn Hàng")
                 .setView(dialogView)
                 .setPositiveButton("Thêm", (dialog, which) -> {
-                    // Lấy dữ liệu từ các EditText
                     String date = etDate.getText().toString();
                     String customerName = etCustomerName.getText().toString();
                     String items = etItems.getText().toString();
@@ -82,9 +85,7 @@ public class SettingsFragment extends Fragment {
                 .show();
     }
 
-    // Hiển thị dialog sửa item
     private void showEditDialog() {
-        // Kiểm tra xem có item nào được chọn hay không
         List<Setting> selectedItems = settingAdapter.getSelectedItems();
         if (selectedItems.size() != 1) {
             Toast.makeText(getContext(), "Vui lòng chọn một item để sửa!", Toast.LENGTH_SHORT).show();
@@ -93,7 +94,6 @@ public class SettingsFragment extends Fragment {
 
         Setting setting = selectedItems.get(0);
 
-        // Tạo một AlertDialog để sửa item
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_setting, null);
         EditText etDate = dialogView.findViewById(R.id.etDate);
         EditText etCustomerName = dialogView.findViewById(R.id.etCustomerName);
@@ -107,7 +107,6 @@ public class SettingsFragment extends Fragment {
                 .setTitle("Sửa Đơn Hàng")
                 .setView(dialogView)
                 .setPositiveButton("Sửa", (dialog, which) -> {
-                    // Lấy dữ liệu từ các EditText và cập nhật item
                     String date = etDate.getText().toString();
                     String customerName = etCustomerName.getText().toString();
                     String items = etItems.getText().toString();

@@ -16,12 +16,13 @@ public class Setting {
     }
 
     public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }  // Thêm setter cho date
+    public void setDate(String date) { this.date = date; }
     public String getCustomerName() { return customerName; }
     public void setCustomerName(String customerName) { this.customerName = customerName; }
     public String getItems() { return items; }
-    public void setItems(String items) { this.items = items; }  // Thêm setter cho items
+    public void setItems(String items) { this.items = items; }
     public boolean isCompleted() { return isCompleted; }
+    public void setCompleted(boolean completed) { isCompleted = completed; }
     public boolean isSelected() { return selected; }
     public void setSelected(boolean selected) { this.selected = selected; }
 }
