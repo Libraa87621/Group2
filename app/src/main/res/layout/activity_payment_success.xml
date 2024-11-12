@@ -53,6 +53,15 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/containerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/addressLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
