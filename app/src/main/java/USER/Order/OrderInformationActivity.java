@@ -114,10 +114,12 @@ public class OrderInformationActivity extends AppCompatActivity {
     }
 
     // Method to handle Next button click
+    // Method to handle Next button click
     public void onNextButtonClick() {
         String fullName = edtFullName.getText().toString().trim();
         String phoneNumber = edtNumberPhone.getText().toString().trim();
         String address = edtAdress.getText().toString().trim();
+        String note = edtNote.getText().toString().trim(); // Get note text
 
         boolean isValid = true;
 
@@ -152,6 +154,11 @@ public class OrderInformationActivity extends AppCompatActivity {
             // Create an Intent to navigate to PaymentActivity
             Intent intent = new Intent(OrderInformationActivity.this, PaymentActivity.class);
             intent.putExtra("totalAmount", getIntent().getIntExtra("totalAmount", 0)); // Pass total amount
+            intent.putExtra("fullName", fullName); // Pass full name
+            intent.putExtra("phoneNumber", phoneNumber); // Pass phone number
+            intent.putExtra("address", address); // Pass address
+            intent.putExtra("note", note); // Pass note
+
             startActivity(intent);
         }
     }

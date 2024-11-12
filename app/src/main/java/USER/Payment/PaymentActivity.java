@@ -170,10 +170,31 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void startPaymentSuccessActivity() {
+        // Khởi tạo Intent để chuyển sang PaymentSuccessActivity
         Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
+
+        // Lấy số tiền cuối cùng hiển thị trên UI (đã áp dụng mã giảm giá)
+        String totalAmountText = tvTotalAmount.getText().toString();
+        intent.putExtra("finalTotalAmount", totalAmountText);
+
+        // Thêm thông tin về phương thức thanh toán
+        if (checkboxCash.isChecked()) {
+            intent.putExtra("paymentMethod", "Cash");
+            intent.putExtra("cardNumber", etCardNumber.getText().toString()); // Truyền số thẻ nếu phương thức là Cash
+        } else if (checkboxMOMO.isChecked()) {
+            intent.putExtra("paymentMethod", "MOMO");
+            intent.putExtra("momoPhone", etMomoPhone.getText().toString()); // Truyền số điện thoại MoMo nếu phương thức là MOMO
+        }
+
+        // Truyền mã khuyến mãi
+        intent.putExtra("promoCode", spinnerPromo.getSelectedItem().toString());
+
+        // Chuyển tới trang PaymentSuccessActivity
         startActivity(intent);
-        finish();
+        finish(); // Đóng Activity hiện tại nếu không cần quay lại
     }
+
+
 
     private void applyPromoCodeFromInput() {
         String promoCode = etPromoCode.getText().toString().trim();

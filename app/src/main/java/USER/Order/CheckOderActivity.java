@@ -78,6 +78,7 @@ public class CheckOderActivity extends AppCompatActivity {
         btnConfirmOrder.setOnClickListener(view -> {
             // Create an Intent to navigate to OrderInformationActivity and pass totalAmount
             Intent intent = new Intent(CheckOderActivity.this, OrderInformationActivity.class);
+            intent.putExtra("combo", combo); // Pass Combo object
             intent.putExtra("totalAmount", finalTotal); // Pass total amount
             startActivity(intent);
         });
