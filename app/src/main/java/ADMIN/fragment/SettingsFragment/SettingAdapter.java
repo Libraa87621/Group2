@@ -21,13 +21,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
         this.settingList = settingList;
     }
 
-    // Thêm item
     public void addItem(Setting newSetting) {
         settingList.add(newSetting);
         notifyItemInserted(settingList.size() - 1);
     }
 
-    // Xóa item
     public void removeSelectedItems() {
         for (int i = settingList.size() - 1; i >= 0; i--) {
             if (settingList.get(i).isSelected()) {
@@ -37,7 +35,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
         }
     }
 
-    // Sửa item
     public void editSelectedItems(String newName) {
         for (Setting setting : settingList) {
             if (setting.isSelected()) {
@@ -72,10 +69,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
         holder.tvItems.setText(setting.getItems());
         holder.checkCompleted.setChecked(setting.isSelected());
 
-        // Đánh dấu item được chọn khi checkbox được tích
-        holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            setting.setSelected(isChecked);
-        });
+        holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> setting.setSelected(isChecked));
     }
 
     @Override
