@@ -20,7 +20,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflater layout của fragment
-        View rootView = inflater.inflate(R.layout.activity_timkiem_adm, container, false);
+        View rootView = inflater.inflate(R.layout.activity_search_admin, container, false);
 
         // Khởi tạo ListView và các view khác
         listViewCombos = rootView.findViewById(R.id.listViewCombos);

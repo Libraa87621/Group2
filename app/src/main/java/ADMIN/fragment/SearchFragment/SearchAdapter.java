@@ -40,7 +40,7 @@ public class SearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Nếu convertView là null, tạo mới view từ layout item_combo
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_combo, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_doan, parent, false);
         }
 
         // Lấy món ăn hiện tại trong danh sách
