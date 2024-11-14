@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,6 +60,10 @@ public class choosefoodActivity extends AppCompatActivity {
         ivChosenPotato = findViewById(R.id.iv_chosen_potato);
         setSpinnerPopupHeight(chickenSpinner, 2);
         setSpinnerPopupHeight(spinnerPotato, 2);
+        // Áp dụng cho nút Back
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
 
         // Set up chicken spinner
         List<ChickenItem> chickenItems = new ArrayList<>();
@@ -79,6 +84,7 @@ public class choosefoodActivity extends AppCompatActivity {
             chickenSpinner.performClick();
             chickenSpinner.setVisibility(View.VISIBLE);
         });
+
 
         chickenSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

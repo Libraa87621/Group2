@@ -9,8 +9,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:background="#F7F7F7"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_bar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Toolbar -->
         <RelativeLayout
@@ -92,6 +91,7 @@
                     android:gravity="center"
                     android:textColor="#D32F2F"
                     android:textStyle="bold"
+                    android:textSize="18sp"
                     android:padding="8dp" />
             </LinearLayout>
 
@@ -119,6 +119,7 @@
                     android:text="Món Phụ"
                     android:gravity="center"
                     android:textColor="#D32F2F"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="8dp" />
             </LinearLayout>
@@ -127,10 +128,39 @@
 
     <!-- Bottom Bar -->
     <RelativeLayout
-        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#D32F2F"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_height="match_parent">
+
+        <!-- Nội dung chính của bạn ở đây -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/footerLayout">
+            <!-- Nội dung khác trong ScrollView -->
+        </ScrollView>
+
+        <!-- Footer ở cuối màn hình -->
+        <LinearLayout
+            android:id="@+id/footerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="#DDDDDD" />
+
+            <!-- Footer -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#D32F2F" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,9 +62,18 @@
             android:scaleType="centerInside"
             android:layout_gravity="end"/>
     </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ĐĂNG KÝ"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#0055FF"
+        android:paddingBottom="16dp"/>
+    <LinearLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -148,6 +157,7 @@
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginBottom="10dp"/>
+
 
         <EditText
             android:id="@+id/comfirmPassword"
