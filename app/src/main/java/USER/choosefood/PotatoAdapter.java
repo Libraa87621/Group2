@@ -35,7 +35,7 @@ public class PotatoAdapter extends ArrayAdapter<PotatoItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item_layout, parent, false);
         }
 
-        ImageView imageView = convertView.findViewById(R.id.tencombo);
+        ImageView imageView = convertView.findViewById(R.id.name);
         TextView textViewName = convertView.findViewById(R.id.soluong);
 
 

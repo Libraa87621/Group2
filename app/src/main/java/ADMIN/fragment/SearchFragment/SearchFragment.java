@@ -12,28 +12,28 @@ import com.example.duan1.R;
 
 import java.util.ArrayList;
 
-import USER.choosefood.Combo;
-
 public class SearchFragment extends Fragment {
     private ListView listViewCombos;
-    private ArrayList<Monan> comboList;
+    private ArrayList<Monan> comboList; // Danh sách các món ăn
     private SearchAdapter comboAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timkiem_adm);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflater layout của fragment
+        View rootView = inflater.inflate(R.layout.activity_timkiem_adm, container, false);
 
-        listViewCombos = findViewById(R.id.listViewCombos);
+        // Khởi tạo ListView và các view khác
+        listViewCombos = rootView.findViewById(R.id.listViewCombos);
 
-        // Initialize list and add sample data
+        // Khởi tạo danh sách món ăn (combo)
         comboList = new ArrayList<>();
-        comboList.add(new Combo("Combo 1", 2));
-        comboList.add(new Combo("Combo 2", 5));
+        comboList.add(new Monan("Combo 1", 2)); // Thêm món ăn mẫu
+        comboList.add(new Monan("Combo 2", 5));
 
-        // Set adapter
-        comboAdapter = new SearchAdapter(this, comboList);
+        // Thiết lập adapter
+        comboAdapter = new SearchAdapter(getContext(), comboList);
         listViewCombos.setAdapter(comboAdapter);
+
+        return rootView; // Trả về root view đã được tạo
     }
-}
 }
