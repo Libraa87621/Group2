@@ -1,13 +1,17 @@
 package USER.login_signin;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import com.example.duan1.R;
 
 import ADMIN.fragment.fragmentActivity;
@@ -18,6 +22,7 @@ public class DangNhapActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount;
     private TextView textViewForgotPassword;
+    private boolean isPasswordVisible = false; // Track password visibility
 
     // Tài khoản mặc định của admin
     private final String ADMIN_EMAIL = "admin";
@@ -69,6 +74,37 @@ public class DangNhapActivity extends AppCompatActivity {
                 forgotPassword();
             }
         });
+
+        // Set up touch listener for eye icon
+        editTextPassword.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    int drawableEnd = editTextPassword.getCompoundDrawables()[2] != null ? 2 : -1;
+                    if (drawableEnd >= 0 && event.getRawX() >= (editTextPassword.getRight() - editTextPassword.getCompoundDrawables()[drawableEnd].getBounds().width())) {
+                        togglePasswordVisibility();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // Hide password
+            editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            Drawable eyeIcon = ContextCompat.getDrawable(this, R.drawable.eye_icon); // Replace with "closed eye" icon if desired
+            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, eyeIcon, null);
+        } else {
+            // Show password
+            editTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            Drawable eyeIcon = ContextCompat.getDrawable(this, R.drawable.eye_icon); // Replace with "open eye" icon if desired
+            editTextPassword.setCompoundDrawablesWithIntrinsicBounds(null, null, eyeIcon, null);
+        }
+        isPasswordVisible = !isPasswordVisible;
+        editTextPassword.setSelection(editTextPassword.length()); // Keep cursor at the end
     }
 
     private void login() {
