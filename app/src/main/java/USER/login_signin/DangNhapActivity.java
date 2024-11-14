@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.duan1.R;
 
+import ADMIN.fragment.fragmentActivity;
 import USER.Home.HomeActivity;
 
 public class DangNhapActivity extends AppCompatActivity {
@@ -17,6 +18,10 @@ public class DangNhapActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin, buttonCreateAccount;
     private TextView textViewForgotPassword;
+
+    // Tài khoản mặc định của admin
+    private final String ADMIN_EMAIL = "admin";
+    private final String ADMIN_PASSWORD = "admin123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,14 @@ public class DangNhapActivity extends AppCompatActivity {
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
         } else {
-            // Check if entered email and password match the ones passed from registration
-            if (email.equals(registeredEmail) && password.equals(registeredPassword)) {
+            // Kiểm tra nếu tài khoản là admin
+            if (email.equals(ADMIN_EMAIL) && password.equals(ADMIN_PASSWORD)) {
+                Toast.makeText(this, "Đăng nhập với quyền admin thành công", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(DangNhapActivity.this, fragmentActivity.class)); // Chuyển hướng đến AdminActivity
+                finish();
+            }
+            // Kiểm tra tài khoản đăng ký thông thường
+            else if (email.equals(registeredEmail) && password.equals(registeredPassword)) {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(DangNhapActivity.this, HomeActivity.class));
                 finish();

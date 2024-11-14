@@ -1,6 +1,157 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Thanh công cụ trên cùng -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#D32F2F"
+        android:orientation="horizontal"
+        android:padding="8dp">
+        <ImageView
+            android:id="@+id/btnMenu"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:contentDescription="Menu"
+            android:src="@drawable/img_menu"
+            app:tint="@android:color/white" />
+        <ImageView
+            android:id="@+id/btnUser"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:contentDescription="User"
+            android:src="@drawable/imgprofile"
+            android:layout_marginLeft="320dp"
+            app:tint="@android:color/white" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutBig"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/LayoutMedium1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/LayoutSmall1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/img_cong" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Them san pham moi"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ten san pham..."
+                    android:layout_marginStart="18dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gia san pham..."
+                    android:layout_marginStart="18dp"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LayoutSmall2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/material_dynamic_neutral30"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LayoutMedium2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/LayoutSmall3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/purple_500"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/LayoutSmall4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/material_dynamic_tertiary40"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/LayoutMedium3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/LayoutSmall5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/material_dynamic_tertiary20"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/LayoutSmall6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/material_dynamic_primary20"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+

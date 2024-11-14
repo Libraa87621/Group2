@@ -16,4 +16,5 @@ public class OrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_datdo_adm, container, false);
     }
+
 }

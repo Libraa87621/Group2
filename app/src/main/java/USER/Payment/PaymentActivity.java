@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import USER.choosefood.Combo;
+
 public class PaymentActivity extends AppCompatActivity {
 
     private CheckBox checkboxCash, checkboxMOMO;
@@ -37,7 +39,7 @@ public class PaymentActivity extends AppCompatActivity {
         // Initialize views
         initializeViews();
 
-        // Set up total amount display
+        // Display total amount
         displayTotalAmount();
 
         // Set up CheckBox listeners for exclusive selection
@@ -65,6 +67,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void displayTotalAmount() {
+        // Retrieve the total amount from OrderActivity
         int totalAmount = getIntent().getIntExtra("totalAmount", 0);
         DecimalFormat formatter = new DecimalFormat("#,###");
         tvTotalAmount.setText(formatter.format(totalAmount) + " VND");
@@ -74,27 +77,27 @@ public class PaymentActivity extends AppCompatActivity {
         checkboxCash.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 checkboxMOMO.setChecked(false);
-                etCardNumber.setVisibility(View.VISIBLE); // Show card number input
-                etMomoPhone.setVisibility(View.GONE); // Hide MoMo phone input
+                etCardNumber.setVisibility(View.VISIBLE);
+                etMomoPhone.setVisibility(View.GONE);
             } else {
-                etCardNumber.setVisibility(View.GONE); // Hide card number input if unchecked
+                etCardNumber.setVisibility(View.GONE);
             }
         });
 
         checkboxMOMO.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 checkboxCash.setChecked(false);
-                etMomoPhone.setVisibility(View.VISIBLE); // Show MoMo phone input
-                etCardNumber.setVisibility(View.GONE); // Hide card number input
+                etMomoPhone.setVisibility(View.VISIBLE);
+                etCardNumber.setVisibility(View.GONE);
             } else {
-                etMomoPhone.setVisibility(View.GONE); // Hide MoMo phone input if unchecked
+                etMomoPhone.setVisibility(View.GONE);
             }
         });
     }
 
     private void setupPromoSpinner() {
         List<String> promoList = new ArrayList<>();
-        promoList.add("Áp Dụng khuyến mãi"); // Default item
+        promoList.add("Áp Dụng khuyến mãi");
         promoList.add("Mã giảm giá 1");
         promoList.add("Mã giảm giá 2");
         promoList.add("Mã giảm giá 3");
@@ -103,7 +106,6 @@ public class PaymentActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPromo.setAdapter(adapter);
 
-        // Spinner item selection listener
         spinnerPromo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -113,40 +115,33 @@ public class PaymentActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing
             }
         });
     }
-
     private void applyPromoCode(String promoCode) {
-        int totalAmount = getIntent().getIntExtra("totalAmount", 0);  // Get the original total amount
+        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
         double discount = 0;
 
-        // Apply the corresponding discount based on the promo code selected in the Spinner
         switch (promoCode) {
             case "Mã giảm giá 1":
-                discount = 0.05;  // 5% discount
+                discount = 0.05;
                 break;
             case "Mã giảm giá 2":
-                discount = 0.10;  // 10% discount
+                discount = 0.10;
                 break;
             case "Mã giảm giá 3":
-                discount = 0.15;  // 15% discount
+                discount = 0.15;
                 break;
             default:
-                discount = 0; // No discount if the default item is selected
+                discount = 0;
                 break;
         }
 
-        // Calculate the new total amount after applying the discount
         double discountedAmount = totalAmount * (1 - discount);
-
-        // Format the discounted amount and update the UI
         DecimalFormat formatter = new DecimalFormat("#,###");
         tvTotalAmount.setText(formatter.format(discountedAmount) + " VND");
 
-        // Show a confirmation message
-        Toast.makeText(PaymentActivity.this, "Mã khuyến mãi " + promoCode + " đã được áp dụng", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PaymentActivity.this, "Mã giảm giá " + promoCode + " đã được áp dụng", Toast.LENGTH_SHORT).show();
     }
 
     private void setupButtonListeners() {
@@ -155,7 +150,6 @@ public class PaymentActivity extends AppCompatActivity {
         btnPlaceOrder.setOnClickListener(v -> {
             if (validateInputs()) {
                 Toast.makeText(PaymentActivity.this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
-                // Implement the actual order placement logic if needed
             }
         });
 
@@ -169,48 +163,91 @@ public class PaymentActivity extends AppCompatActivity {
         btnApplyPromo.setOnClickListener(v -> applyPromoCodeFromInput());
     }
 
+    // In PaymentActivity, start PaymentSuccessActivity after processing
     private void startPaymentSuccessActivity() {
         Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
+
+        // Retrieve data from the Intent
+        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
+        String fullName = getIntent().getStringExtra("fullName");
+        String phoneNumber = getIntent().getStringExtra("phoneNumber");
+        String address = getIntent().getStringExtra("address");
+        String note = getIntent().getStringExtra("note");
+        String promoCode = spinnerPromo.getSelectedItem().toString();  // Or from EditText
+
+        // Normalize the address
+        String normalizedAddress = normalizeString(address);
+        String deliveryTime = getDeliveryTimeBasedOnAddress(normalizedAddress);
+
+        // Get the selected payment method
+        String paymentMethod = getSelectedPaymentMethod();
+
+        // Retrieve the Combo object from the Intent
+        Combo combo = (Combo) getIntent().getSerializableExtra("combo");
+
+        // Retrieve the discounted amount from the Intent
+        double discountedAmount = getIntent().getDoubleExtra("discountedAmount", totalAmount);  // Default to totalAmount if no discount
+
+        // Pass the data to PaymentSuccessActivity
+        intent.putExtra("combo", combo); // Pass Combo object
+        intent.putExtra("fullName", fullName);
+        intent.putExtra("phoneNumber", phoneNumber);
+        intent.putExtra("address", address);
+        intent.putExtra("note", note);
+        intent.putExtra("deliveryTime", deliveryTime);
+        intent.putExtra("paymentMethod", paymentMethod);
+        intent.putExtra("totalAmount", totalAmount);  // Original amount
+        intent.putExtra("discountedAmount", discountedAmount);  // Pass the discounted amount
+        intent.putExtra("promoCode", promoCode);
+
+        // Start PaymentSuccessActivity
         startActivity(intent);
-        finish();
+    }
+
+
+    private String normalizeString(String input) {
+        // Implement your string normalization logic here
+        return input;
+    }
+
+    private String getSelectedPaymentMethod() {
+        if (checkboxCash.isChecked()) {
+            return "Cash";
+        } else if (checkboxMOMO.isChecked()) {
+            return "MoMo";
+        } else {
+            return "No Payment Method Selected";  // If neither is selected
+        }
+    }
+
+    private String getDeliveryTimeBasedOnAddress(String address) {
+        if (address.contains("trung my tay")) {
+            return "30 phút";
+        } else if (address.contains("quang trung")) {
+            return "45 phút";
+        } else if (address.contains("tan chanh hiep")) {
+            return "40 phút";
+        } else {
+            return "Thời gian giao hàng không xác định";
+        }
     }
 
     private void applyPromoCodeFromInput() {
         String promoCode = etPromoCode.getText().toString().trim();
-        int totalAmount = getIntent().getIntExtra("totalAmount", 0);  // Get the original total amount
+        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
 
         if (promoCode.isEmpty()) {
             Toast.makeText(PaymentActivity.this, "Vui lòng nhập mã khuyến mãi", Toast.LENGTH_SHORT).show();
         } else {
-            double discount = 0;
-
-            // Apply the corresponding discount based on the promo code
-            switch (promoCode) {
-                case "Mã giảm giá 1":
-                    discount = 0.05;  // 5% discount
-                    break;
-                case "Mã giảm giá 2":
-                    discount = 0.10;  // 10% discount
-                    break;
-                case "Mã giảm giá 3":
-                    discount = 0.15;  // 15% discount
-                    break;
-                default:
-                    Toast.makeText(PaymentActivity.this, "Mã khuyến mãi không hợp lệ", Toast.LENGTH_SHORT).show();
-                    return;
+            // Ensure that the entered promo code is valid before applying the discount
+            if (promoCode.equalsIgnoreCase("Mã giảm giá 1") || promoCode.equalsIgnoreCase("Mã giảm giá 2") || promoCode.equalsIgnoreCase("Mã giảm giá 3")) {
+                applyPromoCode(promoCode);
+            } else {
+                Toast.makeText(PaymentActivity.this, "Mã khuyến mãi không hợp lệ", Toast.LENGTH_SHORT).show();
             }
-
-            // Calculate the new total amount after applying the discount
-            double discountedAmount = totalAmount * (1 - discount);
-
-            // Format the discounted amount and update the UI
-            DecimalFormat formatter = new DecimalFormat("#,###");
-            tvTotalAmount.setText(formatter.format(discountedAmount) + " VND");
-
-            // Show a confirmation message
-            Toast.makeText(PaymentActivity.this, "Mã khuyến mãi " + promoCode + " đã được áp dụng", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private boolean validateInputs() {
         if (checkboxMOMO.isChecked()) {
@@ -223,8 +260,8 @@ public class PaymentActivity extends AppCompatActivity {
 
         if (checkboxCash.isChecked()) {
             String cardNumber = etCardNumber.getText().toString();
-            if (cardNumber.length() < 10) {
-                Toast.makeText(this, "Số thẻ phải có ít nhất 10 chữ số.", Toast.LENGTH_LONG).show();
+            if (!cardNumber.matches("\\d{16}")) {
+                Toast.makeText(this, "Số thẻ không hợp lệ.", Toast.LENGTH_LONG).show();
                 return false;
             }
         }
