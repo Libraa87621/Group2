@@ -67,6 +67,7 @@
         <activity
             android:name="USER.login_signin.DangNhapActivity"
             android:exported="true">
+
         </activity>
 
     </application>
