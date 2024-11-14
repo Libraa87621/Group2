@@ -48,11 +48,7 @@
         <activity
             android:name="USER.choosefood.choosefoodActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="USER.Order.OrderInformationActivity"
@@ -62,7 +58,13 @@
 
         <activity
             android:name="USER.login_signin.DangNhapActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
