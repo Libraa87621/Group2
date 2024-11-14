@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.duan1.R;
+
+import USER.Home.HomeActivity;
 import USER.choosefood.Combo;
+import USER.choosefood.choosefoodActivity;
+import USER.product.productActivity;
+
 import java.text.DecimalFormat;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
@@ -31,6 +37,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         TextView tvPhoneValue = findViewById(R.id.tvPhoneValue);
         TextView tvEstimatedTimeValue = findViewById(R.id.tvEstimatedTime);
         TextView tvShippingFeeValue = findViewById(R.id.tvShippingFeeValue);
+        Button btnquayve = findViewById(R.id.btnquayve);
 
         // Retrieve data from Intent
         String promoCode = getIntent().getStringExtra("promoCode");
@@ -110,6 +117,10 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
         // Set payment method
         tvPaymentMethodValue.setText(paymentMethod != null && !paymentMethod.isEmpty() ? paymentMethod : "No payment method provided");
+        btnquayve.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentSuccessActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
     }
 
     // This method returns the estimated delivery time based on the address
@@ -129,4 +140,5 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             return "Thời gian giao hàng không xác định";  // Default message for other addresses
         }
     }
+
 }
