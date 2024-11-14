@@ -6,12 +6,18 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.duan1.R;
+
+import java.util.ArrayList;
 
 import ADMIN.fragment.FinanceFragment.FinanceFragment;
 import ADMIN.fragment.OrdersFragment.OrdersFragment;
 import ADMIN.fragment.ProfileFragment.ProfileFragment;
 import ADMIN.fragment.SearchFragment.SearchFragment;
+import ADMIN.fragment.SettingsFragment.Setting;
+import ADMIN.fragment.SettingsFragment.SettingAdapter;
 import ADMIN.fragment.SettingsFragment.SettingsFragment;
 
 public class fragmentActivity extends AppCompatActivity {
@@ -32,40 +38,11 @@ public class fragmentActivity extends AppCompatActivity {
         loadFragment(new SettingsFragment());
 
         // Thiết lập sự kiện click cho từng icon để chuyển Fragment
-        iconSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new SettingsFragment());
-            }
-        });
-
-        iconSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new SearchFragment());
-            }
-        });
-
-        iconOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new OrdersFragment());
-            }
-        });
-
-        iconFinance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FinanceFragment());
-            }
-        });
-
-        iconProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new ProfileFragment());
-            }
-        });
+        iconSettings.setOnClickListener(v -> loadFragment(new SettingsFragment()));
+        iconSearch.setOnClickListener(v -> loadFragment(new SearchFragment()));
+        iconOrders.setOnClickListener(v -> loadFragment(new OrdersFragment()));
+        iconFinance.setOnClickListener(v -> loadFragment(new FinanceFragment()));
+        iconProfile.setOnClickListener(v -> loadFragment(new ProfileFragment()));
     }
 
     // Hàm để tải Fragment vào FrameLayout

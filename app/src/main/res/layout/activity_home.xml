@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:background="#F7F7F7">
+        android:background="#F7F7F7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar">
 
         <!-- Toolbar -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#D32F2F"
-            >  <!-- Thêm marginTop để đẩy xuống -->
+            android:background="#D32F2F">
 
             <!-- Hamburger Menu -->
             <ImageButton
@@ -27,7 +28,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/img_menu"
                 android:padding="8dp"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside" />
 
             <!-- PICK UP Button -->
             <Button
@@ -39,7 +40,7 @@
                 android:backgroundTint="#FFC107"
                 android:text="PICK UP"
                 android:textColor="#000000"
-                android:padding="8dp"/>
+                android:padding="8dp" />
         </RelativeLayout>
 
         <!-- Banner Carousel -->
@@ -56,7 +57,7 @@
             android:layout_gravity="center"
             android:background="#FFC107"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
 
         <!-- Food Categories -->
         <LinearLayout
@@ -78,18 +79,20 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/img1"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/monchinh"/>
+                    android:src="@drawable/monchinh" />
 
                 <TextView
+                    android:id="@+id/tv1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Món Chính"
                     android:gravity="center"
                     android:textColor="#D32F2F"
                     android:textStyle="bold"
-                    android:padding="8dp"/>
+                    android:padding="8dp" />
             </LinearLayout>
 
             <!-- Side Dish -->
@@ -104,26 +107,30 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/img2"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/monphu"/>
+                    android:src="@drawable/monphu" />
 
                 <TextView
+                    android:id="@+id/tv2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Món Phụ"
                     android:gravity="center"
                     android:textColor="#D32F2F"
                     android:textStyle="bold"
-                    android:padding="8dp"/>
+                    android:padding="8dp" />
             </LinearLayout>
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="175dp"
-            android:background="#D32F2F"></RelativeLayout>
     </LinearLayout>
+
+    <!-- Bottom Bar -->
+    <RelativeLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#D32F2F"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

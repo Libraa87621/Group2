@@ -173,7 +173,7 @@ public class choosefoodActivity extends AppCompatActivity {
                     nameChicken = tvChooseChicken.getText().toString();
                     priceChicken = String.valueOf(chickenPrice);
                     totalAmount += chickenPrice;
-                    comboImageResId = R.drawable.anhsanpham; // Replace with actual image resource ID for Chicken
+                    comboImageResId = R.drawable.anhsanpham;
                     comboName.append(nameChicken);
                 }
 
@@ -187,7 +187,7 @@ public class choosefoodActivity extends AppCompatActivity {
                     namePotato = tvChoosePotato.getText().toString();
                     pricePotato = String.valueOf(potatoPrice);
                     totalAmount += potatoPrice;
-                    comboImageResId = R.drawable.potato_lagre; // Replace with actual image resource ID for Potato
+                    comboImageResId = R.drawable.anhsanpham; // Replace with actual image resource ID for Potato
                     comboName.append(namePotato);
                 }
 
