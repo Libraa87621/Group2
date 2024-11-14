@@ -3,7 +3,7 @@ package USER.choosefood;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Combo implements Parcelable {
+    public class Combo implements Parcelable {
     private String nameChicken;        // Tên món Gà
     private String namePotato;         // Tên món Khoai tây
     private String priceChicken;       // Giá món Gà

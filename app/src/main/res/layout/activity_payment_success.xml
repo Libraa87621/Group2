@@ -25,19 +25,16 @@
         <Button
             android:id="@+id/btnPlaceOrder"
             android:layout_width="130dp"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:text="ĐẶT HÀNG"
-            android:layout_marginLeft="260dp"
+            android:layout_marginLeft="220dp"
             android:background="@drawable/button_background"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/paymentDetailsLayout"
         android:layout_width="match_parent"
-        android:layout_height="547dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="20dp"
+        android:layout_height="match_parent"
         android:background="@drawable/backgroud"
         android:orientation="vertical">
 
@@ -297,17 +294,22 @@
                     android:text="..."
                     android:textColor="#000000"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"/>
+
             </LinearLayout>
 
 
         </LinearLayout>
+        <Button
+            android:id="@+id/btnquayve"
+            android:background="@drawable/button_background"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="quay về trang chủ"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btnquayve"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="quay về trang chủ"/>
+
 </LinearLayout>
 
 

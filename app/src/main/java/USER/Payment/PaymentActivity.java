@@ -182,14 +182,14 @@ public class PaymentActivity extends AppCompatActivity {
         // Get the selected payment method
         String paymentMethod = getSelectedPaymentMethod();
 
-        // Retrieve the Combo object from the Intent
-        Combo combo = (Combo) getIntent().getSerializableExtra("combo");
+
+        Combo combo = getIntent().getParcelableExtra("combo");
 
         // Retrieve the discounted amount from the Intent
         double discountedAmount = getIntent().getDoubleExtra("discountedAmount", totalAmount);  // Default to totalAmount if no discount
 
         // Pass the data to PaymentSuccessActivity
-        intent.putExtra("combo", combo); // Pass Combo object
+        intent.putExtra("combo", combo);
         intent.putExtra("fullName", fullName);
         intent.putExtra("phoneNumber", phoneNumber);
         intent.putExtra("address", address);

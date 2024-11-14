@@ -50,15 +50,12 @@
             rdokHomeDelivery = findViewById(R.id.rdoHomeDelivery);
             rdoPickUpAtStore = findViewById(R.id.rdoPickUpAtStore);
 
-            // Initialize layout for old addresses
+
             layoutOldAddresses = findViewById(R.id.layoutOldAddresses);
 
-            // Retrieve the Combo object passed from previous activity
+
             Combo combo = getIntent().getParcelableExtra("combo");
 
-            if (combo == null) {
-                combo = new Combo("Default Combo", "", "", "", 0, 0, 0); // Set default values in case combo is null
-            }
 
             // Initialize and set total amount in TextView
             TextView tvTotalAmount = findViewById(R.id.tvTotalAmount);
@@ -70,12 +67,11 @@
             loadSavedAddresses();
 
             // Handle Next button click
-            final Combo finalCombo = combo;
 
-            btnNext.setOnClickListener(v -> onNextButtonClick(finalCombo));
+            btnNext.setOnClickListener(v -> onNextButtonClick(combo));
         }
 
-        // Method to handle Next button click
+
         public void onNextButtonClick(Combo combo) {
             String fullName = edtFullName.getText().toString().trim();
             String phoneNumber = edtNumberPhone.getText().toString().trim();
@@ -126,15 +122,15 @@
                 edtAdress.setError(null);
             }
 
-            // Only proceed if all fields are valid
+
             if (isValid) {
                 // Save address for future use
                 saveAddress(address);
 
-                // Create an Intent to navigate to PaymentActivity
+
                 Intent intent = new Intent(OrderInformationActivity.this, PaymentActivity.class);
 
-                // Pass necessary data (including the Combo and delivery time)
+
                 intent.putExtra("combo", combo); // Passing Combo object
                 intent.putExtra("totalAmount", getIntent().getIntExtra("totalAmount", 0)); // Pass total amount
                 intent.putExtra("fullName", fullName); // Pass full name
