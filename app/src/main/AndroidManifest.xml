@@ -18,7 +18,7 @@
             android:exported="false" />
 
         <activity
-            android:name="ADMIN.fragment.fragmentActivity"
+            android:name="ADMIN.fragment.HomeFragment.fragmentActivity"
             android:exported="true">
 
         </activity>
