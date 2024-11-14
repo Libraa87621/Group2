@@ -55,6 +55,7 @@
 
             // Retrieve the Combo object passed from previous activity
             Combo combo = getIntent().getParcelableExtra("combo");
+
             if (combo == null) {
                 combo = new Combo("Default Combo", "", "", "", 0, 0, 0); // Set default values in case combo is null
             }

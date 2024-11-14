@@ -1,4 +1,4 @@
-package ADMIN.fragment;
+package ADMIN.fragment.HomeFragment;
 
 import android.os.Bundle;
 import android.view.View;
