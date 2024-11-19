@@ -1,6 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F9F9F9">
 
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:title="Quản lý doanh thu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Thống kê tổng quan -->
+    <LinearLayout
+        android:id="@+id/statisticsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Tổng doanh thu -->
+        <TextView
+            android:id="@+id/tvTotalRevenue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tổng doanh thu: 0 VNĐ"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:paddingBottom="8dp"
+            android:fontFamily="sans-serif-medium" />
+
+        <!-- Tổng số đơn hàng -->
+        <TextView
+            android:id="@+id/tvTotalOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tổng đơn hàng: 0"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:paddingBottom="8dp" />
+
+        <!-- Doanh thu theo loại món ăn -->
+        <TextView
+            android:id="@+id/tvTopSellingCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Món bán chạy: Chưa có dữ liệu"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:paddingBottom="8dp" />
+    </LinearLayout>
+
+    <!-- Bộ lọc -->
+    <LinearLayout
+        android:id="@+id/filterLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/statisticsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnFilterToday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hôm nay" />
+
+        <Button
+            android:id="@+id/btnFilterWeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tuần này" />
+
+        <Button
+            android:id="@+id/btnFilterMonth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tháng này" />
+    </LinearLayout>
+
+    <!-- Danh sách chi tiết -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRevenue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/filterLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Nút xuất báo cáo -->
+    <Button
+        android:id="@+id/btnExportReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:text="Xuất báo cáo"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

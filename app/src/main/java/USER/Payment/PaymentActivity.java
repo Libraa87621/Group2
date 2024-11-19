@@ -30,6 +30,7 @@ public class PaymentActivity extends AppCompatActivity {
     private Spinner spinnerPromo;
     private EditText etPromoCode;
     private TextView tvTotalAmount;
+    private double discountedAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,12 +138,12 @@ public class PaymentActivity extends AppCompatActivity {
                 break;
         }
 
-        double discountedAmount = totalAmount * (1 - discount);
+        // Tính tổng tiền sau khi giảm giá
+        discountedAmount = totalAmount * (1 - discount);
         DecimalFormat formatter = new DecimalFormat("#,###");
         tvTotalAmount.setText(formatter.format(discountedAmount) + " VND");
 
-        Toast.makeText(PaymentActivity.this, "Mã giảm giá " + promoCode + " đã được áp dụng", Toast.LENGTH_SHORT).show();
-    }
+        Toast.makeText(PaymentActivity.this, "Mã giảm giá " + promoCode + " đã được áp dụng", Toast.LENGTH_SHORT).show(); }
 
     private void setupButtonListeners() {
         btnBack.setOnClickListener(v -> onBackPressed());
@@ -167,28 +168,24 @@ public class PaymentActivity extends AppCompatActivity {
     private void startPaymentSuccessActivity() {
         Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
 
-        // Retrieve data from the Intent
-        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
+        // Lấy dữ liệu từ Intent
         String fullName = getIntent().getStringExtra("fullName");
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
         String address = getIntent().getStringExtra("address");
         String note = getIntent().getStringExtra("note");
-        String promoCode = spinnerPromo.getSelectedItem().toString();  // Or from EditText
+        String promoCode = spinnerPromo.getSelectedItem().toString();
 
-        // Normalize the address
+        // Chuẩn hóa địa chỉ
         String normalizedAddress = normalizeString(address);
         String deliveryTime = getDeliveryTimeBasedOnAddress(normalizedAddress);
 
-        // Get the selected payment method
+        // Lấy phương thức thanh toán đã chọn
         String paymentMethod = getSelectedPaymentMethod();
 
-
+        // Dữ liệu combo (nếu có)
         Combo combo = getIntent().getParcelableExtra("combo");
 
-        // Retrieve the discounted amount from the Intent
-        double discountedAmount = getIntent().getDoubleExtra("discountedAmount", totalAmount);  // Default to totalAmount if no discount
-
-        // Pass the data to PaymentSuccessActivity
+        // Truyền dữ liệu sang PaymentSuccessActivity
         intent.putExtra("combo", combo);
         intent.putExtra("fullName", fullName);
         intent.putExtra("phoneNumber", phoneNumber);
@@ -196,13 +193,12 @@ public class PaymentActivity extends AppCompatActivity {
         intent.putExtra("note", note);
         intent.putExtra("deliveryTime", deliveryTime);
         intent.putExtra("paymentMethod", paymentMethod);
-        intent.putExtra("totalAmount", totalAmount);  // Original amount
-        intent.putExtra("discountedAmount", discountedAmount);  // Pass the discounted amount
+        intent.putExtra("totalAmount", discountedAmount);  // Truyền tổng tiền sau khi giảm giá
         intent.putExtra("promoCode", promoCode);
 
-        // Start PaymentSuccessActivity
         startActivity(intent);
     }
+
 
 
     private String normalizeString(String input) {
