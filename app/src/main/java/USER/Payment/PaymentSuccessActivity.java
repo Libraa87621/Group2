@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import Database.DBHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,41 +15,40 @@ import com.example.duan1.R;
 
 import USER.Home.HomeActivity;
 import USER.choosefood.Combo;
-import USER.choosefood.choosefoodActivity;
-import USER.product.productActivity;
 
 import java.text.DecimalFormat;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
 
-    private TextView tvPaymentMethodValue;
+    private DBHelper dbHelper = new DBHelper(this); // Đối tượng hỗ trợ truy vấn CSDL
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_success);
 
-        // Initialize UI components
+        // [1] **Khai báo và ánh xạ các thành phần UI**
         TextView tvPromotionValue = findViewById(R.id.tvPromotionValue);
         TextView totalPriceTextView = findViewById(R.id.tvTotalAmountValue);
         LinearLayout container = findViewById(R.id.containerLinearLayout);
-        tvPaymentMethodValue = findViewById(R.id.tvPaymentMethodValue);
+        TextView tvPaymentMethodValue = findViewById(R.id.tvPaymentMethodValue);
         TextView tvAddressValue = findViewById(R.id.tvAddressValue);
         TextView tvPhoneValue = findViewById(R.id.tvPhoneValue);
         TextView tvEstimatedTimeValue = findViewById(R.id.tvEstimatedTime);
         TextView tvShippingFeeValue = findViewById(R.id.tvShippingFeeValue);
         Button btnquayve = findViewById(R.id.btnquayve);
 
-        // Retrieve data from Intent
+        // [2] **Lấy dữ liệu từ Intent**
         String promoCode = getIntent().getStringExtra("promoCode");
-        int totalAmount = getIntent().getIntExtra("totalAmount", 0);  // Retrieve the total amount
+        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
         Combo combo = getIntent().getParcelableExtra("combo");
         String address = getIntent().getStringExtra("address");
         String phone = getIntent().getStringExtra("phoneNumber");
         String shippingFee = getIntent().getStringExtra("shippingFee");
         String paymentMethod = getIntent().getStringExtra("paymentMethod");
 
-        // Logging values to ensure data is being passed
+        // [3] **Ghi log kiểm tra dữ liệu**
         Log.d("PaymentSuccess", "Promo Code: " + promoCode);
         Log.d("PaymentSuccess", "Total Amount: " + totalAmount);
         Log.d("PaymentSuccess", "Address: " + address);
@@ -56,80 +56,99 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         Log.d("PaymentSuccess", "Shipping Fee: " + shippingFee);
         Log.d("PaymentSuccess", "Payment Method: " + paymentMethod);
 
-        // Set the promotion code or default message  tvPromotionValue.setText(promoCode != null ? promoCode : "No promo code applied");
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        totalPriceTextView.setText(formatter.format(totalAmount) + " VND"); // This will update the total amount TextView
-        tvPromotionValue.setText(promoCode != null ? promoCode : "No promo code applied");
-        // Display the total price with formatting
-
-        // Display phone number
-        tvPhoneValue.setText(phone != null && !phone.isEmpty() ? phone : "N/A");
-
-        // Get delivery time based on the address
-        String deliveryTime = getDeliveryTimeBasedOnAddress(address);
-        tvEstimatedTimeValue.setText(deliveryTime);
-
-        // Initialize DecimalFormat for formatting prices
-
-        // Populate combo item details if combo is not null
+        // [4] **Lưu thông tin Combo vào CSDL**
         if (combo != null) {
-            String nameChicken = combo.getNameChicken() != null ? combo.getNameChicken() : "";
-            String priceChicken = combo.getPriceChicken() != null ? combo.getPriceChicken() : "0";
-            String namePotato = combo.getNamePotato() != null ? combo.getNamePotato() : "";
-            String pricePotato = combo.getPricePotato() != null ? combo.getPricePotato() : "0";
-            int quantity = combo.getQuantity();
-            int imageResId = combo.getImageResId();
+            String components = "";
+            if (!combo.getNameChicken().isEmpty()) {
+                components += combo.getQuantity() + " x " + combo.getNameChicken() + ", ";
+            }
+            if (!combo.getNamePotato().isEmpty()) {
+                components += combo.getQuantity() + " x " + combo.getNamePotato();
+            }
 
-            // Inflate item_combo layout and populate details
+            long orderId = dbHelper.addOrder(
+                    tvEstimatedTimeValue.getText().toString(), // Thời gian ước tính giao hàng
+                    address != null ? address : "N/A",        // Địa chỉ giao hàng
+                    String.valueOf(combo.getImageResId()),    // ID ảnh
+                    components,                               // Chi tiết combo
+                    totalAmount,                              // Tổng giá trị đơn hàng
+                    combo.getQuantity()                       // Số lượng
+            );
+
+            if (orderId != -1) {
+                Log.d("Database", "Order saved successfully with ID: " + orderId);
+            } else {
+                Log.e("Database", "Failed to save order");
+            }
+        }
+
+        // [5] **Lưu thông tin người dùng vào CSDL**
+        if (phone != null && !phone.isEmpty() && address != null && !address.isEmpty()) {
+            long userId = dbHelper.addUser(
+                    "Anonymous",       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
+                    "user@example.com", // Email tạm (có thể thay đổi theo dữ liệu thực tế)
+                    phone,             // Số điện thoại
+                    address,           // Địa chỉ giao hàng
+                    phone              // Số điện thoại làm ID tạm
+            );
+
+            if (userId != -1) {
+                Log.d("Database", "User saved successfully with ID: " + userId);
+            } else {
+                Log.e("Database", "Failed to save user");
+            }
+        }
+
+        // [6] **Cập nhật giao diện hiển thị thông tin**
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        totalPriceTextView.setText(formatter.format(totalAmount) + " VND");
+        tvPromotionValue.setText(promoCode != null ? promoCode : "No promo code applied");
+        tvPhoneValue.setText(phone != null && !phone.isEmpty() ? phone : "N/A");
+        tvEstimatedTimeValue.setText(getDeliveryTimeBasedOnAddress(address));
+        tvAddressValue.setText(address != null && !address.isEmpty() ? address : "N/A");
+        tvShippingFeeValue.setText(shippingFee != null && !shippingFee.isEmpty() ? shippingFee + " VND" : "0 VND");
+        tvPaymentMethodValue.setText(paymentMethod != null && !paymentMethod.isEmpty() ? paymentMethod : "No payment method provided");
+
+        // [7] **Hiển thị thông tin Combo nếu có**
+        if (combo != null) {
             LayoutInflater inflater = LayoutInflater.from(this);
             LinearLayout itemLayout = (LinearLayout) inflater.inflate(R.layout.item_combo, container, false);
 
-            // Find and populate item layout views
             ImageView imgCombo = itemLayout.findViewById(R.id.imgCombo);
             TextView tvComboName = itemLayout.findViewById(R.id.tvComboName);
             TextView tvingredientChicken = itemLayout.findViewById(R.id.tvingredientChicken);
             TextView tvingredientPotato = itemLayout.findViewById(R.id.tvingredientPotato);
 
-            // Set ingredient details with quantity and price formatting
-            if (!nameChicken.isEmpty()) {
-                tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " đ");
+            if (!combo.getNameChicken().isEmpty()) {
+                tvingredientChicken.setText(combo.getQuantity() + " x " + combo.getNameChicken() + " + " + formatter.format(Integer.parseInt(combo.getPriceChicken())) + " đ");
             } else {
-                tvingredientChicken.setVisibility(View.GONE); // Hide if not selected
+                tvingredientChicken.setVisibility(View.GONE);
             }
 
-            if (!namePotato.isEmpty()) {
-                tvingredientPotato.setText(quantity + " x " + namePotato + " + " + formatter.format(Integer.parseInt(pricePotato)) + " đ");
+            if (!combo.getNamePotato().isEmpty()) {
+                tvingredientPotato.setText(combo.getQuantity() + " x " + combo.getNamePotato() + " + " + formatter.format(Integer.parseInt(combo.getPricePotato())) + " đ");
             } else {
-                tvingredientPotato.setVisibility(View.GONE); // Hide if not selected
+                tvingredientPotato.setVisibility(View.GONE);
             }
 
-            // Set combo name and image
-            tvComboName.setText(nameChicken.isEmpty() ? namePotato : (namePotato.isEmpty() ? nameChicken : nameChicken + " + " + namePotato));
-            imgCombo.setImageResource(imageResId);
+            tvComboName.setText(!combo.getNameChicken().isEmpty() ? combo.getNameChicken() : combo.getNamePotato());
+            imgCombo.setImageResource(combo.getImageResId());
 
-            // Add the item layout to the container dynamically
             container.addView(itemLayout);
         }
 
-        // Set address and shipping fee
-        tvAddressValue.setText(address != null && !address.isEmpty() ? address : "N/A");
-        tvShippingFeeValue.setText(shippingFee != null && !shippingFee.isEmpty() ? shippingFee + " VND" : "0 VND");
-
-        // Set payment method
-        tvPaymentMethodValue.setText(paymentMethod != null && !paymentMethod.isEmpty() ? paymentMethod : "No payment method provided");
+        // [8] **Xử lý sự kiện nút "Quay về"**
         btnquayve.setOnClickListener(v -> {
             Intent intent = new Intent(PaymentSuccessActivity.this, HomeActivity.class);
             startActivity(intent);
         });
     }
 
-    // This method returns the estimated delivery time based on the address
+    // [9] **Lấy thời gian giao hàng dựa trên địa chỉ**
     private String getDeliveryTimeBasedOnAddress(String address) {
         if (address == null || address.isEmpty()) {
-            return "Thời gian giao hàng không xác định";  // Default message if address is null or empty
+            return "Thời gian giao hàng không xác định";
         }
-
-        // Check for specific address keywords and return the corresponding delivery time
         if (address.toLowerCase().contains("trung my tay")) {
             return "30 phút";
         } else if (address.toLowerCase().contains("quang trung")) {
@@ -137,8 +156,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         } else if (address.toLowerCase().contains("tan chanh hiep")) {
             return "40 phút";
         } else {
-            return "Thời gian giao hàng không xác định";  // Default message for other addresses
+            return "Thời gian giao hàng không xác định";
         }
     }
-
 }
