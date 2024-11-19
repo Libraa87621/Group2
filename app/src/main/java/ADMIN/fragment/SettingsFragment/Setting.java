@@ -6,15 +6,26 @@ public class Setting {
     private String items;
     private boolean isCompleted;
     private boolean selected;
+    private String name;
+    private String email;
+    private String phone;
 
-    public Setting(String date, String customerName, String items, boolean isCompleted) {
-        this.date = date;
-        this.customerName = customerName;
-        this.items = items;
-        this.isCompleted = isCompleted;
-        this.selected = false;
+    public Setting(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+    public String getName() {
+        return name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
     public String getCustomerName() { return customerName; }

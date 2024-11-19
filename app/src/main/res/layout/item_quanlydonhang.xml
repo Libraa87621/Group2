@@ -14,14 +14,23 @@
             android:layout_height="35dp"
             android:src="@drawable/img_lich" />
         <TextView
-            android:layout_marginLeft="15dp"
-            android:id="@+id/tvDate"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="10/5/2024"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone" />
+
         <CheckBox
             android:id="@+id/checkCompleted"
             android:textStyle="bold"

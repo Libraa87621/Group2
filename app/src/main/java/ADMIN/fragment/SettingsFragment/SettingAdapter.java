@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingViewHolder> {
+
     private List<Setting> settingList;
 
     public SettingAdapter(List<Setting> settingList) {
@@ -68,8 +69,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
         holder.tvCustomerName.setText(setting.getCustomerName());
         holder.tvItems.setText(setting.getItems());
         holder.checkCompleted.setChecked(setting.isSelected());
-
         holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> setting.setSelected(isChecked));
+
+        holder.tvName.setText(setting.getName());
+        holder.tvEmail.setText(setting.getEmail());
+        holder.tvPhone.setText(setting.getPhone());
     }
 
     @Override
@@ -80,13 +84,16 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     public static class SettingViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate, tvCustomerName, tvItems;
         CheckBox checkCompleted;
-
+        TextView tvName, tvEmail, tvPhone;
         public SettingViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
             tvItems = itemView.findViewById(R.id.tvItems);
             checkCompleted = itemView.findViewById(R.id.checkCompleted);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
         }
     }
 }

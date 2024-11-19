@@ -22,7 +22,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name"; // Đổi từ private thành public
     public static final String COLUMN_EMAIL = "email"; // Đổi từ private thành public
 
-    private static final String COLUMN_SDT = "sdt"; // Số điện thoại
     private static final String COLUMN_ADDRESS = "address"; // Địa chỉ
     private static final String COLUMN_PHONE = "phone"; // Số điện thoại (lặp lại - có thể tối ưu)
 
@@ -40,7 +39,6 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_EMAIL + " TEXT, " +
-            COLUMN_SDT + " TEXT, " +
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
 
@@ -78,12 +76,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Thêm dữ liệu vào bảng users
-    public long addUser(String name, String email, String sdt, String address, String phone) {
+    public long addUser(String name, String email, String address, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_EMAIL, email);
-        values.put(COLUMN_SDT, sdt);
         values.put(COLUMN_ADDRESS, address);
         values.put(COLUMN_PHONE, phone);
 

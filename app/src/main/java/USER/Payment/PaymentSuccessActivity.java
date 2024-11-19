@@ -89,8 +89,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                     name,       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
                     "user@example.com", // Email tạm (có thể thay đổi theo dữ liệu thực tế)
                     phone,             // Số điện thoại
-                    address,           // Địa chỉ giao hàng
-                    phone              // Số điện thoại làm ID tạm
+                    address           // Địa chỉ giao hàng
             );
 
             if (userId != -1) {
