@@ -29,6 +29,21 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
+
+    private static final String COLUMN_ADDRESS = "address"; // Địa chỉ
+    public static final String COLUMN_PHONE = "phone"; // Số điện thoại (lặp lại - có thể tối ưu)
+
+    // Các cột trong bảng orders
+    private static final String COLUMN_ORDER_ID = "order_id"; // ID đơn hàng
+    private static final String COLUMN_DATE = "date"; // Ngày đặt hàng
+    private static final String COLUMN_ORDER_ADDRESS = "address"; // Địa chỉ giao hàng
+    private static final String COLUMN_IMAGE_URL = "image_url"; // URL hình ảnh
+    private static final String COLUMN_COMPONENTS = "components"; // Các thành phần của đơn hàng
+    private static final String COLUMN_PRICE = "price"; // Giá đơn hàng
+    private static final String COLUMN_QUANTITY = "quantity"; // Số lượng
+
+    // Lệnh SQL tạo bảng users
+
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + " (" +
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +

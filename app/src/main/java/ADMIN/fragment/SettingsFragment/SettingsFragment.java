@@ -42,14 +42,21 @@ public class SettingsFragment extends Fragment {
         Cursor cursor = dbHelper.getAllUsers();
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                String name = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_NAME));
-                String email = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_EMAIL));
-                String phone = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PHONE));
+                int nameIndex = cursor.getColumnIndex(DBHelper.COLUMN_NAME);
+                int emailIndex = cursor.getColumnIndex(DBHelper.COLUMN_EMAIL);
+                int phoneIndex = cursor.getColumnIndex(DBHelper.COLUMN_PHONE);
 
-                // Thêm vào danh sách setting (hoặc danh sách khác tùy theo yêu cầu)
-                settingList.add(new Setting(name, email, phone));
+                if (nameIndex != -1 && emailIndex != -1 && phoneIndex != -1) {
+                    String name = cursor.getString(nameIndex);
+                    String email = cursor.getString(emailIndex);
+                    String phone = cursor.getString(phoneIndex);
+
+                    settingList.add(new Setting(name, email, phone));
+                }
             } while (cursor.moveToNext());
             cursor.close();
+        } else {
+            Toast.makeText(getContext(), "No users found", Toast.LENGTH_SHORT).show();
         }
 
         // Cập nhật adapter với danh sách người dùng
