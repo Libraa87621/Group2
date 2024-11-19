@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EMAIL = "email"; // Đổi từ private thành public
 
     private static final String COLUMN_ADDRESS = "address"; // Địa chỉ
-    private static final String COLUMN_PHONE = "phone"; // Số điện thoại (lặp lại - có thể tối ưu)
+    public static final String COLUMN_PHONE = "phone"; // Số điện thoại (lặp lại - có thể tối ưu)
 
     // Các cột trong bảng orders
     private static final String COLUMN_ORDER_ID = "order_id"; // ID đơn hàng

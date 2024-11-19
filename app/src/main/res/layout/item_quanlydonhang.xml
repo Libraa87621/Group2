@@ -14,23 +14,14 @@
             android:layout_height="35dp"
             android:src="@drawable/img_lich" />
         <TextView
-            android:id="@+id/tvName"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email" />
-
-        <TextView
-            android:id="@+id/tvPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phone" />
-
+            android:layout_gravity="center"
+            android:text="10/5/2024"
+            android:textStyle="bold"
+            android:textSize="16sp" />
         <CheckBox
             android:id="@+id/checkCompleted"
             android:textStyle="bold"
@@ -39,18 +30,20 @@
             android:layout_marginLeft="275dp"/>
     </LinearLayout>
     <TextView
-        android:id="@+id/tvCustomerName"
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nguyễn Ngọc Duy"
-        android:textStyle="bold"
-        android:textSize="14sp" />
+        android:text="Name" />
 
     <TextView
-        android:id="@+id/tvItems"
-        android:textStyle="bold"
+        android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên"
-        android:textSize="14sp" />
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone" />
 </LinearLayout>
