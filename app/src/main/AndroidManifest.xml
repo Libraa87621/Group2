@@ -46,6 +46,7 @@
         <activity
             android:name="USER.Order.CheckOderActivity"
             android:exported="true" />
+
         <activity
             android:name="USER.product.productActivity"
             android:exported="true" />
