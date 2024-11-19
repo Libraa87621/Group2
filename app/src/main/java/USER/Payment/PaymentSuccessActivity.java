@@ -44,6 +44,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         int totalAmount = getIntent().getIntExtra("totalAmount", 0);
         Combo combo = getIntent().getParcelableExtra("combo");
         String address = getIntent().getStringExtra("address");
+        String name = getIntent().getStringExtra("fullName");
         String phone = getIntent().getStringExtra("phoneNumber");
         String shippingFee = getIntent().getStringExtra("shippingFee");
         String paymentMethod = getIntent().getStringExtra("paymentMethod");
@@ -85,7 +86,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         // [5] **Lưu thông tin người dùng vào CSDL**
         if (phone != null && !phone.isEmpty() && address != null && !address.isEmpty()) {
             long userId = dbHelper.addUser(
-                    "Anonymous",       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
+                    name,       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
                     "user@example.com", // Email tạm (có thể thay đổi theo dữ liệu thực tế)
                     phone,             // Số điện thoại
                     address,           // Địa chỉ giao hàng
