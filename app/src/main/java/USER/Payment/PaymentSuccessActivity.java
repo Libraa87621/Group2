@@ -41,7 +41,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
         // [2] **Lấy dữ liệu từ Intent**
         String promoCode = getIntent().getStringExtra("promoCode");
-        int totalAmount = getIntent().getIntExtra("totalAmount", 0);
+        double discountedAmount = getIntent().getDoubleExtra("totalAmount", 0);
         Combo combo = getIntent().getParcelableExtra("combo");
         String address = getIntent().getStringExtra("address");
         String name = getIntent().getStringExtra("fullName");
@@ -51,7 +51,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
         // [3] **Ghi log kiểm tra dữ liệu**
         Log.d("PaymentSuccess", "Promo Code: " + promoCode);
-        Log.d("PaymentSuccess", "Total Amount: " + totalAmount);
+        Log.d("PaymentSuccess", "discountedAmount: " + discountedAmount);
         Log.d("PaymentSuccess", "Address: " + address);
         Log.d("PaymentSuccess", "Phone: " + phone);
         Log.d("PaymentSuccess", "Shipping Fee: " + shippingFee);
@@ -72,7 +72,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                     address != null ? address : "N/A",        // Địa chỉ giao hàng
                     String.valueOf(combo.getImageResId()),    // ID ảnh
                     components,                               // Chi tiết combo
-                    totalAmount,                              // Tổng giá trị đơn hàng
+                    discountedAmount,                              // Tổng giá trị đơn hàng
                     combo.getQuantity()                       // Số lượng
             );
 
@@ -102,7 +102,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
         // [6] **Cập nhật giao diện hiển thị thông tin**
         DecimalFormat formatter = new DecimalFormat("#,###");
-        totalPriceTextView.setText(formatter.format(totalAmount) + " VND");
+        totalPriceTextView.setText(formatter.format(discountedAmount) + " VND");
         tvPromotionValue.setText(promoCode != null ? promoCode : "No promo code applied");
         tvPhoneValue.setText(phone != null && !phone.isEmpty() ? phone : "N/A");
         tvEstimatedTimeValue.setText(getDeliveryTimeBasedOnAddress(address));
