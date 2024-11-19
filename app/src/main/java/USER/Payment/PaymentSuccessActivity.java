@@ -17,6 +17,9 @@ import USER.Home.HomeActivity;
 import USER.choosefood.Combo;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
 
@@ -66,13 +69,14 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             if (!combo.getNamePotato().isEmpty()) {
                 components += combo.getQuantity() + " x " + combo.getNamePotato();
             }
-
+            String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             long orderId = dbHelper.addOrder(
+                    currentDate,                  // Ngày thanh toán
                     tvEstimatedTimeValue.getText().toString(), // Thời gian ước tính giao hàng
                     address != null ? address : "N/A",        // Địa chỉ giao hàng
                     String.valueOf(combo.getImageResId()),    // ID ảnh
                     components,                               // Chi tiết combo
-                    discountedAmount,                              // Tổng giá trị đơn hàng
+                    discountedAmount,                         // Tổng giá trị đơn hàng
                     combo.getQuantity()                       // Số lượng
             );
 
