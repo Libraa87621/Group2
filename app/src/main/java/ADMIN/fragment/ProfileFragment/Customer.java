@@ -1,5 +1,7 @@
 package ADMIN.fragment.ProfileFragment;
 
+import com.example.duan1.R;
+
 public class Customer {
     private String date;
     private String customerName;
@@ -7,16 +9,37 @@ public class Customer {
     private int imageResource1;
     private int imageResource2;
     private boolean isSelected;
+    private String name;
+    private String email;
+    private String phone;
 
-    public Customer(String date, String customerName, String items, int imageResource1, int imageResource2) {
+    public Customer(String date, String customerName, String items, int imageResource1, int imageResource2, String name
+    , String email, String phone) {
         this.date = date;
         this.customerName = customerName;
         this.items = items;
         this.imageResource1 = imageResource1;
         this.imageResource2 = imageResource2;
         this.isSelected = false;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
+    public Customer(String date, String name, String items, int anhsanpham, int man) {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
     public String getDate() {
         return date;
     }
