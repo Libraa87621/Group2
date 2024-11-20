@@ -36,6 +36,9 @@ public class SettingsFragment extends Fragment {
         recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        dbHelper.addUser("John Doe", "john@example.com", "123 Main St", "1234567890");
+        dbHelper.addUser("Jane Smith", "jane@example.com", "456 Elm St", "9876543210");
+
         settingList = new ArrayList<>();
 
         // Lấy dữ liệu người dùng từ DBHelper

@@ -1,29 +1,41 @@
 package USER.Payment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import Database.DBHelper;
+
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.duan1.R;
 
 import USER.Home.HomeActivity;
 import USER.choosefood.Combo;
+import USER.login_signin.DangNhapActivity;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
 
     private DBHelper dbHelper = new DBHelper(this); // Đối tượng hỗ trợ truy vấn CSDL
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
 
     @Override
@@ -41,6 +53,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         TextView tvEstimatedTimeValue = findViewById(R.id.tvEstimatedTime);
         TextView tvShippingFeeValue = findViewById(R.id.tvShippingFeeValue);
         Button btnquayve = findViewById(R.id.btnquayve);
+
 
         // [2] **Lấy dữ liệu từ Intent**
         String promoCode = getIntent().getStringExtra("promoCode");
@@ -140,6 +153,54 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
             container.addView(itemLayout);
         }
+
+        ImageButton btnMenu = findViewById(R.id.btnMenu);
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo PopupMenu
+                PopupMenu popupMenu = new PopupMenu(PaymentSuccessActivity.this, btnMenu);
+
+                // Inflate menu từ file XML
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.drawer_menu, popupMenu.getMenu());
+
+                // Set listener cho các item menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Sử dụng if-else thay cho switch-case
+                        if (item.getItemId() == R.id.nav_home) {
+                            // Xử lý sự kiện khi chọn 'Trang chủ'
+                            return true;
+                        } else if (item.getItemId() == R.id.nav_profile) {
+                            // Xử lý sự kiện khi chọn 'Hồ sơ'
+                            return true;
+                        } else if (item.getItemId() == R.id.nav_logout) {
+                            // Xử lý sự kiện khi chọn 'Đăng xuất'
+                            // Xóa thông tin đăng nhập (nếu có, ví dụ sử dụng SharedPreferences)
+                            SharedPreferences preferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.clear(); // Xóa dữ liệu đăng nhập
+                            editor.apply();
+
+                            // Chuyển hướng đến LoginActivity
+                            Intent intent = new Intent(PaymentSuccessActivity.this, DangNhapActivity.class);
+                            startActivity(intent);
+                            finish(); // Kết thúc hoạt động hiện tại (PaymentSuccessActivity)
+
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                // Hiển thị menu
+                popupMenu.show();
+            }
+        });
+
 
         // [8] **Xử lý sự kiện nút "Quay về"**
         btnquayve.setOnClickListener(v -> {

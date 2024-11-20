@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingViewHolder> {
@@ -39,20 +38,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     public void editSelectedItems(String newName) {
         for (Setting setting : settingList) {
             if (setting.isSelected()) {
-                setting.setCustomerName(newName);
+                setting.setName(newName);
             }
         }
         notifyDataSetChanged();
-    }
-
-    public List<Setting> getSelectedItems() {
-        List<Setting> selectedItems = new ArrayList<>();
-        for (Setting setting : settingList) {
-            if (setting.isSelected()) {
-                selectedItems.add(setting);
-            }
-        }
-        return selectedItems;
     }
 
     @NonNull
@@ -66,11 +55,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     public void onBindViewHolder(@NonNull SettingViewHolder holder, int position) {
         Setting setting = settingList.get(position);
         holder.tvDate.setText(setting.getDate());
-        holder.tvCustomerName.setText(setting.getCustomerName());
-        holder.tvItems.setText(setting.getItems());
         holder.checkCompleted.setChecked(setting.isSelected());
         holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> setting.setSelected(isChecked));
-
         holder.tvName.setText(setting.getName());
         holder.tvEmail.setText(setting.getEmail());
         holder.tvPhone.setText(setting.getPhone());
@@ -82,14 +68,12 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     }
 
     public static class SettingViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvCustomerName, tvItems;
+        TextView tvDate, tvName, tvEmail, tvPhone;
         CheckBox checkCompleted;
-        TextView tvName, tvEmail, tvPhone;
+
         public SettingViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
-            tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
-            tvItems = itemView.findViewById(R.id.tvItems);
             checkCompleted = itemView.findViewById(R.id.checkCompleted);
             tvName = itemView.findViewById(R.id.tvName);
             tvEmail = itemView.findViewById(R.id.tvEmail);

@@ -6,44 +6,60 @@
     android:background="#D7FF9800"
     android:layout_marginBottom="10dp">
 
+    <!-- Row with Date and CheckBox -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/img_lich" />
+
         <TextView
-            android:layout_marginLeft="15dp"
             android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
             android:text="10/5/2024"
             android:textStyle="bold"
             android:textSize="16sp" />
+
         <CheckBox
             android:id="@+id/checkCompleted"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="275dp"/>
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- Name -->
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name" />
+        android:text="Name"
+        android:paddingTop="4dp"
+        android:textSize="14sp" />
 
+    <!-- Email -->
     <TextView
         android:id="@+id/tvEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email" />
+        android:text="Email"
+        android:paddingTop="4dp"
+        android:textSize="14sp" />
 
+    <!-- Phone -->
     <TextView
         android:id="@+id/tvPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone" />
+        android:text="Phone"
+        android:paddingTop="4dp"
+        android:textSize="14sp" />
 </LinearLayout>

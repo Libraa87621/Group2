@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import ADMIN.fragment.FinanceFragment.RevenueManager;
+
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String COLUMN_PHONE = "phone" ;
+    public static final String COLUMN_PHONE = "phone";
     private static final String DATABASE_NAME = "app_database";
     private static final int DATABASE_VERSION = 1;
 
@@ -94,11 +96,11 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
         }
     }
+
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + " FROM " + TABLE_USERS, null);
     }
-
 
     public double getTotalRevenue() {
         double totalRevenue = 0;
@@ -148,5 +150,17 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
         }
         return true;
+    }
+
+    // Updated onOrderSuccess method to pass necessary parameters
+    public void onOrderSuccess(Context context, String paymentDate, String date, String address,
+                               String imageUrl, String components, double price, int quantity) {
+        // Update revenue and total orders
+        RevenueManager revenueManager = new RevenueManager(context);
+        revenueManager.updateRevenueAndOrders(price, quantity);
+
+        // Add the order to the database
+        DBHelper dbHelper = new DBHelper(context);
+        dbHelper.addOrder(paymentDate, date, address, imageUrl, components, price, quantity);
     }
 }
