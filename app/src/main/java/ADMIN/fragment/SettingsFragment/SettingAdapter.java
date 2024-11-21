@@ -15,8 +15,6 @@ import com.example.duan1.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import ADMIN.fragment.ProfileFragment.Customer;
-
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHolder> {
     private List<Setting> settings;
 
@@ -32,6 +30,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Setting setting = settings.get(position);
+        Setting item = settings.get(position);
 
         // Hiển thị tên và ngày
         holder.nameTextView.setText(setting.getName());
@@ -50,21 +49,34 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             componentTextView.setPadding(0, 4, 0, 4); // Khoảng cách giữa các dòng
             holder.componentsLayout.addView(componentTextView); // Thêm vào LinearLayout
         }
-    }
-    public List<Customer> getSelectedCustomers() {
-        List<Customer> selectedCustomers = new ArrayList<>();
-        for (Setting setting : settings) {
-            if (Setting.isSelected()) {
-                selectedCustomers.add(Setting);
-            }
-        }
-        return selectedCustomers;
+
     }
 
-    @Override
     public int getItemCount() {
         return settings.size();
     }
+
+    public void addItem(Setting item) {
+        settings.add(item);
+        notifyItemInserted(settings.size() - 1);
+    }
+
+    public void removeSelectedItems() {
+        settings.removeAll(getSelectedSetting());
+        notifyDataSetChanged();
+    }
+    public List<Setting> getSelectedSetting() {
+        List<Setting> SelectedSetting = new ArrayList<>();
+        for (Setting setting : settings) {
+            if (setting.isSelected()) {
+                SelectedSetting.add(setting);
+            }
+        }
+        return settings;
+    }
+
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, dateTextView;
@@ -79,7 +91,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             componentsLayout = itemView.findViewById(R.id.Components);
             checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
         }
-}
-
     }
+}
 
