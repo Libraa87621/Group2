@@ -6,13 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Date; // Add this line
 import ADMIN.fragment.FinanceFragment.RevenueManager;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_PHONE = "phone";
     private static final String DATABASE_NAME = "app_database";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_USERS = "users";
     private static final String TABLE_ORDERS = "orders";
@@ -24,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_PAYMENT_DATE = "payment_date";
-    private static final String COLUMN_DATE = "order_date";
+    private static final String COLUMN_DATE = "currentDate";
     private static final String COLUMN_ORDER_ADDRESS = "delivery_address";
     private static final String COLUMN_IMAGE_URL = "image_url";
     private static final String COLUMN_COMPONENTS = "components";
@@ -67,14 +71,23 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_ORDERS);
         db.execSQL(CREATE_TABLE_PRODUCTS);
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS transactions (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "amount REAL, " +
+                "transaction_date TEXT);";
+        db.execSQL(createTableSQL);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
-        db.execSQL("DROP TABLE IF EXISTS products");
-        onCreate(db);
+        if (oldVersion < 2) {
+            // SQL để tạo bảng transactions nếu chưa có
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS transactions (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "amount REAL, " +
+                    "transaction_date TEXT);";
+            db.execSQL(createTableSQL);
+        }
     }
 
     public long addUser(String name, String email, String address, String phone) {
@@ -94,6 +107,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long addOrder(String paymentDate, String date, String address, String imageUrl,
                          String components, double price, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(COLUMN_PAYMENT_DATE, paymentDate);
@@ -103,11 +117,16 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_COMPONENTS, components);
             values.put(COLUMN_PRICE, price);
             values.put(COLUMN_QUANTITY, quantity);
-            return db.insert(TABLE_ORDERS, null, values);
+
+            long orderId = db.insert(TABLE_ORDERS, null, values);
+            db.setTransactionSuccessful();
+            return orderId;
         } finally {
+            db.endTransaction();
             db.close();
         }
     }
+
 
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -133,10 +152,92 @@ public class DBHelper extends SQLiteOpenHelper {
         return totalRevenue;
     }
 
+    // Tính tổng doanh thu theo ngày
+    public double getTotalRevenueByDate(String date) {
+        double totalRevenue = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT SUM(" + COLUMN_PRICE + ") AS TotalRevenue " +
+                    "FROM " + TABLE_ORDERS + " WHERE DATE(" + COLUMN_PAYMENT_DATE + ") = ?";
+            cursor = db.rawQuery(query, new String[]{date});
+            if (cursor.moveToFirst()) {
+                totalRevenue = cursor.getDouble(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+        return totalRevenue;
+    }
+    // Phương thức lấy doanh thu theo tháng (tháng được định dạng là yyyy-MM)
+    public double getTotalRevenueByMonth(String month) {
+        double totalRevenue = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT SUM(" + COLUMN_PRICE + ") AS TotalRevenue " +
+                    "FROM " + TABLE_ORDERS + " WHERE strftime('%Y-%m', " + COLUMN_PAYMENT_DATE + ") = ?";
+            cursor = db.rawQuery(query, new String[]{month});
+            if (cursor.moveToFirst()) {
+                totalRevenue = cursor.getDouble(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+        return totalRevenue;
+    }
+
+    // Phương thức lấy doanh thu theo năm (năm được định dạng là yyyy)
+    public double getTotalRevenueByYear(String year) {
+        double totalRevenue = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT SUM(" + COLUMN_PRICE + ") AS TotalRevenue " +
+                    "FROM " + TABLE_ORDERS + " WHERE strftime('%Y', " + COLUMN_PAYMENT_DATE + ") = ?";
+            cursor = db.rawQuery(query, new String[]{year});
+            if (cursor.moveToFirst()) {
+                totalRevenue = cursor.getDouble(0);
+            }
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+        return totalRevenue;
+    }
 
 
 
 
+    // Cập nhật tổng doanh thu mới
+    public void updateRevenue(double newTotalRevenue) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("total_revenue", newTotalRevenue);  // Thay thế "total_revenue" bằng tên cột phù hợp trong bảng của bạn
+
+        // Giả sử có một bảng thống kê doanh thu hoặc bảng tổng hợp, bạn có thể thực hiện như sau:
+        String whereClause = "id = ?";
+        String[] whereArgs = {"1"};  // Giả sử có một dòng duy nhất để lưu tổng doanh thu
+
+        db.update("revenue_summary", contentValues, whereClause, whereArgs);
+        db.close();
+    }
+
+    // Cập nhật tổng số đơn hàng
+    public void updateOrders(int newTotalOrders) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("total_orders", newTotalOrders);  // Thay thế "total_orders" bằng tên cột phù hợp trong bảng của bạn
+
+        // Giả sử có một bảng tổng hợp số đơn hàng
+        String whereClause = "id = ?";
+        String[] whereArgs = {"1"};  // Giả sử có một dòng duy nhất để lưu tổng số đơn hàng
+
+        db.update("orders_summary", contentValues, whereClause, whereArgs);
+        db.close();
+    }
 
 
 
@@ -197,14 +298,16 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("products", null, values);
     }
 
-    // Thêm các sản phẩm mẫu
     private void insertDefaultProducts(SQLiteDatabase db) {
-        insertProduct(db, "COMBO VUI VẺ", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", 160000, 10, "drawable/combovuive.png");
-        insertProduct(db, "COMBO NO NÊ", "1 phần cơm gà, 1 nước, 1 súp cà rốt", 130000, 15, "drawable/combonone.png");
-        insertProduct(db, "COMBO SOLO", "1 hamburger tôm, 1 nước, 1 khoai chiên", 120000, 20, "drawable/combosolo.png");
-        insertProduct(db, "BÁNH NHÂN XOÀI", "1 Bánh nhân xoài thơm vị ngọt", 50000, 50, "drawable/banhnhanxoai.png");
-        insertProduct(db, "NƯỚC ÉP XOÀI", "1 Cốc nước ép xoài", 30000, 25, "drawable/nuocepxoai.png");
+        if (isTableEmpty("products")) {
+            insertProduct(db, "COMBO VUI VẺ", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", 160000, 10, "drawable/combovuive.png");
+            insertProduct(db, "COMBO NO NÊ", "1 phần cơm gà, 1 nước, 1 súp cà rốt", 130000, 15, "drawable/combonone.png");
+            insertProduct(db, "COMBO SOLO", "1 hamburger tôm, 1 nước, 1 khoai chiên", 120000, 20, "drawable/combosolo.png");
+            insertProduct(db, "BÁNH NHÂN XOÀI", "1 Bánh nhân xoài thơm vị ngọt", 50000, 50, "drawable/banhnhanxoai.png");
+            insertProduct(db, "NƯỚC ÉP XOÀI", "1 Cốc nước ép xoài", 30000, 25, "drawable/nuocepxoai.png");
+        }
     }
+
 
     // Hàm thêm sản phẩm từ ứng dụng (có thể sử dụng sau)
     public void addProduct(String name, String description, double price, int quantity, String imageUrl) {

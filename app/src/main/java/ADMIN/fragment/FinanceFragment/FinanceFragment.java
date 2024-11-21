@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import Database.DBHelper;
-.
+
 public class FinanceFragment extends Fragment {
 
     private TextView tvTotalRevenue, tvTotalOrders, tvTopSellingCategory;
@@ -42,7 +42,9 @@ public class FinanceFragment extends Fragment {
         loadFinanceData();
 
         // Xử lý sự kiện lọc
-
+        btnFilterToday.setOnClickListener(v -> filterRevenueByDate());
+        btnFilterMonth.setOnClickListener(v -> filterRevenueByMonth());
+        btnFilterYear.setOnClickListener(v -> filterRevenueByYear());
 
         return view;
     }
@@ -63,10 +65,44 @@ public class FinanceFragment extends Fragment {
         tvTopSellingCategory.setText("Món bán chạy: " + topSellingCategory);
     }
 
+    private void filterRevenueByDate() {
+        // Lấy ngày hiện tại theo định dạng yyyy-MM-dd
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        // Lấy doanh thu theo ngày từ DBHelper
+        DBHelper dbHelper = new DBHelper(getContext());
+        double totalRevenueToday = dbHelper.getTotalRevenueByDate(currentDate);
+
+        // Hiển thị doanh thu
+        tvTotalRevenue.setText("Tổng doanh thu hôm nay: " + String.format("%,.0f VNĐ", totalRevenueToday));
+    }
+
+    private void filterRevenueByMonth() {
+        // Lấy tháng hiện tại theo định dạng yyyy-MM
+        String currentMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(new Date());
+
+        // Lấy doanh thu theo tháng từ DBHelper
+        DBHelper dbHelper = new DBHelper(getContext());
+        double totalRevenueMonth = dbHelper.getTotalRevenueByMonth(currentMonth);
+
+        // Hiển thị doanh thu
+        tvTotalRevenue.setText("Tổng doanh thu tháng này: " + String.format("%,.0f VNĐ", totalRevenueMonth));
+    }
+
+    private void filterRevenueByYear() {
+        // Lấy năm hiện tại theo định dạng yyyy
+        String currentYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+
+        // Lấy doanh thu theo năm từ DBHelper
+        DBHelper dbHelper = new DBHelper(getContext());
+        double totalRevenueYear = dbHelper.getTotalRevenueByYear(currentYear);
+
+        // Hiển thị doanh thu
+        tvTotalRevenue.setText("Tổng doanh thu năm nay: " + String.format("%,.0f VNĐ", totalRevenueYear));
+    }
 
     private String getTopSellingCategory(DBHelper dbHelper) {
         // Logic tính toán món bán chạy nhất
-        // Ví dụ truy vấn trong bảng orders và trả về tên món hoặc ID món
         return "Chưa có dữ liệu";
     }
 }
