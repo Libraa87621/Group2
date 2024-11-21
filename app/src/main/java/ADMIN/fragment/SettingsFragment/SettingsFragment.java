@@ -78,11 +78,11 @@ public class SettingsFragment extends Fragment {
 
         ImageView btnsua = rootView.findViewById(R.id.btnsua);
         btnsua.setOnClickListener(v -> {
-            List<Customer> selectedCustomers = adapter.getSelectedCustomers();
-            if (selectedCustomers.isEmpty()) {
+            List<Setting> selectedSetting = adapter.getSelectedSetting();
+            if (selectedSetting.isEmpty()) {
                 showAlert("Bạn cần phải chọn cần sửa");
-            } else if (selectedCustomers.size() == 1) {
-                showCustomerDialog(true, selectedCustomers.get(0));
+            } else if (selectedSetting.size() == 1) {
+                showCustomerDialog(true, selectedSetting.get(0));
             } else {
                 showAlert("Chỉ chọn một khách hàng để sửa");
             }
@@ -90,7 +90,7 @@ public class SettingsFragment extends Fragment {
 
         ImageView btxoa = rootView.findViewById(R.id.btxoa);
         btxoa.setOnClickListener(v -> {
-            List<Customer> selectedCustomers = adapter.getSelectedCustomers();
+            List<Setting> selectedCustomers = adapter.getSelectedSetting();
             if (selectedCustomers.isEmpty()) {
                 showAlert("Bạn cần phải chọn cần xóa");
             } else {
@@ -103,37 +103,68 @@ public class SettingsFragment extends Fragment {
 
 
     }
-    private void showCustomerDialog(boolean isEdit, Customer customer) {
+    private void showCustomerDialog(boolean isEdit, Setting setting) {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_customer_info, null);
         EditText etDate = dialogView.findViewById(R.id.etDate);
         EditText etCustomerName = dialogView.findViewById(R.id.etCustomerName);
         EditText etItems = dialogView.findViewById(R.id.etItems);
 
-        if (isEdit && customer != null) {
-            etDate.setText(customer.getDate());
-            etCustomerName.setText(customer.getCustomerName());
-            etItems.setText(customer.getItems());
+        // Nếu là chế độ sửa, hiển thị thông tin hiện tại
+        if (isEdit && setting != null) {
+            etDate.setText(setting.getDate());
+            etCustomerName.setText(setting.getCustomerName());
+            etItems.setText(setting.getItems());
         }
 
         new AlertDialog.Builder(getContext())
-                .setTitle(isEdit ? "Edit Customer" : "Add Customer")
+                .setTitle(isEdit ? "Sửa thông tin đơn hàng" : "Thêm đơn hàng mới")
                 .setView(dialogView)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String date = etDate.getText().toString();
-                    String name = etCustomerName.getText().toString();
-                    String items = etItems.getText().toString();
-
-                    if (isEdit && customer != null) {
-                        customer.setDate(date);
-                        customer.setCustomerName(name);
-                        customer.setItems(items);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Customer newCustomer = new Customer(date, name, items, R.drawable.anhsanpham, R.drawable.man);
-                        adapter.addItem(newCustomer);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Lưu", null) // Để xử lý lưu thủ công
+                .setNegativeButton("Hủy", null)
+                .create()
                 .show();
+
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
+                .setView(dialogView)
+                .setPositiveButton("Lưu", null)
+                .setNegativeButton("Hủy", (dlg, which) -> dlg.dismiss())
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                String date = etDate.getText().toString().trim();
+                String name = etCustomerName.getText().toString().trim();
+                String items = etItems.getText().toString().trim();
+
+                // Kiểm tra dữ liệu đầu vào
+                if (name.isEmpty() || date.isEmpty() || items.isEmpty()) {
+                    Toast.makeText(getContext(), "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Lưu thông tin hoặc cập nhật danh sách
+                if (isEdit && setting != null) {
+                    setting.setDate(date);
+                    setting.setCustomerName(name);
+                    setting.setItems(items);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Setting newSetting = new Setting(date, name, items);
+                    adapter.addItem(newSetting);
+                }
+
+                dialog.dismiss();
+            });
+        });
+
+        dialog.show();
+    }
+
+    private void addSampleData() {
+        Setting item1 = new Setting("10/5/2024", "Nguyễn Ngọc Duy", "- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên", R.drawable.anhsanpham, R.drawable.man);
+        adapter.addItem(item1);
+    }
+    private void showAlert(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

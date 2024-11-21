@@ -5,6 +5,7 @@ public class Setting {
     private String date; // Từ bảng orders
     private String components; // Từ bảng orders
     private boolean isSelected; // Trạng thái chọn
+    private String items;
 
     // Constructor
     public Setting(String name, String date, String components) {
@@ -29,12 +30,11 @@ public class Setting {
         return components;
     }
 
-    // Getter cho trạng thái chọn
+    // Setter cho trạng thái chọn
     public boolean isSelected() {
         return isSelected;
     }
 
-    // Setter cho trạng thái chọn
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
