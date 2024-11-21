@@ -34,13 +34,8 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
     @Override
     public void onBindViewHolder(@NonNull CustomerViewHolder holder, int position) {
         Customer item = customerItems.get(position);
-        holder.tvDate.setText(item.getDate());
         holder.tvCustomerName.setText(item.getCustomerName());
-        holder.tvItems.setText(item.getItems());
-        holder.imageView1.setImageResource(item.getImageResource1());
-        holder.imageView2.setImageResource(item.getImageResource2());
         holder.checkBox.setChecked(item.isSelected());
-
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> item.setSelected(isChecked));
     }
 
@@ -70,18 +65,19 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
     }
 
     public static class CustomerViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvCustomerName, tvItems;
-        ImageView imageView1, imageView2;
+        TextView tvCustomerName, tvDayOfBirth, tvAddress, tvPhone, tvEmail;
         CheckBox checkBox;
 
         public CustomerViewHolder(View itemView) {
             super(itemView);
-            tvDate = itemView.findViewById(R.id.tvDate);
-            tvCustomerName = itemView.findViewById(R.id.tvCustomerName);
-            tvItems = itemView.findViewById(R.id.tvItems);
-            imageView1 = itemView.findViewById(R.id.imageView2);
-            imageView2 = itemView.findViewById(R.id.imageView3);
-            checkBox = itemView.findViewById(R.id.checkBox);
+            tvCustomerName = itemView.findViewById(R.id.tvName);
+            tvDayOfBirth = itemView.findViewById(R.id.tvdayofbirth);
+            tvAddress = itemView.findViewById(R.id.tvAddress);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
+
+            // Ánh xạ checkbox
+            checkBox = itemView.findViewById(R.id.checkbox);
         }
     }
 }

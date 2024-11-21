@@ -14,7 +14,7 @@ import ADMIN.fragment.FinanceFragment.RevenueManager;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String COLUMN_PHONE = "phone";
+
     private static final String DATABASE_NAME = "app_database";
     private static final int DATABASE_VERSION = 2;
 
@@ -24,8 +24,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_ADDRESS = "address";
+    public static final String COLUMN_PHONE = "phone";
+    public static final String COLUMN_ADDRESS = "address";
 
+    public static final String COLUMN_BIRTHDATE = "birthday";
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_PAYMENT_DATE = "payment_date";
 
@@ -42,6 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_EMAIL + " TEXT, " +
+            COLUMN_BIRTHDATE + "TEXT" +
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
 
@@ -101,6 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_EMAIL, email);
             values.put(COLUMN_ADDRESS, address);
             values.put(COLUMN_PHONE, phone);
+            values.put(COLUMN_BIRTHDATE,birthday);
             return db.insert(TABLE_USERS, null, values);
         } finally {
             db.close();
@@ -136,8 +140,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + " FROM " + TABLE_USERS, null);
+        return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + ", " + COLUMN_ADDRESS + " FROM " + TABLE_USERS, null);
     }
+
 
 
 

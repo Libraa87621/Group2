@@ -1,68 +1,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="8dp"
     android:background="#D7FF9800"
     android:layout_marginBottom="10dp">
 
-    <!-- Item Layout -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/img_lich" />
+        <LinearLayout
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:id="@+id/img_lich"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/img_lich" />
+
+            <TextView
+                android:id="@+id/tvdayofbirth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="15dp"
+                android:text="10/5/2024"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvName"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="10/5/2024"
+            android:text="Nguyễn Văn An"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="205dp"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvCustomerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nguyễn Ngọc Duy"
-        android:textStyle="bold"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvItems"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên"
-        android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/anhsanpham"/>
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/man" />
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

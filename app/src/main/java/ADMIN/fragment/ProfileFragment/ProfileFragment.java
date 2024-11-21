@@ -19,24 +19,20 @@ import com.example.duan1.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import ADMIN.fragment.SettingsFragment.Setting;
-import ADMIN.fragment.SettingsFragment.SettingAdapter;
 import Database.DBHelper;
 
 public class ProfileFragment extends Fragment {
     private RecyclerView recyclerView;
-    private SettingAdapter customerAdapter;
     private CustomerAdapter adapter;
     private List<Customer> customerItemList;
     private DBHelper dbHelper;
-    private RecyclerView recyclerViewOrders;
-    private List<Setting> customerList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_khachhang_adm, container, false);
         dbHelper = new DBHelper(getContext()); // Khởi tạo DBHelper
-        // Initialize RecyclerView and Adapter
+
+        // Khởi tạo RecyclerView và Adapter
         recyclerView = rootView.findViewById(R.id.recyclerViewCustomers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -44,31 +40,8 @@ public class ProfileFragment extends Fragment {
         adapter = new CustomerAdapter(customerItemList);
         recyclerView.setAdapter(adapter);
 
-        customerList = new ArrayList<>();
-        addSampleData();
-        // Load users from database
-        Cursor cursor = dbHelper.getAllUsers();
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int nameIndex = cursor.getColumnIndex(DBHelper.COLUMN_NAME);
-                int emailIndex = cursor.getColumnIndex(DBHelper.COLUMN_EMAIL);
-                int phoneIndex = cursor.getColumnIndex(DBHelper.COLUMN_PHONE);
-
-                if (nameIndex != -1 && emailIndex != -1 && phoneIndex != -1) {
-                    String name = cursor.getString(nameIndex);
-                    String email = cursor.getString(emailIndex);
-                    String phone = cursor.getString(phoneIndex);
-
-                    customerList.add(new Setting(name, email, phone));
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
-        } else {
-            Toast.makeText(getContext(), "No users found", Toast.LENGTH_SHORT).show();
-        }
-        // Cập nhật adapter với danh sách người dùng
-        customerAdapter = new SettingAdapter(customerList);
-        recyclerViewOrders.setAdapter(customerAdapter);
+        // Load khách hàng từ cơ sở dữ liệu
+        loadCustomersFromDatabase();
 
         // Các nút thêm, sửa, xóa
         ImageView btnthem = rootView.findViewById(R.id.btnthem);
@@ -78,7 +51,7 @@ public class ProfileFragment extends Fragment {
         btnsua.setOnClickListener(v -> {
             List<Customer> selectedCustomers = adapter.getSelectedCustomers();
             if (selectedCustomers.isEmpty()) {
-                showAlert("Bạn cần phải chọn cần sửa");
+                showAlert("Bạn cần phải chọn khách hàng để sửa");
             } else if (selectedCustomers.size() == 1) {
                 showCustomerDialog(true, selectedCustomers.get(0));
             } else {
@@ -90,63 +63,87 @@ public class ProfileFragment extends Fragment {
         btxoa.setOnClickListener(v -> {
             List<Customer> selectedCustomers = adapter.getSelectedCustomers();
             if (selectedCustomers.isEmpty()) {
-                showAlert("Bạn cần phải chọn cần xóa");
+                showAlert("Bạn cần phải chọn khách hàng để xóa");
             } else {
                 adapter.removeSelectedItems();
             }
         });
 
         return rootView;
-
     }
 
-    // Method to show the add/edit dialog
+    // Phương thức để load danh sách khách hàng từ cơ sở dữ liệu
+    private void loadCustomersFromDatabase() {
+        Cursor cursor = dbHelper.getAllUsers();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int nameIndex = cursor.getColumnIndex(DBHelper.COLUMN_NAME);
+                int birthDateIndex = cursor.getColumnIndex(DBHelper.COLUMN_BIRTHDATE);
+                int addressIndex = cursor.getColumnIndex(DBHelper.COLUMN_ADDRESS);
+                int phoneIndex = cursor.getColumnIndex(DBHelper.COLUMN_PHONE);
+                int emailIndex = cursor.getColumnIndex(DBHelper.COLUMN_EMAIL);
+
+                if (nameIndex != -1 && birthDateIndex != -1 && addressIndex != -1 && phoneIndex != -1 && emailIndex != -1) {
+                    String name = cursor.getString(nameIndex);
+                    String birthDate = cursor.getString(birthDateIndex);
+                    String address = cursor.getString(addressIndex);
+                    String phone = cursor.getString(phoneIndex);
+                    String email = cursor.getString(emailIndex);
+
+                    customerItemList.add(new Customer(name, birthDate, address, phone, email));
+                }
+            } while (cursor.moveToNext());
+            cursor.close();
+        } else {
+            Toast.makeText(getContext(), "Không tìm thấy khách hàng", Toast.LENGTH_SHORT).show();
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    // Phương thức để hiển thị dialog thêm/sửa thông tin khách hàng
     private void showCustomerDialog(boolean isEdit, Customer customer) {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_customer_info, null);
-        EditText etDate = dialogView.findViewById(R.id.etDate);
         EditText etCustomerName = dialogView.findViewById(R.id.etCustomerName);
-        EditText etItems = dialogView.findViewById(R.id.etItems);
+        EditText etBirthDate = dialogView.findViewById(R.id.etBirthDate);
+        EditText etAddress = dialogView.findViewById(R.id.etAddress);
+        EditText etPhoneNumber = dialogView.findViewById(R.id.etPhoneNumber);
+        EditText etEmail = dialogView.findViewById(R.id.etEmail);
 
         if (isEdit && customer != null) {
-            etDate.setText(customer.getDate());
             etCustomerName.setText(customer.getCustomerName());
-            etItems.setText(customer.getItems());
+            etBirthDate.setText(customer.getBirthDate());
+            etAddress.setText(customer.getAddress());
+            etPhoneNumber.setText(customer.getPhoneNumber());
+            etEmail.setText(customer.getEmail());
         }
 
         new AlertDialog.Builder(getContext())
-                .setTitle(isEdit ? "Edit Customer" : "Add Customer")
+                .setTitle(isEdit ? "Chỉnh sửa khách hàng" : "Thêm khách hàng")
                 .setView(dialogView)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String date = etDate.getText().toString();
+                .setPositiveButton("Lưu", (dialog, which) -> {
                     String name = etCustomerName.getText().toString();
-                    String items = etItems.getText().toString();
+                    String birthDate = etBirthDate.getText().toString();
+                    String address = etAddress.getText().toString();
+                    String phone = etPhoneNumber.getText().toString();
+                    String email = etEmail.getText().toString();
 
                     if (isEdit && customer != null) {
-                        customer.setDate(date);
                         customer.setCustomerName(name);
-                        customer.setItems(items);
+                        customer.setBirthDate(birthDate);
+                        customer.setAddress(address);
+                        customer.setPhoneNumber(phone);
+                        customer.setEmail(email);
                         adapter.notifyDataSetChanged();
                     } else {
-                        Customer newCustomer = new Customer(date, name, items, R.drawable.anhsanpham, R.drawable.man);
+                        Customer newCustomer = new Customer(name, birthDate, address, phone, email);
                         adapter.addItem(newCustomer);
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Hủy", null)
                 .show();
     }
 
-    private void addSampleData() {
-        Customer item1 = new Customer("10/5/2024", "Nguyễn Ngọc Duy", "- 2 Miếng gà giòn\n- 1 nước\n- 1 khoai chiên", R.drawable.anhsanpham, R.drawable.man);
-        adapter.addItem(item1);
-
-        Customer item2 = new Customer("11/5/2024", "Lê Thị Lan", "- 3 Miếng gà giòn\n- 2 nước", R.drawable.anhsanpham, R.drawable.man);
-        adapter.addItem(item2);
-
-        Customer item3 = new Customer("12/5/2024", "Trần Văn Bảo", "- 1 Miếng gà giòn\n- 1 nước", R.drawable.anhsanpham, R.drawable.man);
-        adapter.addItem(item3);
-    }
-
-    // Method to show alert message
+    // Phương thức để hiển thị thông báo
     private void showAlert(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
