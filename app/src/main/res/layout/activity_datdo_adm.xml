@@ -56,6 +56,7 @@
             android:padding="10dp"
             android:clipToPadding="false" />
 
+
         <!-- Nút thêm sản phẩm mới -->
         <Button
             android:id="@+id/btnAddProduct"

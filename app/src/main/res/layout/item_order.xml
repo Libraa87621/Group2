@@ -1,23 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:padding="10dp"
+    android:orientation="vertical"
     android:background="@drawable/bg_item_border"
     android:layout_marginBottom="8dp">
 
     <!-- Ảnh đại diện của sản phẩm -->
     <ImageView
         android:id="@+id/orderImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:src="@drawable/banner" />
 
     <!-- Nội dung thông tin đơn hàng -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
