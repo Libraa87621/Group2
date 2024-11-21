@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import Database.DBHelper;
-
+.
 public class FinanceFragment extends Fragment {
 
     private TextView tvTotalRevenue, tvTotalOrders, tvTopSellingCategory;
