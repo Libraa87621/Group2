@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,73 +12,74 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingViewHolder> {
+import ADMIN.fragment.ProfileFragment.Customer;
 
-    private List<Setting> settingList;
+public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHolder> {
+    private List<Setting> settings;
 
-    public SettingAdapter(List<Setting> settingList) {
-        this.settingList = settingList;
-    }
-
-    public void addItem(Setting newSetting) {
-        settingList.add(newSetting);
-        notifyItemInserted(settingList.size() - 1);
-    }
-
-    public void removeSelectedItems() {
-        for (int i = settingList.size() - 1; i >= 0; i--) {
-            if (settingList.get(i).isSelected()) {
-                settingList.remove(i);
-                notifyItemRemoved(i);
-            }
-        }
-    }
-
-    public void editSelectedItems(String newName) {
-        for (Setting setting : settingList) {
-            if (setting.isSelected()) {
-                setting.setName(newName);
-            }
-        }
-        notifyDataSetChanged();
-    }
+    public SettingAdapter(List<Setting> settings) {this.settings = settings;}
 
     @NonNull
     @Override
-    public SettingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quanlydonhang, parent, false);
-        return new SettingViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SettingViewHolder holder, int position) {
-        Setting setting = settingList.get(position);
-        holder.tvDate.setText(setting.getDate());
-        holder.checkCompleted.setChecked(setting.isSelected());
-        holder.checkCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> setting.setSelected(isChecked));
-        holder.tvName.setText(setting.getName());
-        holder.tvEmail.setText(setting.getEmail());
-        holder.tvPhone.setText(setting.getPhone());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Setting setting = settings.get(position);
+
+        // Hiển thị tên và ngày
+        holder.nameTextView.setText(setting.getName());
+        holder.dateTextView.setText(setting.getDate());
+        holder.checkBox.setChecked(setting.isSelected());
+        // Xóa các view con trước đó để tránh bị lặp
+        holder.componentsLayout.removeAllViews();
+
+        // Tách components thành các phần tử riêng lẻ (ví dụ, nếu là chuỗi cách nhau bởi dấu phẩy)
+        String[] components = setting.getComponents().split(","); // Điều chỉnh theo định dạng dữ liệu thực tế
+
+        for (String component : components) {
+            TextView componentTextView = new TextView(holder.itemView.getContext());
+            componentTextView.setText(component.trim());
+            componentTextView.setTextSize(14); // Kích thước chữ
+            componentTextView.setPadding(0, 4, 0, 4); // Khoảng cách giữa các dòng
+            holder.componentsLayout.addView(componentTextView); // Thêm vào LinearLayout
+        }
+    }
+    public List<Customer> getSelectedCustomers() {
+        List<Customer> selectedCustomers = new ArrayList<>();
+        for (Setting setting : settings) {
+            if (Setting.isSelected()) {
+                selectedCustomers.add(Setting);
+            }
+        }
+        return selectedCustomers;
     }
 
     @Override
     public int getItemCount() {
-        return settingList.size();
+        return settings.size();
     }
 
-    public static class SettingViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvName, tvEmail, tvPhone;
-        CheckBox checkCompleted;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTextView, dateTextView;
+        LinearLayout componentsLayout;
+        CheckBox checkBox;
 
-        public SettingViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvDate = itemView.findViewById(R.id.tvDate);
-            checkCompleted = itemView.findViewById(R.id.checkCompleted);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvEmail = itemView.findViewById(R.id.tvEmail);
-            tvPhone = itemView.findViewById(R.id.tvPhone);
+            nameTextView = itemView.findViewById(R.id.textViewName);
+            dateTextView = itemView.findViewById(R.id.textViewDate);
+            componentsLayout = itemView.findViewById(R.id.Components);
+            checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
         }
-    }
 }
+
+    }
+

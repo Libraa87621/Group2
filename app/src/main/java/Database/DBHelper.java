@@ -28,10 +28,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_PAYMENT_DATE = "payment_date";
-    private static final String COLUMN_DATE = "currentDate";
+
+    public static final String COLUMN_DATE = "currentDate";
+
     private static final String COLUMN_ORDER_ADDRESS = "delivery_address";
     private static final String COLUMN_IMAGE_URL = "image_url";
-    private static final String COLUMN_COMPONENTS = "components";
+
+    public static final String COLUMN_COMPONENTS = "components";
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
@@ -127,11 +130,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-
+    public Cursor getAllOders() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT " +  COLUMN_DATE + ", " + COLUMN_COMPONENTS  + " FROM " + TABLE_ORDERS, null);
+    }
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + " FROM " + TABLE_USERS, null);
     }
+
 
 
     // class doanh thu
@@ -275,17 +282,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    // Updated onOrderSuccess method to pass necessary parameters
-    public void onOrderSuccess(Context context, String paymentDate, String date, String address,
-                               String imageUrl, String components, double price, int quantity) {
-        // Update revenue and total orders
-        RevenueManager revenueManager = new RevenueManager(context);
-        revenueManager.updateRevenueAndOrders(price, quantity);
-
-        // Add the order to the database
-        DBHelper dbHelper = new DBHelper(context);
-        dbHelper.addOrder(paymentDate, date, address, imageUrl, components, price, quantity);
-    }
     // Phương thức thêm sản phẩm vào bảng
     public void insertProduct(SQLiteDatabase db, String name, String description, double price, int quantity, String imageUrl) {
         ContentValues values = new ContentValues();
@@ -315,4 +311,22 @@ public class DBHelper extends SQLiteOpenHelper {
         insertProduct(db, name, description, price, quantity, imageUrl);
         db.close();
     }
+
+
+
+
+
+
+
+    // quản lý đơn hàng
+
+    public Cursor getOrdersWithDetails() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Thực hiện truy vấn lấy dữ liệu từ ba cột name, date, components
+        String query = "SELECT " + COLUMN_NAME + ", " + COLUMN_DATE + ", " + COLUMN_COMPONENTS +
+                " FROM " + TABLE_ORDERS;
+        return db.rawQuery(query, null);  // Trả về Cursor chứa kết quả truy vấn
+    }
+
 }
