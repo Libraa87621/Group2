@@ -114,12 +114,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + " FROM " + TABLE_USERS, null);
     }
 
+
+    // class doanh thu
     public double getTotalRevenue() {
         double totalRevenue = 0;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
         try {
-            String query = "SELECT SUM(" + COLUMN_PRICE + " * " + COLUMN_QUANTITY + ") AS TotalRevenue FROM " + TABLE_ORDERS;
+            String query = "SELECT SUM(" + COLUMN_PRICE + ") AS TotalRevenue FROM " + TABLE_ORDERS;
             cursor = db.rawQuery(query, null);
             if (cursor.moveToFirst()) {
                 totalRevenue = cursor.getDouble(0);
@@ -130,6 +132,14 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return totalRevenue;
     }
+
+
+
+
+
+
+
+
 
     public int getTotalOrders() {
         int totalOrders = 0;

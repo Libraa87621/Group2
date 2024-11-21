@@ -86,12 +86,6 @@
             android:layout_weight="1"
             android:text="Hôm nay" />
 
-        <Button
-            android:id="@+id/btnFilterWeek"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tuần này" />
 
         <Button
             android:id="@+id/btnFilterMonth"
@@ -99,6 +93,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tháng này" />
+
+        <Button
+            android:id="@+id/btnFilterYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Năm này" />
     </LinearLayout>
 
     <!-- Danh sách chi tiết -->
