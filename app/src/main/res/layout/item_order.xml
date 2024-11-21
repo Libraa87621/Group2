@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@drawable/bg_item_border"
+    android:layout_marginBottom="8dp">
+
+    <!-- Ảnh đại diện của sản phẩm -->
+    <ImageView
+        android:id="@+id/orderImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/banner" />
+
+    <!-- Nội dung thông tin đơn hàng -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/orderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mô tả: Sản phẩm rất tốt"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/orderPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá: 150.000 VND"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Nút thao tác (Xóa và Sửa) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingStart="10dp">
+
+        <!-- Nút Xóa -->
+        <ImageView
+            android:id="@+id/btnDeleteOrder"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img_thungrac"
+            android:contentDescription="Xóa đơn hàng"
+            app:tint="@android:color/holo_red_dark" />
+
+        <!-- Nút Sửa -->
+        <ImageView
+            android:id="@+id/btnEditOrder"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/img_pen"
+            android:contentDescription="Sửa đơn hàng"
+            app:tint="@android:color/holo_blue_dark"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
+</LinearLayout>
