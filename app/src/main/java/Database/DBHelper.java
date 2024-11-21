@@ -48,6 +48,16 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_PRICE + " REAL, " +
             COLUMN_QUANTITY + " INTEGER);";
 
+    // Tạo bảng products
+    private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE products (" +
+            "product_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "name TEXT NOT NULL, " +
+            "description TEXT, " +
+            "price REAL NOT NULL, " +
+            "quantity INTEGER NOT NULL, " +
+            "image_url TEXT);";
+
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -56,12 +66,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_ORDERS);
+        db.execSQL(CREATE_TABLE_PRODUCTS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
+        db.execSQL("DROP TABLE IF EXISTS products");
         onCreate(db);
     }
 
@@ -162,5 +174,32 @@ public class DBHelper extends SQLiteOpenHelper {
         // Add the order to the database
         DBHelper dbHelper = new DBHelper(context);
         dbHelper.addOrder(paymentDate, date, address, imageUrl, components, price, quantity);
+    }
+    // Phương thức thêm sản phẩm vào bảng
+    public void insertProduct(SQLiteDatabase db, String name, String description, double price, int quantity, String imageUrl) {
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("description", description);
+        values.put("price", price);
+        values.put("quantity", quantity);
+        values.put("image_url", imageUrl);
+
+        db.insert("products", null, values);
+    }
+
+    // Thêm các sản phẩm mẫu
+    private void insertDefaultProducts(SQLiteDatabase db) {
+        insertProduct(db, "COMBO VUI VẺ", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", 160000, 10, "url_to_combo_vui_ve_image");
+        insertProduct(db, "COMBO NO NÊ", "1 phần cơm gà, 1 nước, 1 súp cà rốt", 130000, 15, "url_to_combo_no_ne_image");
+        insertProduct(db, "COMBO SOLO", "1 hamburger tôm, 1 nước, 1 khoai chiên", 120000, 20, "url_to_combo_solo_image");
+        insertProduct(db, "BÁNH NHÂN XOÀI", "1 Bánh nhân xoài thơm vị ngọt", 50000, 50, "url_to_banh_nhan_xoai_image");
+        insertProduct(db, "NƯỚC ÉP XOÀI", "1 Cốc nước ép xoài", 30000, 25, "url_to_nuoc_ep_xoai_image");
+    }
+
+    // Hàm thêm sản phẩm từ ứng dụng (có thể sử dụng sau)
+    public void addProduct(String name, String description, double price, int quantity, String imageUrl) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        insertProduct(db, name, description, price, quantity, imageUrl);
+        db.close();
     }
 }
