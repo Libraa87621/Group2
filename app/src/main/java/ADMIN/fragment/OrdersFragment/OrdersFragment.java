@@ -56,11 +56,11 @@ public class OrdersFragment extends Fragment {
     // Hàm khởi tạo danh sách dữ liệu cứng
     private List<Orders> getDefaultOrders() {
         List<Orders> defaultOrders = new ArrayList<>();
-        defaultOrders.add(new Orders("COMBO VUI VẺ", "160000", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", "drawable/combovuive.png"));
-        defaultOrders.add(new Orders("COMBO NO NÊ", "130000", "1 phần cơm gà, 1 nước, 1 súp cà rốt", "drawable/combonone.png"));
-        defaultOrders.add(new Orders("COMBO SOLO", "120000", "1 hamburger tôm, 1 nước, 1 khoai chiên", "drawable/combosolo.png"));
-        defaultOrders.add(new Orders("BÁNH NHÂN XOÀI", "50000", "1 Bánh nhân xoài thơm vị ngọt", "drawable/banhnhanxoai.png"));
-        defaultOrders.add(new Orders("NƯỚC ÉP XOÀI", "30000", "1 Cốc nước ép xoài", "drawable/nuocepxoai.png"));
+        defaultOrders.add(new Orders("COMBO VUI VẺ", "160000", "2 Miếng gà giòn, ", "combovuive"));
+        defaultOrders.add(new Orders("COMBO NO NÊ", "130000", "1 phần cơm gà ", "combonone"));
+        defaultOrders.add(new Orders("COMBO SOLO", "120000", "1 hamburger tôm ", "combosolo"));
+        defaultOrders.add(new Orders("BÁNH NHÂN XOÀI", "50000", "1 Bánh nhân xoài ", "banhnhanxoai"));
+        defaultOrders.add(new Orders("NƯỚC ÉP XOÀI", "30000", "1 Cốc nước ép xoài", "nuocepxoai"));
         return defaultOrders;
     }
 

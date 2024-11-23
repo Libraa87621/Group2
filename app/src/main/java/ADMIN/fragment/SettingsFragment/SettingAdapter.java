@@ -36,7 +36,12 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         holder.dateTextView.setText(setting.getDate());
         holder.checkBox.setChecked(setting.isSelected());
 
+
         // Handle components (assuming it's a comma-separated string, adjust as necessary)
+
+
+        // Hiển thị danh sách components
+
         holder.componentsLayout.removeAllViews();
         String[] components = setting.getComponents().split(","); // Split the components string
         for (String component : components) {
