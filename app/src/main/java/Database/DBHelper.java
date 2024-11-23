@@ -109,6 +109,10 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_ADDRESS, address);     // Lưu địa chỉ giao hàng
 
             // Thực hiện thao tác insert vào cơ sở dữ liệu và trả về ID của bản ghi vừa thêm
+            values.put(COLUMN_NAME, name);
+            values.put(COLUMN_EMAIL, email);
+            values.put(COLUMN_ADDRESS, address);
+            values.put(COLUMN_PHONE, phone);
             return db.insert(TABLE_USERS, null, values);
         } finally {
             db.close(); // Đóng cơ sở dữ liệu sau khi thực hiện xong
@@ -139,6 +143,20 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Cập nhật dữ liệu
+    public long updateOrder(int id, String date, String components) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_COMPONENTS, components);
+        return db.update(TABLE_ORDERS, values, "id=?", new String[]{String.valueOf(id)});
+    }
+
+    // Xóa dữ liệu
+    public void deleteOrder(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ORDERS, "id=?", new String[]{String.valueOf(id)});
+    }
     public Cursor getAllOders() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " +  COLUMN_DATE + ", " + COLUMN_COMPONENTS  + " FROM " + TABLE_ORDERS, null);
@@ -321,7 +339,6 @@ public class DBHelper extends SQLiteOpenHelper {
         insertProduct(db, name, description, price, quantity, imageUrl);
         db.close();
     }
-
 
 
 
