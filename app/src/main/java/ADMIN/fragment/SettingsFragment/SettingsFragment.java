@@ -20,6 +20,7 @@ import com.example.duan1.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import ADMIN.fragment.ProfileFragment.Customer;
 import Database.DBHelper;
 
 public class SettingsFragment extends Fragment {
@@ -45,31 +46,20 @@ public class SettingsFragment extends Fragment {
         Cursor userCursor = dbHelper.getAllUsers();
         Cursor orderCursor = dbHelper.getAllOders();
 
-        if (userCursor != null && orderCursor != null) {
-            try {
-                if (userCursor.moveToFirst() && orderCursor.moveToFirst()) {
-                    do {
-                        String name = userCursor.getString(userCursor.getColumnIndexOrThrow(DBHelper.COLUMN_NAME));
-                        String date = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_DATE));
-                        String components = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_COMPONENTS));
+        if (userCursor != null && userCursor.moveToFirst() && orderCursor != null && orderCursor.moveToFirst()) {
+            do {
+                String name = userCursor.getString(userCursor.getColumnIndexOrThrow(DBHelper.COLUMN_NAME));
+                String date = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_DATE));
+                String components = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_COMPONENTS));
 
-                        settingList.add(new Setting(name, date, components));
-                    } while (userCursor.moveToNext() && orderCursor.moveToNext());
-                } else {
-                    Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
-                }
-            } finally {
-                userCursor.close();
-                orderCursor.close();
-            }
+
+                settingList.add(new Setting(name, date, components));
+            } while (userCursor.moveToNext() && orderCursor.moveToNext());
         } else {
-            Toast.makeText(getContext(), "Không thể truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         }
-
-        // Cập nhật adapter
-        settingAdapter.notifyDataSetChanged();
-
-
+        settingAdapter = new SettingAdapter(settingList);
+        recyclerViewOrders.setAdapter(settingAdapter);
 
         return rootView;
     }

@@ -16,25 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHolder> {
-    private List<Setting> settingsList;
+    private List<Setting> settings;
     private List<Setting> selectedItems = new ArrayList<>();
 
-    public SettingAdapter(List<Setting> settingsList) {
-        this.settingsList = settingsList;
-    }
+    public SettingAdapter(List<Setting> settings) {this.settings = settings;}
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewDate, tvCombo;
+        TextView nameTextView, dateTextView;
         LinearLayout componentsLayout;
         CheckBox checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-            textViewDate = itemView.findViewById(R.id.textViewDate);
-            tvCombo = itemView.findViewById(R.id.tvCombo);
+            nameTextView = itemView.findViewById(R.id.textViewName);
+            dateTextView = itemView.findViewById(R.id.textViewDate);
             componentsLayout = itemView.findViewById(R.id.Components);
-            checkBox = itemView.findViewById(R.id.checkbox);
+            checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
         }
     }
 
@@ -48,18 +45,26 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Setting setting = settingsList.get(position);
-        holder.textViewName.setText(setting.getName());
-        holder.textViewDate.setText(setting.getDate());
-        holder.tvCombo.setText(setting.getCombo());
+        Setting setting = settings.get(position);
+
+        // Hiển thị tên và ngày
+        holder.nameTextView.setText(setting.getName());
+        holder.dateTextView.setText(setting.getDate());
+        holder.checkBox.setChecked(setting.isSelected());
 
         // Hiển thị danh sách components
         holder.componentsLayout.removeAllViews();
-        for (String component : setting.getComponents()) {
+
+        String[] components = setting.getComponents().split(","); // Điều chỉnh theo định dạng dữ liệu thực tế
+
+        for (String component : components) {
             TextView componentTextView = new TextView(holder.itemView.getContext());
-            componentTextView.setText(component);
-            holder.componentsLayout.addView(componentTextView);
+            componentTextView.setText(component.trim());
+            componentTextView.setTextSize(14); // Kích thước chữ
+            componentTextView.setPadding(0, 4, 0, 4); // Khoảng cách giữa các dòng
+            holder.componentsLayout.addView(componentTextView); // Thêm vào LinearLayout
         }
+
 
         // Xử lý trạng thái checkbox
         holder.checkBox.setOnCheckedChangeListener(null); // Tránh lỗi khi tái sử dụng ViewHolder
@@ -76,28 +81,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return settingsList.size();
+        return settings.size();
     }
 
-    public List<Setting> getSelectedItems() {
-        return selectedItems;
-    }
 
-    public void addItem(Setting newItem) {
-        settingsList.add(newItem);
-        notifyItemInserted(settingsList.size() - 1);
-    }
-
-    public void removeSelectedItems() {
-        settingsList.removeAll(selectedItems);
-        selectedItems.clear();
-        notifyDataSetChanged();
-    }
-
-    public void updateItem(Setting updatedItem, int position) {
-        settingsList.set(position, updatedItem);
-        notifyItemChanged(position);
-    }
 }
 
 
