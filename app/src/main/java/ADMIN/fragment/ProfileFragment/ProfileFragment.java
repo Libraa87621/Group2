@@ -19,6 +19,8 @@ import com.example.duan1.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import ADMIN.fragment.SettingsFragment.Setting;
+import ADMIN.fragment.SettingsFragment.SettingAdapter;
 import Database.DBHelper;
 
 public class ProfileFragment extends Fragment {
@@ -26,6 +28,8 @@ public class ProfileFragment extends Fragment {
     private CustomerAdapter adapter;
     private List<Customer> customerItemList;
     private DBHelper dbHelper;
+    private SettingAdapter settingAdapter;
+    private List<Setting> settingList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +45,17 @@ public class ProfileFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // Load khách hàng từ cơ sở dữ liệu
-        loadCustomersFromDatabase();
+        settingList = new ArrayList<>();
+        settingAdapter = new SettingAdapter(settingList);
+        recyclerView.setAdapter(settingAdapter);
+        List<Setting> settingsFromDb = dbHelper.getAllSettings();
+        // Cập nhật adapter
+        if (settingsFromDb.isEmpty()) {
+            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+        } else {
+            settingList.addAll(settingsFromDb);
+            settingAdapter.notifyDataSetChanged(); // Cập nhật dữ liệu hiển thị
+        }
 
         // Các nút thêm, sửa, xóa
         ImageView btnthem = rootView.findViewById(R.id.btnthem);
@@ -73,32 +87,6 @@ public class ProfileFragment extends Fragment {
     }
 
     // Phương thức để load danh sách khách hàng từ cơ sở dữ liệu
-    private void loadCustomersFromDatabase() {
-        Cursor cursor = dbHelper.getAllUsers();
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                int nameIndex = cursor.getColumnIndex(DBHelper.COLUMN_NAME);
-                int birthDateIndex = cursor.getColumnIndex(DBHelper.COLUMN_BIRTHDATE);
-                int addressIndex = cursor.getColumnIndex(DBHelper.COLUMN_ADDRESS);
-                int phoneIndex = cursor.getColumnIndex(DBHelper.COLUMN_PHONE);
-                int emailIndex = cursor.getColumnIndex(DBHelper.COLUMN_EMAIL);
-
-                if (nameIndex != -1 && birthDateIndex != -1 && addressIndex != -1 && phoneIndex != -1 && emailIndex != -1) {
-                    String name = cursor.getString(nameIndex);
-                    String birthDate = cursor.getString(birthDateIndex);
-                    String address = cursor.getString(addressIndex);
-                    String phone = cursor.getString(phoneIndex);
-                    String email = cursor.getString(emailIndex);
-
-                    customerItemList.add(new Customer(name, birthDate, address, phone, email));
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
-        } else {
-            Toast.makeText(getContext(), "Không tìm thấy khách hàng", Toast.LENGTH_SHORT).show();
-        }
-        adapter.notifyDataSetChanged();
-    }
 
     // Phương thức để hiển thị dialog thêm/sửa thông tin khách hàng
     private void showCustomerDialog(boolean isEdit, Customer customer) {

@@ -5,11 +5,14 @@ public class Setting {
     private String date; // Từ bảng orders
     private String components; // Từ bảng orders
     private boolean isSelected; // Trạng thái chọn
+    private String items;
+    private String settingName;
+    private boolean selected;
 
     // Constructor
     public Setting(String name, String date, String components) {
-        this.date = date;
         this.name = name;
+        this.date = date;
         this.components = components;
         this.isSelected = false; // Mặc định là không chọn
     }
@@ -35,6 +38,6 @@ public class Setting {
     }
 
     public void setSelected(boolean selected) {
-        isSelected = selected;
+        this.selected = selected;
     }
 }
