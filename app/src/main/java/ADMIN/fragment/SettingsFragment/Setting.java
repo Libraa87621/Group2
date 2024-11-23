@@ -6,6 +6,7 @@ public class Setting {
     private String components; // Từ bảng orders
     private boolean isSelected; // Trạng thái chọn
     private String items;
+    private String settingName;
 
     // Constructor
     public Setting(String name, String date, String components) {
@@ -35,7 +36,4 @@ public class Setting {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
 }

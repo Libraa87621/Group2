@@ -52,31 +52,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
 
     }
 
+    @Override
     public int getItemCount() {
-        return settings.size();
+        return 0;
     }
-
-    public void addItem(Setting item) {
-        settings.add(item);
-        notifyItemInserted(settings.size() - 1);
-    }
-
-    public void removeSelectedItems() {
-        settings.removeAll(getSelectedSetting());
-        notifyDataSetChanged();
-    }
-    public List<Setting> getSelectedSetting() {
-        List<Setting> SelectedSetting = new ArrayList<>();
-        for (Setting setting : settings) {
-            if (setting.isSelected()) {
-                SelectedSetting.add(setting);
-            }
-        }
-        return settings;
-    }
-
-
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, dateTextView;
