@@ -1,6 +1,7 @@
 package USER.login_signin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ public class DangKyActivity extends AppCompatActivity {
         etLastName = findViewById(R.id.LastName);
         etEmail = findViewById(R.id.Name);
         etDate = findViewById(R.id.Date);
+
         etPassword = findViewById(R.id.Password);
         etConfirmPassword = findViewById(R.id.comfirmPassword);
 
@@ -34,6 +36,13 @@ public class DangKyActivity extends AppCompatActivity {
                 // Save email and password to variables
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
+                String date = etDate.getText().toString();
+
+
+                SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("date", date);
+                editor.apply();
 
                 // Show success message
                 Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();

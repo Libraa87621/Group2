@@ -1,5 +1,6 @@
 package USER.Payment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -65,6 +66,11 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         String shippingFee = getIntent().getStringExtra("shippingFee");
         String paymentMethod = getIntent().getStringExtra("paymentMethod");
 
+        // Lấy date trong lớp Paymentsuccessful:
+        SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+        String date = sharedPreferences.getString("date", null); // Lấy giá trị date
+
+
         // [3] **Ghi log kiểm tra dữ liệu**
         Log.d("PaymentSuccess", "Promo Code: " + promoCode);
         Log.d("PaymentSuccess", "discountedAmount: " + discountedAmount);
@@ -84,7 +90,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             }
             String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             long orderId = dbHelper.addOrder(
-                    currentDate,                  // Ngày thanh toán
+                    currentDate,                               // Ngày thanh toán
                     tvEstimatedTimeValue.getText().toString(), // Thời gian ước tính giao hàng
                     address != null ? address : "N/A",        // Địa chỉ giao hàng
                     String.valueOf(combo.getImageResId()),    // ID ảnh
@@ -100,13 +106,15 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             }
         }
 
-        // [5] **Lưu thông tin người dùng vào CSDL**
+        // [5] **Lưu thông tin người dùng vào CSDL**    
         if (phone != null && !phone.isEmpty() && address != null && !address.isEmpty()) {
             long userId = dbHelper.addUser(
                     name,       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
                     "user@example.com", // Email tạm (có thể thay đổi theo dữ liệu thực tế)
                     phone,             // Số điện thoại
+                    date,              // Ngày sinh
                     address           // Địa chỉ giao hàng
+
             );
 
             if (userId != -1) {
