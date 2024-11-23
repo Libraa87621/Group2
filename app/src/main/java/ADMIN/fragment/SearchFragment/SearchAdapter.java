@@ -15,7 +15,7 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Monan> combos;
+    private List<Monan> combos; // Danh sách món ăn
 
     public SearchAdapter(Context context, List<Monan> combos) {
         this.context = context;
@@ -56,10 +56,25 @@ public class SearchAdapter extends BaseAdapter {
         tvComboName.setText(currentCombo.getName());
         tvQuantity.setText("Còn lại: " + currentCombo.getQuantity());
 
-        // Thiết lập hình ảnh cho ImageView từ tên hình ảnh
-        int imageResource = context.getResources().getIdentifier(currentCombo.getImage(), "drawable", context.getPackageName());
-        imgCombo.setImageResource(imageResource); // Đặt hình ảnh cho ImageView
+        // Kiểm tra và xử lý việc gán hình ảnh từ tên hình ảnh (tên tài nguyên)
+        if (currentCombo.getImage() != null) {
+            // Lấy tài nguyên hình ảnh từ tên (đảm bảo rằng tên tài nguyên hợp lệ)
+            int imageResource = context.getResources().getIdentifier(currentCombo.getImage(), "drawable", context.getPackageName());
+            if (imageResource != 0) {
+                imgCombo.setImageResource(imageResource); // Đặt hình ảnh cho ImageView
+            } else {
+                imgCombo.setImageResource(R.drawable.default_image); // Đặt hình ảnh mặc định nếu không tìm thấy tài nguyên
+            }
+        } else {
+            imgCombo.setImageResource(R.drawable.default_image); // Đặt hình ảnh mặc định nếu không có ảnh
+        }
 
         return convertView; // Trả về convertView đã được điền dữ liệu
+    }
+
+    // Phương thức cập nhật danh sách khi tìm kiếm
+    public void updateList(List<Monan> newList) {
+        this.combos = newList;
+        notifyDataSetChanged(); // Cập nhật dữ liệu trong adapter
     }
 }

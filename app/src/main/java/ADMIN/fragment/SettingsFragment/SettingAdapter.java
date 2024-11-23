@@ -52,7 +52,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         holder.dateTextView.setText(setting.getDate());
         holder.checkBox.setChecked(setting.isSelected());
 
-<<<<<<< Updated upstream
+
         // Hiển thị danh sách components
         holder.componentsLayout.removeAllViews();
 
@@ -65,9 +65,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             componentTextView.setPadding(0, 4, 0, 4); // Khoảng cách giữa các dòng
             holder.componentsLayout.addView(componentTextView); // Thêm vào LinearLayout
         }
-=======
-
->>>>>>> Stashed changes
 
 
         // Xử lý trạng thái checkbox
