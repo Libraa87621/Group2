@@ -39,7 +39,10 @@ public class OrdersFragment extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2); // 2 là số cột
         recyclerView.setLayoutManager(layoutManager);
 
-        orderList = new ArrayList<>();
+        // Tạo dữ liệu cứng cho danh sách Orders
+        orderList = getDefaultOrders();
+
+        // Tạo và gắn adapter
         ordersAdapter = new OrdersAdapter(orderList);
         recyclerView.setAdapter(ordersAdapter);
 
@@ -50,6 +53,18 @@ public class OrdersFragment extends Fragment {
         return view;
     }
 
+    // Hàm khởi tạo danh sách dữ liệu cứng
+    private List<Orders> getDefaultOrders() {
+        List<Orders> defaultOrders = new ArrayList<>();
+        defaultOrders.add(new Orders("COMBO VUI VẺ", "160000", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", "drawable/combovuive.png"));
+        defaultOrders.add(new Orders("COMBO NO NÊ", "130000", "1 phần cơm gà, 1 nước, 1 súp cà rốt", "drawable/combonone.png"));
+        defaultOrders.add(new Orders("COMBO SOLO", "120000", "1 hamburger tôm, 1 nước, 1 khoai chiên", "drawable/combosolo.png"));
+        defaultOrders.add(new Orders("BÁNH NHÂN XOÀI", "50000", "1 Bánh nhân xoài thơm vị ngọt", "drawable/banhnhanxoai.png"));
+        defaultOrders.add(new Orders("NƯỚC ÉP XOÀI", "30000", "1 Cốc nước ép xoài", "drawable/nuocepxoai.png"));
+        return defaultOrders;
+    }
+
+    // Hàm mở dialog thêm đơn hàng mới
     private void openAddOrderDialog() {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
         EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
