@@ -1,51 +1,40 @@
 package ADMIN.fragment.SettingsFragment;
 
 public class Setting {
-    private int id;
-    private String name;
-    private String date;
-    private String components;
-    private String combo;
+    private String name; // Từ bảng users
+    private String date; // Từ bảng orders
+    private String components; // Từ bảng orders
+    private boolean isSelected; // Trạng thái chọn
 
-    public Setting(int id, String name, String date, String components) {
-        this.id = id;
-        this.name = name;
+    // Constructor
+    public Setting(String name, String date, String components) {
         this.date = date;
+        this.name = name;
         this.components = components;
+        this.isSelected = false; // Mặc định là không chọn
     }
 
-
-    public int getId() {
-        return id;
-    }
-    public String getCombo() {
-        return combo;
-    }
-
-    public void setCombo(String combo) {
-        this.combo = combo;
-    }
+    // Getter cho tên
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    // Getter cho ngày
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
+    // Getter cho thành phần
     public String getComponents() {
         return components;
     }
 
-    public void setComponents(String components) {
-        this.components = components;
+    // Setter cho trạng thái chọn
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

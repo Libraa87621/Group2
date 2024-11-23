@@ -44,10 +44,9 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_EMAIL + " TEXT, " +
-            COLUMN_BIRTHDATE + " TEXT, " + // Thêm dấu phẩy
+            COLUMN_BIRTHDATE + "TEXT," +
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
-
 
     private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + " (" +
             COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -100,25 +99,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public long addUser(String name, String email, String phone, String birthdate, String address) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            // Khởi tạo đối tượng ContentValues để chứa các giá trị cần lưu vào cơ sở dữ liệu
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, name);           // Lưu tên người dùng
             values.put(COLUMN_EMAIL, email);         // Lưu email người dùng
             values.put(COLUMN_PHONE, phone);         // Lưu số điện thoại người dùng
             values.put(COLUMN_BIRTHDATE, birthdate); // Lưu ngày sinh người dùng
             values.put(COLUMN_ADDRESS, address);     // Lưu địa chỉ giao hàng
-
-            // Thực hiện thao tác insert vào cơ sở dữ liệu và trả về ID của bản ghi vừa thêm
-            values.put(COLUMN_NAME, name);
-            values.put(COLUMN_EMAIL, email);
-            values.put(COLUMN_ADDRESS, address);
-            values.put(COLUMN_PHONE, phone);
             return db.insert(TABLE_USERS, null, values);
         } finally {
-            db.close(); // Đóng cơ sở dữ liệu sau khi thực hiện xong
+            db.close();
         }
     }
-
 
     public long addOrder(String paymentDate, String date, String address, String imageUrl,
                          String components, double price, int quantity) {
@@ -143,20 +134,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Cập nhật dữ liệu
-    public long updateOrder(int id, String date, String components) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_DATE, date);
-        values.put(COLUMN_COMPONENTS, components);
-        return db.update(TABLE_ORDERS, values, "id=?", new String[]{String.valueOf(id)});
-    }
-
-    // Xóa dữ liệu
-    public void deleteOrder(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_ORDERS, "id=?", new String[]{String.valueOf(id)});
-    }
     public Cursor getAllOders() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " +  COLUMN_DATE + ", " + COLUMN_COMPONENTS  + " FROM " + TABLE_ORDERS, null);
@@ -342,18 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    public boolean insertUser(String firstName, String lastName, String email, String birthdate, String password) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("first_name", firstName);
-        contentValues.put("last_name", lastName);
-        contentValues.put("email", email);
-        contentValues.put("birthday", birthdate); // Cột tương ứng trong bảng
-        contentValues.put("password", password);
 
-        long result = db.insert("users", null, contentValues);
-        return result != -1;
-    }
 
 
 
@@ -367,5 +333,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 " FROM " + TABLE_ORDERS;
         return db.rawQuery(query, null);  // Trả về Cursor chứa kết quả truy vấn
     }
+    public boolean insertUser(String firstName, String lastName, String email, String birthdate, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("first_name", firstName);
+        contentValues.put("last_name", lastName);
+        contentValues.put("email", email);
+        contentValues.put("birthday", birthdate); // Cột tương ứng trong bảng
+        contentValues.put("password", password);
 
+        long result = db.insert("users", null, contentValues);
+        return result != -1;
+    }
 }

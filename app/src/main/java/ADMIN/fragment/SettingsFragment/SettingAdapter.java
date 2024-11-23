@@ -18,18 +18,9 @@ import java.util.List;
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHolder> {
     private List<Setting> settingsList;
     private List<Setting> selectedItems = new ArrayList<>();
-    private OnItemCheckListener listener; // Thêm listener
 
-    // Interface để lắng nghe sự kiện checkbox
-    public interface OnItemCheckListener {
-        void onItemCheck(Setting setting);
-        void onItemUncheck(Setting setting);
-    }
-
-    // Thêm listener vào constructor
-    public SettingAdapter(List<Setting> settingsList, OnItemCheckListener listener) {
+    public SettingAdapter(List<Setting> settingsList) {
         this.settingsList = settingsList;
-        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,14 +68,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 selectedItems.add(setting);
-                if (listener != null) {
-                    listener.onItemCheck(setting); // Gọi listener khi checkbox được check
-                }
             } else {
                 selectedItems.remove(setting);
-                if (listener != null) {
-                    listener.onItemUncheck(setting); // Gọi listener khi checkbox bị bỏ
-                }
             }
         });
     }
@@ -114,7 +99,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         notifyItemChanged(position);
     }
 }
-
 
 
 
