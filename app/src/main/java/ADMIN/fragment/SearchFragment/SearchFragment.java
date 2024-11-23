@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     private ListView listViewCombos;
-    private ArrayList<Monan> comboList; 
+    private ArrayList<Monan> comboList;
     private SearchAdapter comboAdapter;
 
     @Override
@@ -25,10 +25,10 @@ public class SearchFragment extends Fragment {
         // Khởi tạo ListView và các view khác
         listViewCombos = rootView.findViewById(R.id.listViewCombos);
 
-        // Khởi tạo danh sách món ăn (combo)
+        // Khởi tạo danh sách món ăn (combo) với tên, số lượng và tên hình ảnh
         comboList = new ArrayList<>();
-        comboList.add(new Monan("Combo 1", 2)); // Thêm món ăn mẫu
-        comboList.add(new Monan("Combo 2", 5));
+        comboList.add(new Monan("Combo 1", 2, "drawable/banner1.png")); // Tên hình ảnh
+        comboList.add(new Monan("Combo 2", 5, "drawable/banner2.png"));
 
         // Thiết lập adapter
         comboAdapter = new SearchAdapter(getContext(), comboList);

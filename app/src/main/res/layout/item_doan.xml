@@ -2,20 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/bg_item_border"
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tvComboName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Combo Name"
-        android:textSize="16sp" />
+    <!-- Hình ảnh của combo -->
+    <ImageView
+        android:id="@+id/imgCombo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/combovuive"
+        android:layout_marginEnd="16dp"/>
 
-    <TextView
-        android:id="@+id/tvQuantity"
-        android:layout_width="match_parent"
+    <!-- Phần thông tin của combo -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Quantity"
-        android:textSize="14sp" />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="start">
+
+        <!-- LinearLayout ngang để chứa tên combo và số lượng -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <!-- Tên Combo -->
+            <TextView
+                android:id="@+id/tvComboName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="COMBO NO NÊ"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"/>
+
+            <!-- Số lượng còn lại -->
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Còn lại: 20"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginStart="20dp"/> <!-- Tạo khoảng cách giữa 2 TextView -->
+
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
