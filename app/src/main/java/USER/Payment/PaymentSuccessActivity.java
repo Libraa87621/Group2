@@ -106,7 +106,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             }
         }
 
-        // [5] **Lưu thông tin người dùng vào CSDL**    
+        // [5] **Lưu thông tin người dùng vào CSDL**
         if (phone != null && !phone.isEmpty() && address != null && !address.isEmpty()) {
             long userId = dbHelper.addUser(
                     name,       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)

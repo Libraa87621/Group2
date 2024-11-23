@@ -97,7 +97,7 @@ public class FinanceFragment extends Fragment {
         DBHelper dbHelper = new DBHelper(getContext());
         double totalRevenueYear = dbHelper.getTotalRevenueByYear(currentYear);
 
-        // Hiển thị doanh thu
+        // Hiển thị doanh thu.
         tvTotalRevenue.setText("Tổng doanh thu năm nay: " + String.format("%,.0f VNĐ", totalRevenueYear));
     }
 

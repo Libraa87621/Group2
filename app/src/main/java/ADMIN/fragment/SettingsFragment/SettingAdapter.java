@@ -16,60 +16,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHolder> {
-    private List<Setting> settings;
+    private List<Setting> settingsList;
+    private List<Setting> selectedItems = new ArrayList<>();
+    private OnItemCheckListener listener; // Thêm listener
 
-    public SettingAdapter(List<Setting> settings) {this.settings = settings;}
+    // Interface để lắng nghe sự kiện checkbox
+    public interface OnItemCheckListener {
+        void onItemCheck(Setting setting);
+        void onItemUncheck(Setting setting);
+    }
+
+    // Thêm listener vào constructor
+    public SettingAdapter(List<Setting> settingsList, OnItemCheckListener listener) {
+        this.settingsList = settingsList;
+        this.listener = listener;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewName, textViewDate, tvCombo;
+        LinearLayout componentsLayout;
+        CheckBox checkBox;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            textViewName = itemView.findViewById(R.id.textViewName);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
+            tvCombo = itemView.findViewById(R.id.tvCombo);
+            componentsLayout = itemView.findViewById(R.id.Components);
+            checkBox = itemView.findViewById(R.id.checkbox);
+        }
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quanlydonhang, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_quanlydonhang, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Setting setting = settings.get(position);
-        Setting item = settings.get(position);
+        Setting setting = settingsList.get(position);
+        holder.textViewName.setText(setting.getName());
+        holder.textViewDate.setText(setting.getDate());
+        holder.tvCombo.setText(setting.getCombo());
 
-        // Hiển thị tên và ngày
-        holder.nameTextView.setText(setting.getName());
-        holder.dateTextView.setText(setting.getDate());
-        holder.checkBox.setChecked(setting.isSelected());
-        // Xóa các view con trước đó để tránh bị lặp
+        // Hiển thị danh sách components
         holder.componentsLayout.removeAllViews();
-
-        // Tách components thành các phần tử riêng lẻ (ví dụ, nếu là chuỗi cách nhau bởi dấu phẩy)
-        String[] components = setting.getComponents().split(","); // Điều chỉnh theo định dạng dữ liệu thực tế
-
-        for (String component : components) {
+        for (String component : setting.getComponents()) {
             TextView componentTextView = new TextView(holder.itemView.getContext());
-            componentTextView.setText(component.trim());
-            componentTextView.setTextSize(14); // Kích thước chữ
-            componentTextView.setPadding(0, 4, 0, 4); // Khoảng cách giữa các dòng
-            holder.componentsLayout.addView(componentTextView); // Thêm vào LinearLayout
+            componentTextView.setText(component);
+            holder.componentsLayout.addView(componentTextView);
         }
 
+        // Xử lý trạng thái checkbox
+        holder.checkBox.setOnCheckedChangeListener(null); // Tránh lỗi khi tái sử dụng ViewHolder
+        holder.checkBox.setChecked(selectedItems.contains(setting));
+
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                selectedItems.add(setting);
+                if (listener != null) {
+                    listener.onItemCheck(setting); // Gọi listener khi checkbox được check
+                }
+            } else {
+                selectedItems.remove(setting);
+                if (listener != null) {
+                    listener.onItemUncheck(setting); // Gọi listener khi checkbox bị bỏ
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return settingsList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, dateTextView;
-        LinearLayout componentsLayout;
-        CheckBox checkBox;
+    public List<Setting> getSelectedItems() {
+        return selectedItems;
+    }
 
+    public void addItem(Setting newItem) {
+        settingsList.add(newItem);
+        notifyItemInserted(settingsList.size() - 1);
+    }
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nameTextView = itemView.findViewById(R.id.textViewName);
-            dateTextView = itemView.findViewById(R.id.textViewDate);
-            componentsLayout = itemView.findViewById(R.id.Components);
-            checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
-        }
+    public void removeSelectedItems() {
+        settingsList.removeAll(selectedItems);
+        selectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(Setting updatedItem, int position) {
+        settingsList.set(position, updatedItem);
+        notifyItemChanged(position);
     }
 }
+
+
+
 
