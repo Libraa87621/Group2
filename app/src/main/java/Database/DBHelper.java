@@ -118,13 +118,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public long addOrder(String paymentDate, String date, String address, String imageUrl,
+    public long addOrder(String payment_date, String date, String address, String imageUrl,
                          String components, double price, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(COLUMN_PAYMENT_DATE, paymentDate);
+            values.put(COLUMN_PAYMENT_DATE, payment_date);
             values.put(COLUMN_DATE, date);
             values.put(COLUMN_ORDER_ADDRESS, address);
             values.put(COLUMN_IMAGE_URL, imageUrl);
@@ -246,11 +246,10 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            // Kết hợp dữ liệu từ hai bảng bằng UNION hoặc xử lý logic riêng
             String query =
                     "SELECT " + COLUMN_NAME + " AS name, NULL AS date, NULL AS components FROM " + TABLE_USERS +
                             " UNION ALL " +
-                            "SELECT NULL AS name, " + COLUMN_DATE + " AS date, " + COLUMN_COMPONENTS + " AS components FROM " + TABLE_ORDERS;
+                            "SELECT NULL AS name, " + COLUMN_PAYMENT_DATE + " AS payment_date, " + COLUMN_COMPONENTS + " AS components FROM " + TABLE_ORDERS;
 
             // Thực thi query
             cursor = db.rawQuery(query, null);

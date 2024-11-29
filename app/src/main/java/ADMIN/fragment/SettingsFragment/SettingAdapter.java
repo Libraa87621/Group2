@@ -34,7 +34,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             nameTextView = itemView.findViewById(R.id.textViewName);
             dateTextView = itemView.findViewById(R.id.textViewDate);
             componentsLayout = itemView.findViewById(R.id.Components);
-            checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
+            checkBox = itemView.findViewById(R.id.checkbox);
         }
     }
 
@@ -55,7 +55,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         // Hiển thị danh sách components
         holder.componentsLayout.removeAllViews();
 
-        String[] components = setting.getComponents().split(","); // Split the components string
+        String[] components = setting.getComponents().split("'");
         for (String component : components) {
             TextView componentTextView = new TextView(holder.itemView.getContext());
             componentTextView.setText(component);
