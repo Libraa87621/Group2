@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Date; // Add this line
 import ADMIN.fragment.FinanceFragment.RevenueManager;
+import ADMIN.fragment.ProfileFragment.Customer;
 import ADMIN.fragment.SettingsFragment.Setting;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -30,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_ADDRESS = "address";
 
-    public static final String COLUMN_BIRTHDATE = "birthday";
+    public static final String COLUMN_BIRTHDATE = "birthdate";
     private static final String COLUMN_ORDER_ID = "order_id";
     private static final String COLUMN_PAYMENT_DATE = "payment_date";
 
@@ -110,12 +111,6 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_PHONE, phone);         // Lưu số điện thoại người dùng
             values.put(COLUMN_BIRTHDATE, birthdate); // Lưu ngày sinh người dùng
             values.put(COLUMN_ADDRESS, address);     // Lưu địa chỉ giao hàng
-
-            // Thực hiện thao tác insert vào cơ sở dữ liệu và trả về ID của bản ghi vừa thêm
-            values.put(COLUMN_NAME, name);
-            values.put(COLUMN_EMAIL, email);
-            values.put(COLUMN_ADDRESS, address);
-            values.put(COLUMN_PHONE, phone);
             return db.insert(TABLE_USERS, null, values);
         } finally {
             db.close(); // Đóng cơ sở dữ liệu sau khi thực hiện xong
@@ -280,6 +275,50 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return settings;
+    }
+
+
+    public List<Customer> getAllCustomer() {
+        List<Customer> customers = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Query để lấy dữ liệu từ bảng TABLE_USERS
+            String query = "SELECT " + COLUMN_NAME + " AS name, " +
+                    COLUMN_PHONE + " AS phone, " +
+                    COLUMN_BIRTHDATE + " AS birthdate, " +
+                    COLUMN_ADDRESS + " AS address, " +
+                    COLUMN_EMAIL + " AS email " +
+                    "FROM " + TABLE_USERS;
+
+            // Thực thi query
+            cursor = db.rawQuery(query, null);
+
+            // Lặp qua từng dòng trong kết quả
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
+                String birthdate = cursor.getString(cursor.getColumnIndexOrThrow("birthdate"));
+                String address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
+
+                customers.add(new Customer(
+                        name != null ? name : "",
+                        phone != null ? phone : "",
+                        birthdate != null ? birthdate : "",
+                        address != null ? address : "",
+                        email != null ? email : ""
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+
+        return customers;
     }
 
 

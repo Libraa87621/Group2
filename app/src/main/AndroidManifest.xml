@@ -19,10 +19,7 @@
             android:name="ADMIN.fragment.HomeFragment.fragmentActivity"
             android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
 
         </activity>
@@ -36,10 +33,6 @@
         <activity
             android:name="USER.Payment.PaymentActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="USER.login_signin.DangKyActivity"
@@ -69,7 +62,12 @@
             android:exported="true" />
         <activity
             android:name="USER.login_signin.DangNhapActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
