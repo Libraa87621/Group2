@@ -7,13 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.Date; // Add this line
 import ADMIN.fragment.FinanceFragment.RevenueManager;
-import ADMIN.fragment.SettingsFragment.Setting;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -47,9 +44,10 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_EMAIL + " TEXT, " +
-            COLUMN_BIRTHDATE + "TEXT," +
+            COLUMN_BIRTHDATE + " TEXT, " + // Thêm dấu phẩy
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
+
 
     private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + " (" +
             COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -102,17 +100,25 @@ public class DBHelper extends SQLiteOpenHelper {
     public long addUser(String name, String email, String phone, String birthdate, String address) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
+            // Khởi tạo đối tượng ContentValues để chứa các giá trị cần lưu vào cơ sở dữ liệu
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, name);           // Lưu tên người dùng
             values.put(COLUMN_EMAIL, email);         // Lưu email người dùng
             values.put(COLUMN_PHONE, phone);         // Lưu số điện thoại người dùng
             values.put(COLUMN_BIRTHDATE, birthdate); // Lưu ngày sinh người dùng
             values.put(COLUMN_ADDRESS, address);     // Lưu địa chỉ giao hàng
+
+            // Thực hiện thao tác insert vào cơ sở dữ liệu và trả về ID của bản ghi vừa thêm
+            values.put(COLUMN_NAME, name);
+            values.put(COLUMN_EMAIL, email);
+            values.put(COLUMN_ADDRESS, address);
+            values.put(COLUMN_PHONE, phone);
             return db.insert(TABLE_USERS, null, values);
         } finally {
-            db.close();
+            db.close(); // Đóng cơ sở dữ liệu sau khi thực hiện xong
         }
     }
+
 
     public long addOrder(String paymentDate, String date, String address, String imageUrl,
                          String components, double price, int quantity) {
@@ -137,6 +143,20 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Cập nhật dữ liệu
+    public long updateOrder(int id, String date, String components) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_DATE, date);
+        values.put(COLUMN_COMPONENTS, components);
+        return db.update(TABLE_ORDERS, values, "id=?", new String[]{String.valueOf(id)});
+    }
+
+    // Xóa dữ liệu
+    public void deleteOrder(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ORDERS, "id=?", new String[]{String.valueOf(id)});
+    }
     public Cursor getAllOders() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " +  COLUMN_DATE + ", " + COLUMN_COMPONENTS  + " FROM " + TABLE_ORDERS, null);
@@ -254,42 +274,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Setting> getAllSettings() {
-        List<Setting> settings = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
 
-        try {
-            // Kết hợp dữ liệu từ hai bảng bằng UNION hoặc xử lý logic riêng
-            String query =
-                    "SELECT " + COLUMN_NAME + " AS name, NULL AS date, NULL AS components FROM " + TABLE_USERS +
-                            " UNION ALL " +
-                            "SELECT NULL AS name, " + COLUMN_DATE + " AS date, " + COLUMN_COMPONENTS + " AS components FROM " + TABLE_ORDERS;
-
-            // Thực thi query
-            cursor = db.rawQuery(query, null);
-
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                String components = cursor.getString(cursor.getColumnIndexOrThrow("components"));
-
-                // Tạo đối tượng Setting
-                settings.add(new Setting(
-                        name != null ? name : "",
-                        date != null ? date : "",
-                        components != null ? components : ""
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) cursor.close();
-            db.close();
-        }
-
-        return settings;
-    }
 
 
     public int getTotalOrders() {
@@ -357,7 +342,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
+    public boolean insertUser(String firstName, String lastName, String email, String birthdate, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("first_name", firstName);
+        contentValues.put("last_name", lastName);
+        contentValues.put("email", email);
+        contentValues.put("birthday", birthdate); // Cột tương ứng trong bảng
+        contentValues.put("password", password);
 
+        long result = db.insert("users", null, contentValues);
+        return result != -1;
+    }
 
 
 
