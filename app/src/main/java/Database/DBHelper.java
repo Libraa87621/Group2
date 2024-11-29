@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Date; // Add this line
 import ADMIN.fragment.FinanceFragment.RevenueManager;
+import ADMIN.fragment.SettingsFragment.Setting;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -168,7 +171,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-
     // class doanh thu
     public double getTotalRevenue() {
         double totalRevenue = 0;
@@ -241,6 +243,43 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
         }
         return totalRevenue;
+    }
+
+    public List<Setting> getAllSettings() {
+        List<Setting> settings = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Kết hợp dữ liệu từ hai bảng bằng UNION hoặc xử lý logic riêng
+            String query =
+                    "SELECT " + COLUMN_NAME + " AS name, NULL AS date, NULL AS components FROM " + TABLE_USERS +
+                            " UNION ALL " +
+                            "SELECT NULL AS name, " + COLUMN_DATE + " AS date, " + COLUMN_COMPONENTS + " AS components FROM " + TABLE_ORDERS;
+
+            // Thực thi query
+            cursor = db.rawQuery(query, null);
+
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                String components = cursor.getString(cursor.getColumnIndexOrThrow("components"));
+
+                // Tạo đối tượng Setting
+                settings.add(new Setting(
+                        name != null ? name : "",
+                        date != null ? date : "",
+                        components != null ? components : ""
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) cursor.close();
+            db.close();
+        }
+
+        return settings;
     }
 
 

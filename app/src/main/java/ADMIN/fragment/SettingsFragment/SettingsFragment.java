@@ -35,102 +35,26 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_donhang_adm, container, false);
 
-        dbHelper = new DBHelper(getContext());
+        dbHelper = new DBHelper(getContext()); // Khởi tạo DBHelper
+
         recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         settingList = new ArrayList<>();
-        settingAdapter = new SettingAdapter(settingList, new SettingAdapter.OnItemCheckListener() {
-            @Override
-            public void onItemCheck(Setting setting) {
-                // Thêm hoặc sửa
-                showEditDialog(setting);
-            }
-
-            @Override
-            public void onItemUncheck(Setting setting) {
-                // Xóa nếu không cần giữ
-                deleteSetting(setting);
-            }
-        });
-
+        settingAdapter = new SettingAdapter(settingList);
         recyclerViewOrders.setAdapter(settingAdapter);
-        loadSettings();
 
+        List<Setting> settingsFromDb = dbHelper.getAllSettings();
+        // Cập nhật adapter
+        if (settingsFromDb.isEmpty()) {
+            Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+        } else {
+            settingList.addAll(settingsFromDb);
+            settingAdapter.notifyDataSetChanged(); // Cập nhật dữ liệu hiển thị
+        }
         return rootView;
     }
 
-    private void loadSettings() {
-        settingList.clear();  // Clear current list before adding new data
-
-        Cursor orderCursor = dbHelper.getAllOders();
-        if (orderCursor != null) {
-            try {
-                while (orderCursor.moveToNext()) {
-                    int id = orderCursor.getInt(orderCursor.getColumnIndexOrThrow("id"));
-                    String date = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_DATE));
-                    String components = orderCursor.getString(orderCursor.getColumnIndexOrThrow(DBHelper.COLUMN_COMPONENTS));
-
-                    // Add order to setting list
-                    settingList.add(new Setting(id, date, components));
-                }
-            } finally {
-                orderCursor.close();
-            }
-        }
-
-        settingAdapter.notifyDataSetChanged(); // Update RecyclerView
-    }
-
-    private void showEditDialog(@Nullable Setting setting) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(setting == null ? "Thêm mới" : "Chỉnh sửa");
-
-        // Load dialog view
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_setting, null);
-        EditText dateEditText = dialogView.findViewById(R.id.etDate);
-        EditText componentsEditText = dialogView.findViewById(R.id.etItems);
-
-        // If editing, fill in the current values
-        if (setting != null) {
-            dateEditText.setText(setting.getDate());
-            componentsEditText.setText(setting.getComponents());
-        }
-
-        builder.setView(dialogView);
-        builder.setPositiveButton("Lưu", (dialog, which) -> {
-            String date = dateEditText.getText().toString().trim();
-            String components = componentsEditText.getText().toString().trim();
-
-            if (date.isEmpty() || components.isEmpty()) {
-                Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (setting == null) {
-                // Thêm mới
-                dbHelper.addOrder(date, components);  // Add a new order
-            } else {
-                // Chỉnh sửa
-                dbHelper.updateOrder(setting.getId(), date, components);  // Update order
-            }
-
-            loadSettings(); // Refresh settings list
-            Toast.makeText(getContext(), "Dữ liệu đã được lưu!", Toast.LENGTH_SHORT).show();
-        });
-        builder.setNegativeButton("Hủy", null);
-        builder.show();
-    }
-
-    private void deleteSetting(Setting setting) {
-        // Delete the order from the database
-        dbHelper.deleteOrder(setting.getId());
-
-        // Remove it from the list and notify the adapter
-        settingList.remove(setting);
-        settingAdapter.notifyDataSetChanged();
-        Toast.makeText(getContext(), "Đã xóa!", Toast.LENGTH_SHORT).show();
-    }
 }
 
 
