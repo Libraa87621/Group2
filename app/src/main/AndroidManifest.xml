@@ -19,20 +19,23 @@
         <activity
             android:name="ADMIN.fragment.HomeFragment.fragmentActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name="USER.Payment.PaymentSuccessActivity"
             android:exported="true" />
         <activity
             android:name="USER.Payment.PaymentActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="USER.login_signin.DangKyActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name="USER.Vocher.contactActivity"
             android:exported="true" />
