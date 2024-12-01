@@ -1,40 +1,29 @@
 package ADMIN.fragment.ProfileFragment;
 
-import com.example.duan1.R;
-
 public class Customer {
-    private String customerName;
-    private String birthDate;
+    private String name;
+    private String phone;
+    private String birthdate;
     private String address;
-    private String phoneNumber;
     private String email;
-    private boolean isSelected;
+    private boolean selected;  // Chỉ cần một trường cho trạng thái chọn
 
-    // Constructor
-    public Customer(String customerName, String birthDate, String address, String phoneNumber, String email) {
-        this.customerName = customerName;
-        this.birthDate = birthDate;
+    public Customer(String name, String phone, String birthdate, String address, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.birthdate = birthdate;
         this.address = address;
-        this.phoneNumber = phoneNumber;
         this.email = email;
-        this.isSelected = false;
+        this.selected = false;  // Mặc định là không chọn
     }
 
-    // Getter and Setter methods
-    public String getCustomerName() {
-        return customerName;
+    // Getters và Setters
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {
@@ -45,27 +34,35 @@ public class Customer {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isSelected() {
-        return isSelected;
+        return selected;
     }
 
     public void setSelected(boolean selected) {
-        isSelected = selected;
+        this.selected = selected;
     }
 }

@@ -22,6 +22,21 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
     public SettingAdapter(List<Setting> settings) {this.settings = settings;}
 
 
+    //Ánh xạ
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTextView, dateTextView;
+        LinearLayout componentsLayout;
+        CheckBox checkBox;
+
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nameTextView = itemView.findViewById(R.id.textViewName);
+            dateTextView = itemView.findViewById(R.id.textViewDate);
+            componentsLayout = itemView.findViewById(R.id.Components);
+            checkBox = itemView.findViewById(R.id.checkbox);
+        }
+    }
 
     @NonNull
     @Override
@@ -40,7 +55,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         // Hiển thị danh sách components
         holder.componentsLayout.removeAllViews();
 
-        String[] components = setting.getComponents().split(","); // Split the components string
+        String[] components = setting.getComponents().split("'");
         for (String component : components) {
             TextView componentTextView = new TextView(holder.itemView.getContext());
             componentTextView.setText(component);
@@ -60,20 +75,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
     public int getItemCount() {
         return settings.size();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, dateTextView;
-        LinearLayout componentsLayout;
-        CheckBox checkBox;
 
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nameTextView = itemView.findViewById(R.id.textViewName);
-            dateTextView = itemView.findViewById(R.id.textViewDate);
-            componentsLayout = itemView.findViewById(R.id.Components);
-            checkBox = itemView.findViewById(R.id.checkbox); // Ánh xạ checkbox
-        }
-    }
 }
 
 

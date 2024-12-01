@@ -42,6 +42,7 @@ public class SettingsFragment extends Fragment {
 
         settingList = new ArrayList<>();
         settingAdapter = new SettingAdapter(settingList);
+
         recyclerViewOrders.setAdapter(settingAdapter);
 
         List<Setting> settingsFromDb = dbHelper.getAllSettings();

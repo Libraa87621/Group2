@@ -5,8 +5,6 @@ public class Setting {
     private String date; // Từ bảng orders
     private String components; // Từ bảng orders
     private boolean isSelected; // Trạng thái chọn
-    private String items;
-    private String settingName;
     private boolean selected;
 
     public Setting(String name, String date, String components) {
