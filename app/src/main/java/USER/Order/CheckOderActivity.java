@@ -40,7 +40,7 @@ public class CheckOderActivity extends AppCompatActivity {
             int quantity = combo.getQuantity();
             int imageResId = combo.getImageResId();
 
-            LayoutInflater inflater = LayoutInflater.from(this);
+            LayoutInflater inflater = LayoutInflater.from(this); // lệnh lưu trữ combo lên linerlayout
             LinearLayout itemLayout = (LinearLayout) inflater.inflate(R.layout.item_combo, container, false);
 
             ImageView imgCombo = itemLayout.findViewById(R.id.imgCombo);
@@ -48,10 +48,12 @@ public class CheckOderActivity extends AppCompatActivity {
             TextView tvingredientChicken = itemLayout.findViewById(R.id.tvingredientChicken);
             TextView tvingredientPotato = itemLayout.findViewById(R.id.tvingredientPotato);
 
+
+
             // Set Combo Name with both items
             tvComboName.setText(nameChicken + " + " + namePotato);
 
-            // Set Chicken and Potato details in the specified format
+            // nếu name chicken được chọn thì ...
             if (!nameChicken.isEmpty()) {
                 tvingredientChicken.setText(quantity + " x " + nameChicken + " + " + formatter.format(Integer.parseInt(priceChicken)) + " ₫");
             } else {
@@ -77,10 +79,10 @@ public class CheckOderActivity extends AppCompatActivity {
         btnConfirmOrder.setOnClickListener(view -> {
             Intent intent = new Intent(CheckOderActivity.this, OrderInformationActivity.class);
 
-            // Pass the Combo object
-            intent.putExtra("combo", combo); // Passing Combo object
+            // truyền combo sang OrderInformationActivity
+            intent.putExtra("combo", combo);
 
-            // Pass the total amount
+            // truyền tông tiền sang OrderInformationActivity
             intent.putExtra("totalAmount", finalTotal);
 
             startActivity(intent);

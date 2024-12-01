@@ -54,15 +54,20 @@ public class choosefoodActivity extends AppCompatActivity {
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvMessage = findViewById(R.id.tvMessage);
 
+
+
         // Potato views
         tvChoosePotato = findViewById(R.id.tv_choose_potato);
         spinnerPotato = findViewById(R.id.spinner_potato);
         ivChosenPotato = findViewById(R.id.iv_chosen_potato);
+
         setSpinnerPopupHeight(chickenSpinner, 2);
         setSpinnerPopupHeight(spinnerPotato, 2);
-        // Áp dụng cho nút Back
-        ImageButton btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
+
+
+
+
+
 
 
         // Set up chicken spinner
@@ -134,10 +139,12 @@ public class choosefoodActivity extends AppCompatActivity {
             }
         });
 
+
+
         // Quantity increase and decrease buttons
         Button btnDecrease = findViewById(R.id.btnDecrease);
         btnDecrease.setOnClickListener(v -> {
-            if (quantity > 0) { // Allow quantity to go down to 0
+            if (quantity > 0) {
                 quantity--;
                 tvQuantity.setText(String.valueOf(quantity));
                 updateTotalAmount();
@@ -161,6 +168,8 @@ public class choosefoodActivity extends AppCompatActivity {
             }
         });
 
+
+
         Button btnOrder = findViewById(R.id.btnOrder);
         btnOrder.setOnClickListener(v -> {
             if (isChickenSelected || isPotatoSelected) {
@@ -175,6 +184,7 @@ public class choosefoodActivity extends AppCompatActivity {
                 // Check if Chicken is selected
                 String nameChicken = "";
                 String priceChicken = "";
+
                 if (isChickenSelected) {
                     nameChicken = tvChooseChicken.getText().toString();
                     priceChicken = String.valueOf(chickenPrice);
@@ -197,6 +207,8 @@ public class choosefoodActivity extends AppCompatActivity {
                     comboName.append(namePotato);
                 }
 
+
+
                 // Adjust total amount based on quantity
                 totalAmount *= Math.max(quantity, 1);
 
@@ -207,6 +219,9 @@ public class choosefoodActivity extends AppCompatActivity {
                 Intent intent = new Intent(choosefoodActivity.this, CheckOderActivity.class);
                 intent.putExtra("combo", combo); // Pass the Combo object with updated quantity
                 startActivity(intent);
+
+
+
             } else {
                 tvMessage.setText("Vui lòng chọn ít nhất một món!");
                 tvMessage.setVisibility(View.VISIBLE);

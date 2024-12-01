@@ -33,7 +33,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
 
-    private DBHelper dbHelper = new DBHelper(this); // Đối tượng hỗ trợ truy vấn CSDL
+    private DBHelper dbHelper = new DBHelper(this);
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -66,9 +66,13 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         String shippingFee = getIntent().getStringExtra("shippingFee");
         String paymentMethod = getIntent().getStringExtra("paymentMethod");
 
+
+
         // Lấy date trong lớp Paymentsuccessful:
         SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
         String date = sharedPreferences.getString("date", null); // Lấy giá trị date
+
+
 
 
         // [3] **Ghi log kiểm tra dữ liệu**

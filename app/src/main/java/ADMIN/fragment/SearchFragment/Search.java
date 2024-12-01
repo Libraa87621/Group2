@@ -1,10 +1,10 @@
 package ADMIN.fragment.SearchFragment;
 
-public class Monan {
+public class Search {
     private String name;
     private int quantity;
 
-    public Monan(String name, int quantity) {
+    public Search(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
     }

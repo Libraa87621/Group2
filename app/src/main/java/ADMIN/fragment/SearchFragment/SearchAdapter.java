@@ -14,9 +14,9 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Monan> combos;
+    private List<Search> combos;
 
-    public SearchAdapter(Context context, List<Monan> combos) {
+    public SearchAdapter(Context context, List<Search> combos) {
         this.context = context;
         this.combos = combos;
     }
@@ -44,7 +44,7 @@ public class SearchAdapter extends BaseAdapter {
         }
 
         // Lấy món ăn hiện tại trong danh sách
-        Monan currentCombo = combos.get(position);
+        Search currentCombo = combos.get(position);
 
         // Ánh xạ các TextView từ layout item_combo
         TextView tvComboName = convertView.findViewById(R.id.tvComboName);

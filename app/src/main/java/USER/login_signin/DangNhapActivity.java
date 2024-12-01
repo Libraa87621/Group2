@@ -40,7 +40,7 @@ public class DangNhapActivity extends AppCompatActivity {
         buttonCreateAccount = findViewById(R.id.buttonCreateAccount);
         textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
 
-        // Get email and password from the Intent
+        // Lấy email and password Từ the Intent
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
         String password = intent.getStringExtra("password");

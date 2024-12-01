@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     private ListView listViewCombos;
-    private ArrayList<Monan> comboList; 
+    private ArrayList<Search> comboList;
     private SearchAdapter comboAdapter;
 
     @Override
@@ -27,8 +27,8 @@ public class SearchFragment extends Fragment {
 
         // Khởi tạo danh sách món ăn (combo)
         comboList = new ArrayList<>();
-        comboList.add(new Monan("Combo 1", 2)); // Thêm món ăn mẫu
-        comboList.add(new Monan("Combo 2", 5));
+        comboList.add(new Search("Combo 1", 2)); // Thêm món ăn mẫu
+        comboList.add(new Search("Combo 2", 5));
 
         // Thiết lập adapter
         comboAdapter = new SearchAdapter(getContext(), comboList);
