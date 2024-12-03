@@ -39,6 +39,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
         holder.btnDeleteOrder.setOnClickListener(v -> {
             orderList.remove(position);
             notifyItemRemoved(position);
+            notifyItemRangeChanged(position, orderList.size());  // Cập nhật lại các item sau khi xóa
         });
 
         // Xử lý sự kiện sửa đơn hàng
@@ -74,8 +75,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
             orderDescription.setText("Mô tả: " + order.getDescription());
             orderPrice.setText("Giá: " + order.getPrice() + " VND");
 
-            // Thay thế Glide để sử dụng ảnh mặc định
-            orderImage.setImageResource(R.drawable.default_image); // Thay thế bằng ảnh bạn muốn
+            // Hiển thị ảnh của đơn hàng
+            if (order.getImageResourceId() != 0) {
+                orderImage.setImageResource(order.getImageResourceId());
+            } else {
+                orderImage.setImageResource(R.drawable.default_image);  // Hiển thị ảnh mặc định nếu không có ảnh
+            }
         }
     }
 }
