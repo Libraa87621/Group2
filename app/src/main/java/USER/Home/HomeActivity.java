@@ -17,6 +17,7 @@ import com.example.duan1.R;
 import USER.Payment.PaymentSuccessActivity;
 import USER.login_signin.DangNhapActivity;
 import USER.product.CartActivity;
+import USER.product.Product;
 import USER.product.productActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.img2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, productActivity.class);
+                Intent intent = new Intent(HomeActivity.this, Product.class );
                 intent.putExtra("image_resource", R.drawable.monphu); // Pass img2 resource ID
                 startActivity(intent);
             }
@@ -50,6 +51,14 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.tv1).setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, productActivity.class);
             startActivity(intent);
+        findViewById(R.id.tv1).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Chuyển sang ProductActivity khi nhấn vào img1
+                Intent intent = new Intent(HomeActivity.this, productActivity.class);
+                startActivity(intent);
+            }
         });
 
         findViewById(R.id.tv2).setOnClickListener(v -> {
@@ -97,6 +106,9 @@ public class HomeActivity extends AppCompatActivity {
 
                 // Hiển thị menu
                 popupMenu.show();
+                // Chuyển sang ProductActivity khi nhấn vào img1
+                Intent intent = new Intent(HomeActivity.this, Product.class);
+                startActivity(intent);
             }
         });
     }
