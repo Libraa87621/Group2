@@ -43,9 +43,9 @@
     <!-- Product Image -->
     <ImageView
         android:id="@+id/imghome"
+        android:src="@drawable/img_1"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/anhsanpham"
         android:scaleType="centerInside"/>
 
 
@@ -53,7 +53,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Combo Gà Giòn Vui Vẻ"
+        android:text="nước và bánh "
         android:textSize="16sp"
         android:textColor="#000000"
         android:gravity="center"
@@ -63,7 +63,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="91,000đ"
+        android:text="24,000đ"
         android:textSize="24sp"
         android:textColor="#D32F2F"
         android:gravity="center"
@@ -82,7 +82,7 @@
         android:textColor="#FFFFFF"
         android:paddingHorizontal="32dp"
         android:paddingVertical="8dp"
-       />
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

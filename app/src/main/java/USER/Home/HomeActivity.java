@@ -9,6 +9,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.duan1.R;
 
+import USER.product.Product;
 import USER.product.productActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -33,12 +34,13 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.img2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, productActivity.class);
+                Intent intent = new Intent(HomeActivity.this, Product.class );
                 intent.putExtra("image_resource", R.drawable.monphu); // Pass img2 resource ID
                 startActivity(intent);
             }
         });
         findViewById(R.id.tv1).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Chuyển sang ProductActivity khi nhấn vào img1
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Chuyển sang ProductActivity khi nhấn vào img1
-                Intent intent = new Intent(HomeActivity.this, productActivity.class);
+                Intent intent = new Intent(HomeActivity.this, Product.class);
                 startActivity(intent);
             }
         });
