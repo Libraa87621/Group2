@@ -45,13 +45,13 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
         holder.btnDeleteOrder.setOnClickListener(v -> {
             orderList.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, orderList.size());  // Cập nhật lại các item sau khi xóa
+            notifyItemRangeChanged(position, orderList.size());
         });
 
         // Xử lý sự kiện sửa đơn hàng
         holder.btnEditOrder.setOnClickListener(v -> {
             if (editOrderListener != null) {
-                editOrderListener.onEditOrder(order, position); // Gọi phương thức trong listener để xử lý sửa
+                editOrderListener.onEditOrder(order, position); // Gọi listener để sửa
             }
         });
     }
@@ -86,7 +86,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
             if (order.getImageResourceId() != 0) {
                 orderImage.setImageResource(order.getImageResourceId());
             } else {
-                orderImage.setImageResource(R.drawable.default_image);  // Hiển thị ảnh mặc định nếu không có ảnh
+                orderImage.setImageResource(R.drawable.default_image); // Hiển thị ảnh mặc định nếu không có ảnh
             }
         }
     }
