@@ -25,7 +25,7 @@ public class OrdersFragment extends Fragment {
     private List<Orders> orderList;
 
     public OrdersFragment() {
-
+        // Required empty public constructor
     }
 
     @Override
@@ -94,20 +94,22 @@ public class OrdersFragment extends Fragment {
                     String orderPrice = orderPriceInput.getText().toString().trim();
                     String orderDescription = orderDescriptionInput.getText().toString().trim(); // Lấy mô tả từ input
 
+                    // Kiểm tra các trường nhập có bị bỏ trống không
                     if (orderName.isEmpty() || orderPrice.isEmpty() || orderDescription.isEmpty()) {
                         Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
+                        // Kiểm tra giá có hợp lệ không
                         double price = Double.parseDouble(orderPrice);
                         if (price <= 0) {
                             Toast.makeText(getContext(), "Giá đơn hàng phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
+                        // Nếu là thêm mới đơn hàng
                         if (orderToEdit == null) {
-                            // Nếu là thêm mới đơn hàng
                             orderList.add(new Orders(orderName, String.format("%.2f", price), orderDescription, R.drawable.default_image)); // Thêm mô tả vào constructor
                             Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
                         } else {
