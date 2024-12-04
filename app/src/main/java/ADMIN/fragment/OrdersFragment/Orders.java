@@ -27,9 +27,19 @@ public class Orders {
         return name;
     }
 
+    // Setter cho name
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // Getter cho price
     public String getPrice() {
         return price;
+    }
+
+    // Setter cho price
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     // Getter cho description
@@ -37,8 +47,18 @@ public class Orders {
         return description;
     }
 
+    // Setter cho description
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     // Getter cho imageResourceId
     public int getImageResourceId() {
         return imageResourceId;
+    }
+
+    // Setter cho imageResourceId
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
     }
 }

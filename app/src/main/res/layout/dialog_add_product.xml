@@ -29,18 +29,5 @@
         android:layout_marginTop="16dp">
 
         <!-- Nút Lưu -->
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lưu" />
-
-        <!-- Nút Hủy -->
-        <Button
-            android:id="@+id/btnCance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Hủy" />
     </LinearLayout>
 </LinearLayout>

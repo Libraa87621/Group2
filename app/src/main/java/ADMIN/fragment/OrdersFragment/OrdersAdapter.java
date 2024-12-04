@@ -16,9 +16,15 @@ import java.util.List;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewHolder> {
 
     private List<Orders> orderList;
+    private EditOrderListener editOrderListener; // Listener cho việc sửa đơn hàng
 
     public OrdersAdapter(List<Orders> orderList) {
         this.orderList = orderList;
+    }
+
+    // Thiết lập listener cho sự kiện sửa
+    public void setEditOrderListener(EditOrderListener listener) {
+        this.editOrderListener = listener;
     }
 
     @NonNull
@@ -44,18 +50,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
 
         // Xử lý sự kiện sửa đơn hàng
         holder.btnEditOrder.setOnClickListener(v -> {
-            // Logic sửa đơn hàng (ví dụ, mở một dialog hoặc activity để chỉnh sửa)
-            // Bạn có thể sử dụng Intent để mở một activity khác để sửa thông tin
+            if (editOrderListener != null) {
+                editOrderListener.onEditOrder(order, position); // Gọi phương thức trong listener để xử lý sửa
+            }
         });
-    }
-    public interface EditOrderListener {
-        void onEditOrder(Orders order, int position);
-    }
-
-    private EditOrderListener editOrderListener;
-
-    public void setEditOrderListener(EditOrderListener listener) {
-        this.editOrderListener = listener;
     }
 
     @Override
@@ -91,5 +89,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
                 orderImage.setImageResource(R.drawable.default_image);  // Hiển thị ảnh mặc định nếu không có ảnh
             }
         }
+    }
+
+    // Interface để xử lý sự kiện sửa đơn hàng
+    public interface EditOrderListener {
+        void onEditOrder(Orders order, int position);
     }
 }

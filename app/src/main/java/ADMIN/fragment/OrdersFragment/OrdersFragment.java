@@ -25,7 +25,7 @@ public class OrdersFragment extends Fragment {
     private List<Orders> orderList;
 
     public OrdersFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -49,7 +49,7 @@ public class OrdersFragment extends Fragment {
 
         // Thiết lập nút để mở dialog thêm đơn hàng
         Button btnAddOrder = view.findViewById(R.id.btnAddProduct); // Giữ nguyên ID nút
-        btnAddOrder.setOnClickListener(v -> openAddOrderDialog());
+        btnAddOrder.setOnClickListener(v -> openAddOrderDialog(null, -1)); // Mở dialog thêm mới
 
         return view;
     }
@@ -65,44 +65,51 @@ public class OrdersFragment extends Fragment {
         return defaultOrders;
     }
 
-
-    // Hàm mở dialog thêm đơn hàng mới
-    private void openAddOrderDialog() {
+    // Hàm mở dialog thêm hoặc sửa đơn hàng
+    private void openAddOrderDialog(Orders orderToEdit, int position) {
+        // Sử dụng lại layout dialog thêm sản phẩm
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
         EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
         EditText orderPriceInput = dialogView.findViewById(R.id.productPriceInput);
 
+        // Nếu đang sửa đơn hàng, điền thông tin vào các input
+        if (orderToEdit != null) {
+            orderNameInput.setText(orderToEdit.getName());
+            orderPriceInput.setText(orderToEdit.getPrice());
+        }
+
         new AlertDialog.Builder(getContext())
-                .setTitle("Thêm đơn hàng mới")
+                .setTitle(orderToEdit == null ? "Thêm đơn hàng mới" : "Chỉnh sửa đơn hàng")
                 .setView(dialogView)
-                .setPositiveButton("Thêm", (dialog, which) -> {
+                .setPositiveButton("Lưu", (dialog, which) -> {
                     String orderName = orderNameInput.getText().toString().trim();
                     String orderPrice = orderPriceInput.getText().toString().trim();
 
-                    // Kiểm tra tên đơn hàng
-                    if (orderName.isEmpty()) {
-                        Toast.makeText(getContext(), "Vui lòng nhập tên đơn hàng!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    // Kiểm tra giá đơn hàng
-                    if (orderPrice.isEmpty()) {
-                        Toast.makeText(getContext(), "Vui lòng nhập giá đơn hàng!", Toast.LENGTH_SHORT).show();
+                    if (orderName.isEmpty() || orderPrice.isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
-                        double price = Double.parseDouble(orderPrice); // Kiểm tra giá trị là số
+                        double price = Double.parseDouble(orderPrice);
                         if (price <= 0) {
                             Toast.makeText(getContext(), "Giá đơn hàng phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        // Nếu dữ liệu hợp lệ, thêm vào danh sách
-                        orderList.add(new Orders(orderName, String.format("%.2f", price)));
-                        ordersAdapter.notifyDataSetChanged();
-                        Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+                        if (orderToEdit == null) {
+                            // Nếu là thêm mới đơn hàng
+                            orderList.add(new Orders(orderName, String.format("%.2f", price)));
+                            Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Nếu là sửa đơn hàng
+                            orderToEdit.setName(orderName);
+                            orderToEdit.setPrice(String.format("%.2f", price));
+                            Toast.makeText(getContext(), "Cập nhật đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+                        }
 
+                        // Cập nhật adapter
+                        ordersAdapter.notifyDataSetChanged();
                     } catch (NumberFormatException e) {
                         Toast.makeText(getContext(), "Vui lòng nhập giá hợp lệ!", Toast.LENGTH_SHORT).show();
                     }
@@ -110,5 +117,56 @@ public class OrdersFragment extends Fragment {
                 .setNegativeButton("Hủy", null)
                 .create()
                 .show();
+        }
+    private void openEditOrderDialog(Orders orderToEdit, int position) {
+        // Tạo View cho dialog sửa đơn hàng
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
+        EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
+        EditText orderPriceInput = dialogView.findViewById(R.id.productPriceInput);
+        EditText orderDescriptionInput = dialogView.findViewById(R.id.orderDescription);
+
+        // Điền thông tin đơn hàng vào các input
+        orderNameInput.setText(orderToEdit.getName());
+        orderPriceInput.setText(orderToEdit.getPrice());
+        orderDescriptionInput.setText(orderToEdit.getDescription());
+
+        // Tạo dialog và xử lý sự kiện lưu
+        new AlertDialog.Builder(getContext())
+                .setTitle("Chỉnh sửa đơn hàng")
+                .setView(dialogView)
+                .setPositiveButton("Lưu", (dialog, which) -> {
+                    String orderName = orderNameInput.getText().toString().trim();
+                    String orderPrice = orderPriceInput.getText().toString().trim();
+                    String orderDescription = orderDescriptionInput.getText().toString().trim();
+
+                    if (orderName.isEmpty() || orderPrice.isEmpty() || orderDescription.isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        double price = Double.parseDouble(orderPrice);
+                        if (price <= 0) {
+                            Toast.makeText(getContext(), "Giá phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // Cập nhật thông tin đơn hàng
+                        orderToEdit.setName(orderName);
+                        orderToEdit.setPrice(orderPrice);
+                        orderToEdit.setDescription(orderDescription);
+
+                        // Cập nhật RecyclerView
+                        ordersAdapter.notifyItemChanged(position);
+                        Toast.makeText(getContext(), "Cập nhật đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Giá không hợp lệ!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .create()
+                .show();
     }
+}
+
 }
