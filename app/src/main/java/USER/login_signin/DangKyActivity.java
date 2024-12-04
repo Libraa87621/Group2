@@ -1,8 +1,11 @@
 package USER.login_signin;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,33 +29,55 @@ public class DangKyActivity extends AppCompatActivity {
         etLastName = findViewById(R.id.LastName);
         etEmail = findViewById(R.id.Name);
         etDate = findViewById(R.id.Date);
-
         etPassword = findViewById(R.id.Password);
         etConfirmPassword = findViewById(R.id.comfirmPassword);
 
         // Register button click listener
         findViewById(R.id.btnRegister).setOnClickListener(v -> {
             if (isValidInput()) {
-                // Save email and password to variables
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
-                String date = etDate.getText().toString();
 
+                // Save user to database
+                UserDAO userDAO = new UserDAO(DangKyActivity.this);
+                if (!userDAO.isUserExist(email)) {
+                    userDAO.saveUser(email, password);
+                    Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
 
-                SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("date", date);
-                editor.apply();
+                    // Save email and password in SharedPreferences for auto-login
+                    SharedPreferences preferences = getSharedPreferences("AppData", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("email", email);
+                    editor.putString("password", password);
+                    editor.apply();
 
-                // Show success message
-                Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    // Proceed to login activity
+                    Intent intent = new Intent(DangKyActivity.this, DangNhapActivity.class);
+                    intent.putExtra("email", email);
+                    intent.putExtra("password", password);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(DangKyActivity.this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
 
-                // Create an intent to start DangNhapActivity and pass email and password
-                Intent intent = new Intent(DangKyActivity.this, DangNhapActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("password", password);
-                startActivity(intent);
-                finish(); // Close the registration activity
+                    // Show confirmation dialog before transitioning to login screen
+                    new AlertDialog.Builder(DangKyActivity.this)
+                            .setTitle("Thông báo")
+                            .setMessage("Tài khoản đã tồn tại. Bạn có muốn chuyển đến màn hình đăng nhập không?")
+                            .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Transition to login screen after user confirmation
+                                    Intent intent = new Intent(DangKyActivity.this, DangNhapActivity.class);
+                                    intent.putExtra("email", email);
+                                    intent.putExtra("password", password);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("Không", null) // User clicked "No", do nothing
+                            .show();
+                }
             }
         });
     }

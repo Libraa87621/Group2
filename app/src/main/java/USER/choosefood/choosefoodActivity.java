@@ -19,7 +19,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import USER.Home.HomeActivity;
 import USER.Order.CheckOderActivity;
+import USER.product.productActivity;
 
 public class choosefoodActivity extends AppCompatActivity {
 
@@ -53,7 +55,7 @@ public class choosefoodActivity extends AppCompatActivity {
         tvQuantity = findViewById(R.id.tvQuantity);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvMessage = findViewById(R.id.tvMessage);
-
+        ImageButton btnquayve = findViewById(R.id.btnBack);
 
 
         // Potato views
@@ -65,8 +67,10 @@ public class choosefoodActivity extends AppCompatActivity {
         setSpinnerPopupHeight(spinnerPotato, 2);
 
 
-
-
+        btnquayve.setOnClickListener(v -> {
+                    Intent intent = new Intent(choosefoodActivity.this, productActivity.class);
+                    startActivity(intent);
+                });
 
 
 

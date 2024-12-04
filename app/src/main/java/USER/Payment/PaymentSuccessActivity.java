@@ -185,7 +185,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                         if (item.getItemId() == R.id.nav_home) {
                             // Xử lý sự kiện khi chọn 'Trang chủ'
                             return true;
-                        } else if (item.getItemId() == R.id.nav_profile) {
+                        } else if (item.getItemId() == R.id.nav_cart) {
                             // Xử lý sự kiện khi chọn 'Hồ sơ'
                             return true;
                         } else if (item.getItemId() == R.id.nav_logout) {

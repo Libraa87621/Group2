@@ -15,6 +15,8 @@ import java.util.Date; // Add this line
 import ADMIN.fragment.FinanceFragment.RevenueManager;
 import ADMIN.fragment.ProfileFragment.Customer;
 import ADMIN.fragment.SettingsFragment.Setting;
+import USER.login_signin.UserDAO;
+
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -22,12 +24,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "app_database";
     private static final int DATABASE_VERSION = 2;
 
-    private static final String TABLE_USERS = "users";
     private static final String TABLE_ORDERS = "orders";
 
     private static final String COLUMN_USER_ID = "id";
+
     public static final String COLUMN_NAME = "name";
+
+
+    public static final String TABLE_USERS = "users";
     public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_PASSWORD = "password";  // Make sure this matches the table structure
+
+
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_ADDRESS = "address";
 
@@ -50,6 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_EMAIL + " TEXT, " +
             COLUMN_BIRTHDATE + " TEXT, " +
             COLUMN_ADDRESS + " TEXT, " +
+            COLUMN_PASSWORD + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
 
 
