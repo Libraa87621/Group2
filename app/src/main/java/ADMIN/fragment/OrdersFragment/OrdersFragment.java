@@ -71,11 +71,13 @@ public class OrdersFragment extends Fragment {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
         EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
         EditText orderPriceInput = dialogView.findViewById(R.id.productPriceInput);
+        EditText orderDescriptionInput = dialogView.findViewById(R.id.productDescriptionInput); // Thêm EditText cho mô tả
 
         // Nếu đang sửa đơn hàng, điền thông tin vào các input
         if (orderToEdit != null) {
             orderNameInput.setText(orderToEdit.getName());
             orderPriceInput.setText(orderToEdit.getPrice());
+            orderDescriptionInput.setText(orderToEdit.getDescription()); // Thêm mô tả vào trường input
         }
 
         new AlertDialog.Builder(getContext())
@@ -84,8 +86,9 @@ public class OrdersFragment extends Fragment {
                 .setPositiveButton("Lưu", (dialog, which) -> {
                     String orderName = orderNameInput.getText().toString().trim();
                     String orderPrice = orderPriceInput.getText().toString().trim();
+                    String orderDescription = orderDescriptionInput.getText().toString().trim(); // Lấy mô tả từ input
 
-                    if (orderName.isEmpty() || orderPrice.isEmpty()) {
+                    if (orderName.isEmpty() || orderPrice.isEmpty() || orderDescription.isEmpty()) {
                         Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -99,12 +102,13 @@ public class OrdersFragment extends Fragment {
 
                         if (orderToEdit == null) {
                             // Nếu là thêm mới đơn hàng
-                            orderList.add(new Orders(orderName, String.format("%.2f", price)));
+                            orderList.add(new Orders(orderName, String.format("%.2f", price), orderDescription, R.drawable.default_image)); // Thêm mô tả vào constructor
                             Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
                         } else {
                             // Nếu là sửa đơn hàng
                             orderToEdit.setName(orderName);
                             orderToEdit.setPrice(String.format("%.2f", price));
+                            orderToEdit.setDescription(orderDescription); // Cập nhật mô tả
                             Toast.makeText(getContext(), "Cập nhật đơn hàng thành công!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -117,55 +121,7 @@ public class OrdersFragment extends Fragment {
                 .setNegativeButton("Hủy", null)
                 .create()
                 .show();
-        }
-    private void openEditOrderDialog(Orders orderToEdit, int position) {
-        // Tạo View cho dialog sửa đơn hàng
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
-        EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
-        EditText orderPriceInput = dialogView.findViewById(R.id.productPriceInput);
-        EditText orderDescriptionInput = dialogView.findViewById(R.id.orderDescription);
-
-        // Điền thông tin đơn hàng vào các input
-        orderNameInput.setText(orderToEdit.getName());
-        orderPriceInput.setText(orderToEdit.getPrice());
-        orderDescriptionInput.setText(orderToEdit.getDescription());
-
-        // Tạo dialog và xử lý sự kiện lưu
-        new AlertDialog.Builder(getContext())
-                .setTitle("Chỉnh sửa đơn hàng")
-                .setView(dialogView)
-                .setPositiveButton("Lưu", (dialog, which) -> {
-                    String orderName = orderNameInput.getText().toString().trim();
-                    String orderPrice = orderPriceInput.getText().toString().trim();
-                    String orderDescription = orderDescriptionInput.getText().toString().trim();
-
-                    if (orderName.isEmpty() || orderPrice.isEmpty() || orderDescription.isEmpty()) {
-                        Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    try {
-                        double price = Double.parseDouble(orderPrice);
-                        if (price <= 0) {
-                            Toast.makeText(getContext(), "Giá phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        // Cập nhật thông tin đơn hàng
-                        orderToEdit.setName(orderName);
-                        orderToEdit.setPrice(orderPrice);
-                        orderToEdit.setDescription(orderDescription);
-
-                        // Cập nhật RecyclerView
-                        ordersAdapter.notifyItemChanged(position);
-                        Toast.makeText(getContext(), "Cập nhật đơn hàng thành công!", Toast.LENGTH_SHORT).show();
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Giá không hợp lệ!", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Hủy", null)
-                .create()
-                .show();
     }
+
 }
 
