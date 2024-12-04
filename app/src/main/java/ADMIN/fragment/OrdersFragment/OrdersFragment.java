@@ -45,6 +45,12 @@ public class OrdersFragment extends Fragment {
 
         // Tạo và gắn adapter
         ordersAdapter = new OrdersAdapter(orderList);
+
+        // Thêm listener cho nút sửa
+        ordersAdapter.setEditOrderListener((order, position) -> {
+            openAddOrderDialog(order, position); // Mở dialog sửa đơn hàng
+        });
+
         recyclerView.setAdapter(ordersAdapter);
 
         // Thiết lập nút để mở dialog thêm đơn hàng
@@ -122,6 +128,4 @@ public class OrdersFragment extends Fragment {
                 .create()
                 .show();
     }
-
 }
-
