@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
             COLUMN_EMAIL + " TEXT, " +
-            COLUMN_BIRTHDATE + " TEXT, " + // Thêm dấu phẩy
+            COLUMN_BIRTHDATE + " TEXT, " +
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
 
@@ -243,38 +243,46 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Setting> getAllSettings() {
         List<Setting> settings = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
+        Cursor cursorUsers = null;
+        Cursor cursorOrders = null;
 
         try {
-            String query =
-                    "SELECT " + COLUMN_NAME + " AS name, NULL AS date, NULL AS components FROM " + TABLE_USERS +
-                            " UNION ALL " +
-                            "SELECT NULL AS name, " + COLUMN_PAYMENT_DATE + " AS payment_date, " + COLUMN_COMPONENTS + " AS components FROM " + TABLE_ORDERS;
+            String queryUsers = "SELECT " + COLUMN_NAME + " FROM " + TABLE_USERS;
+            cursorUsers = db.rawQuery(queryUsers, null);
 
-            // Thực thi query
-            cursor = db.rawQuery(query, null);
+            String queryOrders = "SELECT " + COLUMN_PAYMENT_DATE + ", " + COLUMN_COMPONENTS + " FROM " + TABLE_ORDERS;
+            cursorOrders = db.rawQuery(queryOrders, null);
 
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-                String components = cursor.getString(cursor.getColumnIndexOrThrow("components"));
+            if (cursorUsers != null && cursorUsers.moveToFirst() && cursorOrders != null && cursorOrders.moveToFirst()) {
+                while (!cursorUsers.isAfterLast() && !cursorOrders.isAfterLast()) {
 
-                // Tạo đối tượng Setting
-                settings.add(new Setting(
-                        name != null ? name : "",
-                        date != null ? date : "",
-                        components != null ? components : ""
-                ));
+                    String name = cursorUsers.getString(cursorUsers.getColumnIndexOrThrow(COLUMN_NAME));
+                    String date = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_PAYMENT_DATE));
+                    String components = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_COMPONENTS));
+
+                    settings.add(new Setting(
+                            name != null ? name : "",
+                            date != null ? date : "",
+                            components != null ? components : ""
+                    ));
+
+                    cursorUsers.moveToNext();
+                    cursorOrders.moveToNext();
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (cursor != null) cursor.close();
-            db.close();
+            if (cursorUsers != null) cursorUsers.close();
+            if (cursorOrders != null) cursorOrders.close();
+            if (db != null) db.close();
         }
 
         return settings;
     }
+
+
 
 
     public List<Customer> getAllCustomer() {
@@ -283,7 +291,6 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
 
         try {
-            // Query để lấy dữ liệu từ bảng TABLE_USERS
             String query = "SELECT " + COLUMN_NAME + " AS name, " +
                     COLUMN_PHONE + " AS phone, " +
                     COLUMN_BIRTHDATE + " AS birthdate, " +
@@ -291,10 +298,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     COLUMN_EMAIL + " AS email " +
                     "FROM " + TABLE_USERS;
 
-            // Thực thi query
             cursor = db.rawQuery(query, null);
 
-            // Lặp qua từng dòng trong kết quả
             while (cursor.moveToNext()) {
                 String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));

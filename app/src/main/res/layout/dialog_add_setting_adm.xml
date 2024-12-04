@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- EditText để nhập tên -->
+    <EditText
+        android:id="@+id/etTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên"
+        android:inputType="text"/>
+
+    <!-- EditText để nhập ngày thanh toán -->
+    <EditText
+        android:id="@+id/etTextPaymentDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày thanh toán"
+        android:inputType="date"/>
+
+    <!-- EditText để nhập thành phần -->
+    <EditText
+        android:id="@+id/etTextComponents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Thành phần"
+        android:inputType="text"/>
+
+    <!-- Nút Lưu -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lưu"
+        android:id="@+id/btnsaveSetting"/>
+
+    <!-- Nút Hủy -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hủy"
+        android:id="@+id/btncancelSetting"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>
