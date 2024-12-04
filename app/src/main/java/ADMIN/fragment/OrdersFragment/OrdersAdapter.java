@@ -48,6 +48,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
             // Bạn có thể sử dụng Intent để mở một activity khác để sửa thông tin
         });
     }
+    public interface EditOrderListener {
+        void onEditOrder(Orders order, int position);
+    }
+
+    private EditOrderListener editOrderListener;
+
+    public void setEditOrderListener(EditOrderListener listener) {
+        this.editOrderListener = listener;
+    }
 
     @Override
     public int getItemCount() {

@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!-- Input tên sản phẩm -->
     <EditText
         android:id="@+id/productNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tên sản phẩm" />
+        android:hint="Tên sản phẩm"
+        android:inputType="text" />
 
+    <!-- Input giá sản phẩm -->
     <EditText
         android:id="@+id/productPriceInput"
         android:layout_width="match_parent"
@@ -17,4 +20,27 @@
         android:hint="Giá sản phẩm"
         android:inputType="numberDecimal" />
 
+    <!-- Nút hành động -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp">
+
+        <!-- Nút Lưu -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lưu" />
+
+        <!-- Nút Hủy -->
+        <Button
+            android:id="@+id/btnCance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Hủy" />
+    </LinearLayout>
 </LinearLayout>

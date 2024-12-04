@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -75,12 +76,35 @@ public class OrdersFragment extends Fragment {
                 .setTitle("Thêm đơn hàng mới")
                 .setView(dialogView)
                 .setPositiveButton("Thêm", (dialog, which) -> {
-                    String orderName = orderNameInput.getText().toString();
-                    String orderPrice = orderPriceInput.getText().toString();
+                    String orderName = orderNameInput.getText().toString().trim();
+                    String orderPrice = orderPriceInput.getText().toString().trim();
 
-                    if (!orderName.isEmpty() && !orderPrice.isEmpty()) {
-                        orderList.add(new Orders(orderName, orderPrice));
+                    // Kiểm tra tên đơn hàng
+                    if (orderName.isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng nhập tên đơn hàng!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Kiểm tra giá đơn hàng
+                    if (orderPrice.isEmpty()) {
+                        Toast.makeText(getContext(), "Vui lòng nhập giá đơn hàng!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    try {
+                        double price = Double.parseDouble(orderPrice); // Kiểm tra giá trị là số
+                        if (price <= 0) {
+                            Toast.makeText(getContext(), "Giá đơn hàng phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // Nếu dữ liệu hợp lệ, thêm vào danh sách
+                        orderList.add(new Orders(orderName, String.format("%.2f", price)));
                         ordersAdapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
+
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(getContext(), "Vui lòng nhập giá hợp lệ!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Hủy", null)
