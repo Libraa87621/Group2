@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="#FFFFFF"
     android:padding="16dp"
-    tools:context="USER.product.productActivity">
+    tools:context="USER.product.product_monchinh">
 
     <!-- Header -->
     <RelativeLayout
@@ -42,15 +42,16 @@
 
     <!-- Product Image -->
     <ImageView
-        android:id="@+id/imghome"
+        android:id="@+id/imgProduct"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/anhsanpham"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerInside" />
 
 
     <!-- Product Description -->
     <TextView
+        android:id="@+id/tvProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Combo Gà Giòn Vui Vẻ"
@@ -61,6 +62,7 @@
 
     <!-- Product Price -->
     <TextView
+        android:id="@+id/tvProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="91,000đ"

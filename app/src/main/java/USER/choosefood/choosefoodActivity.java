@@ -19,9 +19,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import USER.Home.HomeActivity;
 import USER.Order.CheckOderActivity;
-import USER.product.productActivity;
+import USER.product.product_monchinh;
 
 public class choosefoodActivity extends AppCompatActivity {
 
@@ -68,7 +67,7 @@ public class choosefoodActivity extends AppCompatActivity {
 
 
         btnquayve.setOnClickListener(v -> {
-                    Intent intent = new Intent(choosefoodActivity.this, productActivity.class);
+                    Intent intent = new Intent(choosefoodActivity.this, product_monchinh.class);
                     startActivity(intent);
                 });
 

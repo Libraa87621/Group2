@@ -1,58 +1,59 @@
 package USER.product;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide; // Add Glide for loading images
 import com.example.duan1.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class CartAdapter extends BaseAdapter {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-    private Context context;
-    private ArrayList<Cart> cartList;
+    private final List<Product> productList;
 
-    public CartAdapter(Context context, ArrayList<Cart> cartList) {
-        this.context = context;
-        this.cartList = cartList;
+    public CartAdapter(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    @NonNull
+    @Override
+    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
+        return new CartViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return cartList.size();
+    public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+        Product product = productList.get(position);
+
+        holder.tvProductName.setText(product.getName());
+        holder.tvProductPrice.setText(String.format("%,dđ", product.getPrice()));
+
+        // Load image dynamically using Glide
+        Glide.with(holder.itemView.getContext())  // Glide will now work without issues
+                .load(product.getImageUrl())  // Use the image URL or file path
+                .into(holder.imgProduct);
     }
 
     @Override
-    public Object getItem(int position) {
-        return cartList.get(position);
+    public int getItemCount() {
+        return productList.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
+        TextView tvProductName, tvProductPrice;
+        ImageView imgProduct;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false);
+        public CartViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
         }
-
-        // Get current cart item
-        Cart cart = cartList.get(position);
-
-        // Bind data to views
-        ImageView imgProduct = convertView.findViewById(R.id.imgProduct);
-        TextView txtProductName = convertView.findViewById(R.id.txtProductName);
-
-        imgProduct.setImageResource(cart.getProductImage());
-        txtProductName.setText(cart.getProductName());
-
-        return convertView;
     }
 }

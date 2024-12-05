@@ -1,58 +1,85 @@
 package USER.product;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+public class Product implements Parcelable {
+    private String name;
+    private float price;  // Corrected to match REAL column type
+    private String imageUrl;  // Corrected to match TEXT column type
+    private int quantity;
 
-import com.example.duan1.R;
+    // Constructor
+    public Product(String name, float price, String imageUrl, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.quantity = quantity;
+    }
 
-import USER.choosefood.choosefoodActivity;
+    // Getter and Setter methods...
+    public String getName() {
+        return name;
+    }
 
-public class Product extends AppCompatActivity {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // Parcelable implementation for passing objects between activities
+    protected Product(Parcel in) {
+        name = in.readString();
+        price = in.readFloat();  // Corrected to readFloat() for price
+        imageUrl = in.readString();  // Corrected to readString() for imageUrl
+        quantity = in.readInt();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.product);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeFloat(price);  // Corrected to writeFloat() for price
+        dest.writeString(imageUrl);  // Corrected to writeString() for imageUrl
+        dest.writeInt(quantity);
+    }
 
-        ImageView imghome = findViewById(R.id.imghome);
-        Button btnOrder = findViewById(R.id.btnOrder);
-        Button btnAddToCart = findViewById(R.id.btn_addtocart);
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-        // Get image resource ID and product name from intent
-        int imageResId = getIntent().getIntExtra("image_resource", -1);
-        String productName = getIntent().getStringExtra("product_name");
-
-        if (imageResId != -1) {
-            imghome.setImageResource(imageResId);
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
         }
 
-        // Thêm sản phẩm vào giỏ hàng
-        btnAddToCart.setOnClickListener(v -> {
-            if (productName != null) {
-                Cart cartItem = new Cart(productName, imageResId);
-
-                // Chuyển sang CartActivity
-                Intent intent = new Intent(Product.this, CartActivity.class);
-                intent.putExtra("cart_item", cartItem);
-                startActivity(intent);
-
-                Toast.makeText(this, "Sản phẩm đã thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Không thể thêm vào giỏ hàng!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Xử lý nút "Đặt hàng"
-        btnOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(Product.this, choosefoodActivity.class);
-            startActivity(intent);
-        });
-    }
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

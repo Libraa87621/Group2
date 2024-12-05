@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android") version "1.8.0" // Ensure the version is correct
 }
 
 android {
@@ -45,17 +46,18 @@ dependencies {
     implementation(libs.activity)
 
     // Firebase Authentication
-    implementation("com.google.firebase:firebase-auth:21.0.5") // Firebase Auth
+    implementation("com.google.firebase:firebase-auth:21.0.5")
 
     // Firebase BOM (Bill of Materials)
-    implementation(platform("com.google.firebase:firebase-bom:31.0.2"))  // Correct use of platform
-
-    // Firebase Authentication from BOM
-    implementation("com.google.firebase:firebase-auth")
+    implementation(platform("com.google.firebase:firebase-bom:31.0.2"))
 
     // ZXing - QR Code scanning
-    implementation("com.google.zxing:core:3.4.1") // QR Code core
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0") // Android wrapper for QR scanning
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.15.1")  // Latest Glide version
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     // Test Dependencies
     testImplementation(libs.junit)

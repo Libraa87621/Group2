@@ -40,10 +40,10 @@
             android:name="USER.product.CartActivity"
             android:exported="false" />
         <activity
-            android:name="USER.product.Product"
+            android:name="USER.product.Product_monphu"
             android:exported="false" />
         <activity
-            android:name="USER.product.productActivity"
+            android:name="USER.product.product_monchinh"
             android:exported="true" />
         <activity
             android:name="USER.choosefood.ChoosefoodActivity2"

@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
@@ -14,11 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
 
-import USER.Payment.PaymentSuccessActivity;
 import USER.login_signin.DangNhapActivity;
 import USER.product.CartActivity;
-import USER.product.Product;
-import USER.product.productActivity;
+import USER.product.Product_monphu;
+import USER.product.product_monchinh;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -31,26 +28,26 @@ public class HomeActivity extends AppCompatActivity {
 
         // Tham chiếu đến img1 và img2
         findViewById(R.id.img1).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, productActivity.class);
+            Intent intent = new Intent(HomeActivity.this, product_monchinh.class);
             intent.putExtra("image_resource", R.drawable.monchinh); // Pass img1 resource ID
             startActivity(intent);
         });
 
         findViewById(R.id.img2).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, Product.class);
+            Intent intent = new Intent(HomeActivity.this, Product_monphu.class);
             intent.putExtra("image_resource", R.drawable.monphu); // Pass img2 resource ID
             startActivity(intent);
         });
 
         // Tham chiếu đến tv1
         findViewById(R.id.tv1).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, productActivity.class);
+            Intent intent = new Intent(HomeActivity.this, product_monchinh.class);
             startActivity(intent);
         });
 
         // Tham chiếu đến tv2
         findViewById(R.id.tv2).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, productActivity.class);
+            Intent intent = new Intent(HomeActivity.this, product_monchinh.class);
             startActivity(intent);
         });
 

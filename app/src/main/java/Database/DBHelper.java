@@ -6,6 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.duan1.R;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +23,7 @@ import ADMIN.fragment.FinanceFragment.RevenueManager;
 import ADMIN.fragment.ProfileFragment.Customer;
 import ADMIN.fragment.SettingsFragment.Setting;
 import USER.login_signin.UserDAO;
+import USER.product.Product;
 
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -25,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_ORDERS = "orders";
+
 
     private static final String COLUMN_USER_ID = "id";
 
@@ -52,6 +61,21 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRICE = "price";
     private static final String COLUMN_QUANTITY = "quantity";
 
+
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_USERS);
+        db.execSQL(CREATE_TABLE_ORDERS);
+        db.execSQL(CREATE_TABLE_PRODUCTS);
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS transactions (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "amount REAL, " +
+                "transaction_date TEXT);";
+        db.execSQL(createTableSQL);
+    }
+
+
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + " (" +
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + " TEXT, " +
@@ -60,6 +84,10 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PASSWORD + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
+
+
+
+
 
 
     private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + " (" +
@@ -86,17 +114,6 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USERS);
-        db.execSQL(CREATE_TABLE_ORDERS);
-        db.execSQL(CREATE_TABLE_PRODUCTS);
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS transactions (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "amount REAL, " +
-                "transaction_date TEXT);";
-        db.execSQL(createTableSQL);
-    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -108,6 +125,31 @@ public class DBHelper extends SQLiteOpenHelper {
                     "transaction_date TEXT);";
             db.execSQL(createTableSQL);
         }
+    }
+
+    // Add product to cart
+
+
+    private int getProductImageResourceId(String imageName) {
+        // Trả về mã tài nguyên từ tên hình ảnh
+        switch (imageName) {
+            case "product1":
+                return R.drawable.anhsanpham;
+            case "product2":
+                return R.drawable.default_image;
+            // Thêm các trường hợp khác nếu có
+            default:
+                return R.drawable.default_image; // Nếu không tìm thấy, trả về hình ảnh mặc định
+        }
+    }
+
+
+
+    // Delete cart item by product name
+    public void deleteCartItem(String productName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("cart", "product_name = ?", new String[]{productName});
+        db.close();
     }
 
     public long addUser(String name, String email, String phone, String birthdate, String address) {
