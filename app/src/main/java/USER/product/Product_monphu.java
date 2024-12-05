@@ -21,8 +21,8 @@ import Database.DBHelper;  // Đảm bảo bạn import đúng lớp DBHelper
 
 public class Product_monphu extends AppCompatActivity {
 
-    private DBHelper dbHelper;  // Khai báo DBHelper thay vì SQLiteHelper
-    private ArrayList<Product> cartList = new ArrayList<>(); // Danh sách giỏ hàng
+    private DBHelper dbHelper;
+    private ArrayList<Product> cartList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
