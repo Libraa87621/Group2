@@ -8,51 +8,51 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.duan1.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-// Assuming this is in your CartAdapter
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+public class CartAdapter extends BaseAdapter {
 
-    private List<Cart> cartList;
+    private Context context;
+    private ArrayList<Cart> cartList;
 
-    public CartAdapter(List<Cart> cartList) {
+    public CartAdapter(Context context, ArrayList<Cart> cartList) {
+        this.context = context;
         this.cartList = cartList;
     }
 
     @Override
-    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
-        return new CartViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(CartViewHolder holder, int position) {
-        Cart cart = cartList.get(position);
-
-        // Set product name and image in the item view
-        holder.txtProductName.setText(cart.getProductName());
-        holder.imgProduct.setImageResource(cart.getProductImage()); // Use the correct getter method here
-    }
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return cartList.size();
     }
 
-    public static class CartViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public Object getItem(int position) {
+        return cartList.get(position);
+    }
 
-        ImageView imgProduct;
-        TextView txtProductName;
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        public CartViewHolder(View itemView) {
-            super(itemView);
-            imgProduct = itemView.findViewById(R.id.imgProduct);
-            txtProductName = itemView.findViewById(R.id.txtProductName);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false);
         }
+
+        // Get current cart item
+        Cart cart = cartList.get(position);
+
+        // Bind data to views
+        ImageView imgProduct = convertView.findViewById(R.id.imgProduct);
+        TextView txtProductName = convertView.findViewById(R.id.txtProductName);
+
+        imgProduct.setImageResource(cart.getProductImage());
+        txtProductName.setText(cart.getProductName());
+
+        return convertView;
     }
 }

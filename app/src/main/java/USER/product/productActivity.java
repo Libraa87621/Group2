@@ -1,7 +1,6 @@
 package USER.product;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
 
+import java.util.ArrayList;
+
 import USER.Home.HomeActivity;
-import USER.choosefood.choosefoodActivity;
 
 public class productActivity extends AppCompatActivity {
+
+    private ArrayList<Cart> cartList = new ArrayList<>(); // Danh sách giỏ hàng
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +39,20 @@ public class productActivity extends AppCompatActivity {
             imghome.setImageResource(imageResId);
         }
 
-        // Handle direct order button click
-        btnOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(productActivity.this, choosefoodActivity.class);
-            startActivity(intent);
-        });
-
         // Handle add to cart button click
         btnCart.setOnClickListener(v -> {
-            // Save the product to SharedPreferences
-            SharedPreferences sharedPreferences = getSharedPreferences("CartPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("cart_item_name", productName);
-            editor.putInt("cart_item_image", imageResId);
-            editor.apply();
+            // Add product to cart list
+            Cart cartItem = new Cart(productName, imageResId);
+            cartList.add(cartItem);
 
             Toast.makeText(productActivity.this, "Bạn đã thêm thành công sản phẩm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+        });
+
+        // Handle view cart button click
+        btnOrder.setOnClickListener(v -> {
+            Intent intent = new Intent(productActivity.this, CartActivity.class);
+            intent.putExtra("cart_list", cartList); // Truyền danh sách giỏ hàng
+            startActivity(intent);
         });
 
         // Handle back button click
