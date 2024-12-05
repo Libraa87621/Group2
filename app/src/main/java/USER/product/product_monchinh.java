@@ -53,7 +53,7 @@ public class product_monchinh extends AppCompatActivity {
 
         // Thêm sản phẩm vào giỏ hàng khi nhấn nút
         btnCart.setOnClickListener(v -> {
-            dbHelper.addProductToCart(product);  // Add product to the database
+
             Toast.makeText(this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show(); // Show toast message
         });
 

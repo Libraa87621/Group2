@@ -36,7 +36,7 @@ public class CartActivity extends AppCompatActivity {
         ImageButton btnBackToProduct = findViewById(R.id.btnBackToProduct);
 
         // Get cart items from the database
-        cartProducts = dbHelper.getCartItems();
+
         if (cartProducts == null) {
             cartProducts = new ArrayList<>();
         }
