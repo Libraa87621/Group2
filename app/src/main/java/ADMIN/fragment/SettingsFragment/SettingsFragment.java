@@ -30,61 +30,51 @@ public class SettingsFragment extends Fragment {
     private SettingAdapter settingAdapter;
     private List<Setting> settingList;
     private DBHelper dbHelper;
-    ImageView iconxacnhan, iconxoa, btxoa;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.activity_donhang_adm, container, false);
-
+        ImageView confirmButton = rootView.findViewById(R.id.iconxacnhan);
+        ImageView cancelButton = rootView.findViewById(R.id.iconhuy);
         dbHelper = new DBHelper(getContext()); // Initialize DBHelper
 
-        // Use rootView.findViewById to find views in the fragment layout
-        iconxacnhan = rootView.findViewById(R.id.iconxacnhan);
-        iconxoa = rootView.findViewById(R.id.iconhuy);
-        btxoa = rootView.findViewById(R.id.btxoa);
         recyclerViewOrders = rootView.findViewById(R.id.recyclerViewOrders);
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         settingList = new ArrayList<>();
-        settingAdapter = new SettingAdapter(settingList, new SettingAdapter.OnSettingActionListener() {
-            @Override
-            public void onConfirmClick(Setting setting) {
-                // Change status to "Đã đi"
-                setting.setComponents("Đã đi");
-                dbHelper.updateSettingStatus(setting);  // Ensure this method updates the status in DB
-                settingAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelClick(Setting setting) {
-                // Change status to "Đã hủy"
-                setting.setComponents("Đã hủy");
-                dbHelper.updateSettingStatus(setting);  // Ensure this method updates the status in DB
-                settingAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onDeleteClick(Setting setting) {
-                // Delete the setting (order)
-                dbHelper.deleteSetting(setting);
-                settingList.remove(setting);
-                settingAdapter.notifyDataSetChanged();
-            }
-        });
-
+        settingAdapter = new SettingAdapter(settingList);
         recyclerViewOrders.setAdapter(settingAdapter);
-
-        // Fetch settings from the database
         List<Setting> settingsFromDb = dbHelper.getAllSettings();
 
-        // Check if the list is empty and show a toast message
         if (settingsFromDb.isEmpty()) {
             Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         } else {
-            settingList.addAll(settingsFromDb); // Add data from the database to the list
-            settingAdapter.notifyDataSetChanged(); // Update the RecyclerView with the data
+            settingList.addAll(settingsFromDb);
+            settingAdapter.notifyDataSetChanged();
         }
+
+
+
+        confirmButton.setOnClickListener(v -> {
+            for (Setting setting : settingList) {
+                if (setting.isSelected()) {
+                    setting.setOrderStatus("Đã giao");
+                    dbHelper.updateOrderStatus(setting, "Đã giao"); // Cập nhật trạng thái trong cơ sở dữ liệu
+                }
+            }
+            settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+        });
+
+        cancelButton.setOnClickListener(v -> {
+            for (Setting setting : settingList) {
+                if (setting.isSelected()) {
+                    setting.setOrderStatus("Đã HỦY");
+                    dbHelper.updateOrderStatus(setting, "Đã HỦY"); // Cập nhật trạng thái trong cơ sở dữ liệu
+                }
+            }
+            settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+        });
 
         return rootView;
     }
