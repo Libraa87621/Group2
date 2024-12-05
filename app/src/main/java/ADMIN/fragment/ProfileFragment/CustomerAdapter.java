@@ -37,8 +37,17 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         holder.tvPhone.setText(customer.getPhone());
         holder.tvEmail.setText(customer.getEmail());
 
+        // Thiết lập trạng thái checkbox
         holder.checkBox.setChecked(customer.isSelected());
 
+        // Thiết lập sự kiện cho checkbox
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            customer.setSelected(isChecked);
+        });
+
+        // Đảm bảo rằng khi checkbox được thay đổi, không gây ra sự kiện không mong muốn
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setChecked(customer.isSelected());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             customer.setSelected(isChecked);
         });

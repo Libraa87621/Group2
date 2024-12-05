@@ -8,6 +8,7 @@ public class Customer {
     private String email;
     private boolean selected;  // Chỉ cần một trường cho trạng thái chọn
 
+
     public Customer(String name, String phone, String birthdate, String address, String email) {
         this.name = name;
         this.phone = phone;
