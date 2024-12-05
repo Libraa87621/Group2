@@ -517,10 +517,4 @@ public class DBHelper extends SQLiteOpenHelper {
                 " FROM " + TABLE_ORDERS;
         return db.rawQuery(query, null);  // Trả về Cursor chứa kết quả truy vấn
     }
-    public void updateOrderStatus(Setting setting, String status) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("order_status", status);  // Cập nhật trạng thái
-        db.update("orders", values, "id = ?", new String[]{String.valueOf(setting.getId())});
-    }
 }

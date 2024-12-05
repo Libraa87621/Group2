@@ -1,24 +1,24 @@
 package ADMIN.fragment.SettingsFragment;
 
 public class Setting {
-    private int id;               // Thêm id để xác định đơn hàng
-    private String name;          // Từ bảng users
-    private String date;          // Từ bảng orders
-    private String components;    // Từ bảng orders
-    private boolean isSelected;   // Trạng thái chọn
-    private String orderStatus;   // Trạng thái đơn hàng
-    private boolean selected;
+    private int id;
+    private String name;
+    private String date;
+    private String components;
+    private boolean isSelected;   // Dùng thuộc tính này để lưu trạng thái đã chọn
+    private String orderStatus;
 
     // Constructor
     public Setting(String name, String date, String components) {
-        this.id = id;           // Khởi tạo id
+        this.id = id;
         this.name = name;
         this.date = date;
         this.components = components;
-        this.isSelected = false;
+        this.isSelected = false; // Mặc định là không chọn
+        this.orderStatus = "Chưa xác nhận"; // Trạng thái mặc định
     }
 
-    // Getter và Setter cho tất cả các thuộc tính
+    // Getter và Setter
     public int getId() {
         return id;
     }
@@ -39,15 +39,15 @@ public class Setting {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public void setOrderStatus(String status) {
-        this.orderStatus = status;
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public String getOrderStatus() {
         return orderStatus != null ? orderStatus : "Chưa xác nhận";
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

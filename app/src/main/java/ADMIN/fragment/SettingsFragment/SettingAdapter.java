@@ -49,8 +49,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
         holder.dateTextView.setText(setting.getDate());
         holder.checkBox.setChecked(setting.isSelected());
 
-
-        // Display the components
+        // Hiển thị các thành phần của đơn hàng
         holder.componentsLayout.removeAllViews();
         String[] components = setting.getComponents().split("'");
         for (String component : components) {
@@ -58,9 +57,16 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             componentTextView.setText(component);
             holder.componentsLayout.addView(componentTextView);
         }
+
         TextView statusTextView = holder.itemView.findViewById(R.id.Trangthai);
         statusTextView.setText(setting.getOrderStatus());
+
+        // Lắng nghe thay đổi checkbox
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setting.setSelected(isChecked);
+        });
     }
+
 
     @Override
     public int getItemCount() {

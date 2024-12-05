@@ -60,7 +60,6 @@ public class SettingsFragment extends Fragment {
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
                     setting.setOrderStatus("Đã giao");
-                    dbHelper.updateOrderStatus(setting, "Đã giao"); // Cập nhật trạng thái trong cơ sở dữ liệu
                 }
             }
             settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
@@ -69,8 +68,7 @@ public class SettingsFragment extends Fragment {
         cancelButton.setOnClickListener(v -> {
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
-                    setting.setOrderStatus("Đã HỦY");
-                    dbHelper.updateOrderStatus(setting, "Đã HỦY"); // Cập nhật trạng thái trong cơ sở dữ liệu
+                    setting.setOrderStatus("Đã hủy");
                 }
             }
             settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
