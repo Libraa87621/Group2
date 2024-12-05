@@ -116,8 +116,6 @@
                     isValid = false;
                 }
 
-
-
                 edtAdress.setError(null);
             }
 

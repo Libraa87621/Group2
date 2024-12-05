@@ -68,9 +68,13 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
 
 
-        // Lấy date trong lớp Paymentsuccessful:
+        // Retrieve email, password, and date from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
-        String date = sharedPreferences.getString("date", null); // Lấy giá trị date
+        String email = sharedPreferences.getString("email", null); // Get email
+        String password = sharedPreferences.getString("password", null); // Get password
+        String date = sharedPreferences.getString("date", null); // Get date (if available)
+
+
 
 
 
@@ -113,11 +117,11 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         // [5] **Lưu thông tin người dùng vào CSDL**
         if (phone != null && !phone.isEmpty() && address != null && !address.isEmpty()) {
             long userId = dbHelper.addUser(
-                    name,       // Tên tạm (có thể thay đổi theo dữ liệu thực tế)
-                    "user@example.com", // Email tạm (có thể thay đổi theo dữ liệu thực tế)
-                    phone,             // Số điện thoại
-                    date,              // Ngày sinh
-                    address           // Địa chỉ giao hàng
+                    name,
+                    email,
+                    phone,
+                    date,
+                    address
 
             );
 

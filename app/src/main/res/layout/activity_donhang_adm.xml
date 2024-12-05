@@ -51,25 +51,25 @@
         android:background="#FFFFFF">
 
         <ImageView
-            android:id="@+id/addButton"
+            android:id="@+id/iconxacnhan"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:contentDescription="Thêm"
-            android:src="@drawable/img_cong"
+            android:src="@drawable/icon_tick"
             app:tint="@color/black" />
 
         <ImageView
-            android:id="@+id/btnsua"
+            android:id="@+id/iconhuy"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:contentDescription="Sửa"
-            android:src="@drawable/img_pen"
+            android:src="@drawable/icon_delete"
             app:tint="@color/black"  />
 
         <ImageView

@@ -307,7 +307,7 @@ public class DBHelper extends SQLiteOpenHelper {
             if (cursorUsers != null && cursorUsers.moveToFirst() && cursorOrders != null && cursorOrders.moveToFirst()) {
                 while (!cursorUsers.isAfterLast() && !cursorOrders.isAfterLast()) {
 
-                    String name = cursorUsers.getString(cursorUsers.getColumnIndexOrThrow(COLUMN_NAME));
+                    String name = cursorUsers.getString(cursorUsers.getColumnIndexOrThrow("name"));
                     String date = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_PAYMENT_DATE));
                     String components = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_COMPONENTS));
 
@@ -488,6 +488,23 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    // Update the status of an order
+    public void updateSettingStatus(Setting setting) {
+        // Update the database with the new status (components)
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("components", setting.getComponents()); // Assuming "components" column holds the status
+
+        db.update("orders", values, "name = ?", new String[]{setting.getName()});
+        db.close();
+    }
+
+    // Delete an order
+    public void deleteSetting(Setting setting) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("orders", "name = ?", new String[]{setting.getName()});
+        db.close();
+    }
 
 
     // quản lý đơn hàng
