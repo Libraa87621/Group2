@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Tham chiếu đến tv2
         findViewById(R.id.tv2).setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, product_monchinh.class);
+            Intent intent = new Intent(HomeActivity.this, Product_monphu.class);
             startActivity(intent);
         });
 

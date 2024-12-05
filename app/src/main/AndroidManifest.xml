@@ -19,12 +19,7 @@
         <!-- Main Launcher Activity -->
         <activity
             android:name="USER.login_signin.DangNhapActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
 
         <!-- Other Activities -->
         <activity
@@ -35,8 +30,14 @@
             android:exported="true" />
         <activity
             android:name="USER.Home.HomeActivity"
-            android:exported="true" />
-        <activity
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity
             android:name="USER.product.CartActivity"
             android:exported="false" />
         <activity

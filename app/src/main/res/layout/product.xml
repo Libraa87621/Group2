@@ -17,7 +17,7 @@
 
         <!-- Menu Icon -->
         <ImageButton
-            android:id="@+id/btnBack"
+            android:id="@+id/btnquayve"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="15dp"
@@ -29,31 +29,32 @@
 
         <!-- Order Button -->
         <Button
-            android:id="@+id/btn_addtocart"
+            android:id="@+id/btnCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#FFC107"
-            android:text="ĐẶT HÀNG"
+            android:text="Thêm Vào Giỏ"
             android:textColor="#000000" />
     </RelativeLayout>
 
     <!-- Product Image -->
     <ImageView
-        android:id="@+id/imghome"
-        android:src="@drawable/img_1"
+        android:id="@+id/imgProduct"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:scaleType="centerInside"/>
+        android:src="@drawable/img_1"
+        android:scaleType="centerInside" />
 
 
     <!-- Product Description -->
     <TextView
+        android:id="@+id/tvProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="nước và bánh "
+        android:text="Nước Uống và Bánh Tráng Miệng"
         android:textSize="16sp"
         android:textColor="#000000"
         android:gravity="center"
@@ -61,9 +62,10 @@
 
     <!-- Product Price -->
     <TextView
+        android:id="@+id/tvProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="24,000đ"
+        android:text="35,000đ"
         android:textSize="24sp"
         android:textColor="#D32F2F"
         android:gravity="center"
@@ -83,6 +85,8 @@
         android:paddingHorizontal="32dp"
         android:paddingVertical="8dp"
         />
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

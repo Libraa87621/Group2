@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,7 +33,6 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
     private int chickenPrice = 0;
     private boolean isChickenSelected = false;
 
-    // New variables for potato selection
     private Spinner spinnerPotato;
     private TextView tvChoosePotato;
     private ImageView ivChosenPotato;
@@ -54,21 +52,12 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvMessage = findViewById(R.id.tvMessage);
 
-
-
-        // Potato views
         tvChoosePotato = findViewById(R.id.tv_choose_potato);
         spinnerPotato = findViewById(R.id.spinner_potato);
         ivChosenPotato = findViewById(R.id.iv_chosen_potato);
 
         setSpinnerPopupHeight(chickenSpinner, 2);
         setSpinnerPopupHeight(spinnerPotato, 2);
-
-
-
-
-
-
 
         // Set up chicken spinner
         List<ChickenItem> chickenItems = new ArrayList<>();
@@ -80,16 +69,15 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
         // Set up potato spinner
         List<PotatoItem> potatoItems = new ArrayList<>();
         potatoItems.add(new PotatoItem("Bánh Nướng", R.drawable.img_4, 15000));
-            potatoItems.add(new PotatoItem("Bánh Rán ", R.drawable. img_5, 25000));
+        potatoItems.add(new PotatoItem("Bánh Rán", R.drawable.img_5, 25000));
         PotatoAdapter potatoAdapter = new PotatoAdapter(this, potatoItems);
         spinnerPotato.setAdapter(potatoAdapter);
 
-        // Chicken selection event
+        // Chicken selection
         tvChooseChicken.setOnClickListener(v -> {
             chickenSpinner.performClick();
             chickenSpinner.setVisibility(View.VISIBLE);
         });
-
 
         chickenSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -112,7 +100,7 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
             }
         });
 
-        // Potato selection event
+        // Potato selection
         tvChoosePotato.setOnClickListener(v -> {
             spinnerPotato.performClick();
             spinnerPotato.setVisibility(View.VISIBLE);
@@ -139,20 +127,16 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
             }
         });
 
-
-
-        // Quantity increase and decrease buttons
+        // Quantity control
         Button btnDecrease = findViewById(R.id.btnDecrease);
         btnDecrease.setOnClickListener(v -> {
             if (quantity > 0) {
                 quantity--;
                 tvQuantity.setText(String.valueOf(quantity));
                 updateTotalAmount();
-            } else {
-                if (!isChickenSelected && !isPotatoSelected) {
-                    tvMessage.setText("Vui lòng chọn ít nhất một món!");
-                    tvMessage.setVisibility(View.VISIBLE);
-                }
+            } else if (!isChickenSelected && !isPotatoSelected) {
+                tvMessage.setText("Vui lòng chọn ít nhất một món!");
+                tvMessage.setVisibility(View.VISIBLE);
             }
         });
 
@@ -168,60 +152,44 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
             }
         });
 
-
-
+        // Order button
         Button btnOrder = findViewById(R.id.btnOrder);
         btnOrder.setOnClickListener(v -> {
             if (isChickenSelected || isPotatoSelected) {
-                // Hide the message if items are selected
                 tvMessage.setVisibility(View.GONE);
 
-                // Create combo string and calculate total price
                 StringBuilder comboName = new StringBuilder();
                 int totalAmount = 0;
                 int comboImageResId = 0;
 
-                // Check if Chicken is selected
-                String nameChicken = "";
-                String priceChicken = "";
-
                 if (isChickenSelected) {
-                    nameChicken = tvChooseChicken.getText().toString();
-                    priceChicken = String.valueOf(chickenPrice);
+                    comboName.append(tvChooseChicken.getText().toString());
                     totalAmount += chickenPrice;
-                    comboImageResId = R.drawable.anhsanpham;
-                    comboName.append(nameChicken);
                 }
 
-                // Check if Potato is selected
-                String namePotato = "";
-                String pricePotato = "";
                 if (isPotatoSelected) {
                     if (comboName.length() > 0) {
                         comboName.append(" + ");
                     }
-                    namePotato = tvChoosePotato.getText().toString();
-                    pricePotato = String.valueOf(potatoPrice);
+                    comboName.append(tvChoosePotato.getText().toString());
                     totalAmount += potatoPrice;
-                    comboImageResId = R.drawable.anhsanpham; // Replace with actual image resource ID for Potato
-                    comboName.append(namePotato);
                 }
 
-
-
-                // Adjust total amount based on quantity
                 totalAmount *= Math.max(quantity, 1);
 
-                // Create a Combo object with the updated quantity
-                Combo combo = new Combo(comboName.toString(), priceChicken, namePotato, pricePotato, totalAmount, quantity, comboImageResId);
+                Combo combo = new Combo(
+                        comboName.toString(),
+                        String.valueOf(chickenPrice),
+                        tvChoosePotato.getText().toString(),
+                        String.valueOf(potatoPrice),
+                        totalAmount,
+                        quantity,
+                        R.drawable.anhsanpham
+                );
 
-                // Pass Combo object to CheckOderActivity via Intent
                 Intent intent = new Intent(ChoosefoodActivity2.this, CheckOderActivity.class);
-                intent.putExtra("combo", combo); // Pass the Combo object with updated quantity
+                intent.putExtra("combo", combo);
                 startActivity(intent);
-
-
-
             } else {
                 tvMessage.setText("Vui lòng chọn ít nhất một món!");
                 tvMessage.setVisibility(View.VISIBLE);
@@ -237,7 +205,7 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
 
             if (popup instanceof android.widget.ListPopupWindow) {
                 android.widget.ListPopupWindow listPopupWindow = (android.widget.ListPopupWindow) popup;
-                listPopupWindow.setHeight(maxVisibleItems * 48); // Item height in pixels
+                listPopupWindow.setHeight(maxVisibleItems * 48);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,13 +236,10 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
         }
         totalAmount *= quantity;
 
-        // Create a custom format with a thousand separator
         NumberFormat currencyFormat = NumberFormat.getInstance();
-        currencyFormat.setGroupingUsed(true); // Enable grouping for thousands separator
+        currencyFormat.setGroupingUsed(true);
 
-        // Format the total amount and set it to the TextView
         String formattedAmount = currencyFormat.format(totalAmount);
         tvTotalAmount.setText(formattedAmount);
     }
-
 }
