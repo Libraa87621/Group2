@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide; // Add Glide for loading images
 import com.example.duan1.R;
 
 import java.util.List;
@@ -34,10 +33,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(String.format("%,dđ", product.getPrice()));
 
-        // Load image dynamically using Glide
-        Glide.with(holder.itemView.getContext())  // Glide will now work without issues
-                .load(product.getImageUrl())  // Use the image URL or file path
-                .into(holder.imgProduct);
+        // Load image from drawable
+        // Bạn có thể thay đổi R.drawable.default_image bằng hình ảnh thực tế của bạn trong thư mục drawable
+        holder.imgProduct.setImageResource(R.drawable.anhsanpham);  // Tải ảnh từ thư mục drawable
     }
 
     @Override
