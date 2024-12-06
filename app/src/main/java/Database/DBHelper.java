@@ -1,5 +1,7 @@
 package Database;
 
+import static android.app.DownloadManager.COLUMN_ID;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -388,6 +390,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return customers;
     }
+
+    public void updateCustomer(Customer customer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_NAME, customer.getName());
+        values.put(COLUMN_PHONE, customer.getPhone());
+        values.put(COLUMN_BIRTHDATE, customer.getBirthdate());
+        values.put(COLUMN_ADDRESS, customer.getAddress());
+        values.put(COLUMN_EMAIL, customer.getEmail());
+
+        // Cập nhật hàng trong cơ sở dữ liệu
+        db.update(TABLE_USERS, values, COLUMN_PHONE + " = ?", new String[]{customer.getPhone()});
+        db.close();
+    }
+    public void addCustomer(Customer customer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_NAME, customer.getName());
+        values.put(COLUMN_PHONE, customer.getPhone());
+        values.put(COLUMN_BIRTHDATE, customer.getBirthdate()); // Nếu không có, có thể để trống hoặc không thêm
+        values.put(COLUMN_ADDRESS, customer.getAddress());
+        values.put(COLUMN_EMAIL, customer.getEmail());
+
+        // Chèn hàng mới vào cơ sở dữ liệu
+        db.insert(TABLE_USERS, null, values);
+        db.close();
+    }
+    public void deleteCustomer(int customerId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USERS, COLUMN_ID + " = ?", new String[]{String.valueOf(customerId)});
+        db.close();
+    }
+
 
 
 
