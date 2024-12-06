@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import USER.Order.CheckOderActivity;
+import USER.Order.check1;
 
 public class ChoosefoodActivity2 extends AppCompatActivity {
 
@@ -187,7 +188,7 @@ public class ChoosefoodActivity2 extends AppCompatActivity {
                         R.drawable.anhsanpham
                 );
 
-                Intent intent = new Intent(ChoosefoodActivity2.this, CheckOderActivity.class);
+                Intent intent = new Intent(ChoosefoodActivity2.this, check1.class);
                 intent.putExtra("combo", combo);
                 startActivity(intent);
             } else {
