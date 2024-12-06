@@ -3,6 +3,7 @@ package ADMIN.fragment.SettingsFragment;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,32 +52,80 @@ public class SettingsFragment extends Fragment {
         }
 
         confirmButton.setOnClickListener(v -> {
+            // Kiểm tra danh sách có đơn hàng nào được chọn không
+            boolean hasSelectedOrders = false;
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
-                    dbHelper.updateOrderStatus(setting.getOrderId(), "Đã giao"); // Cập nhật trạng thái
+                    hasSelectedOrders = true;
+
+                    // Kiểm tra order_id
+                    int orderId = setting.getOrderId();
+                    if (orderId == 0) {
+                        Log.e("UpdateStatus", "Invalid Order ID: 0 for setting " + setting);
+                        continue;
+                    }
+
+                    boolean isUpdated = dbHelper.updateOrderStatus(orderId, "đã giao");
+
+                    if (isUpdated) {
+                        Log.d("UpdateStatus", "Order ID: " + orderId + " updated to 'đã giao'");
+                        setting.setStatus("đã giao"); // Cập nhật trạng thái trong danh sách
+                    } else {
+                        Log.e("UpdateStatus", "Failed to update Order ID: " + orderId);
+                        Toast.makeText(getContext(), "Cập nhật thất bại cho đơn hàng ID: " + orderId, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
-            refreshSettingsList(); // Làm mới dữ liệu
+            if (hasSelectedOrders) {
+                settingAdapter.notifyDataSetChanged(); // Làm mới RecyclerView
+                Toast.makeText(getContext(), "Đơn hàng đã được xác nhận", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Vui lòng chọn ít nhất một đơn hàng!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         cancelButton.setOnClickListener(v -> {
+            // Kiểm tra danh sách có đơn hàng nào được chọn không
+            boolean hasSelectedOrders = false;
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
-                    dbHelper.updateOrderStatus(setting.getOrderId(), "Đã hủy"); // Cập nhật trạng thái
+                    hasSelectedOrders = true;
+
+                    // Kiểm tra order_id
+                    int orderId = setting.getOrderId();
+                    if (orderId == 0) {
+                        Log.e("UpdateStatus", "Invalid Order ID: 0 for setting " + setting);
+                        continue;
+                    }
+
+                    // Cập nhật trạng thái đơn hàng thành "đã hủy"
+                    boolean isUpdated = dbHelper.updateOrderStatus(orderId, "đã hủy");
+
+                    if (isUpdated) {
+                        Log.d("UpdateStatus", "Order ID: " + orderId + " updated to 'đã hủy'");
+                        setting.setStatus("đã hủy"); // Cập nhật trạng thái trong danh sách
+                    } else {
+                        Log.e("UpdateStatus", "Failed to update Order ID: " + orderId);
+                        Toast.makeText(getContext(), "Cập nhật thất bại cho đơn hàng ID: " + orderId, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
-            refreshSettingsList(); // Làm mới dữ liệu
+            if (hasSelectedOrders) {
+                settingAdapter.notifyDataSetChanged(); // Làm mới RecyclerView
+                Toast.makeText(getContext(), "Đơn hàng đã bị hủy", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Vui lòng chọn ít nhất một đơn hàng để hủy!", Toast.LENGTH_SHORT).show();
+            }
         });
+
+
+
 
         return rootView;
     }
 
-    private void refreshSettingsList() {
-        settingList.clear(); // Xóa dữ liệu cũ
-        List<Setting> updatedSettings = dbHelper.getAllSettings(); // Lấy dữ liệu mới từ DB
-        settingList.addAll(updatedSettings); // Cập nhật dữ liệu vào danh sách
-        settingAdapter.notifyDataSetChanged(); // Làm mới RecyclerView
-    }
+
+
 
 }
 

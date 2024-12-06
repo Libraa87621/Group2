@@ -1,17 +1,16 @@
 package ADMIN.fragment.SettingsFragment;
 
 public class Setting {
-    private int order_id;
+    private int order_id;  // Sử dụng order_id thay vì orderId
     private String name;
     private String date;
     private String components;
     private boolean isSelected;   // Dùng thuộc tính này để lưu trạng thái đã chọn
     private String status;
-    private int orderId;
 
     // Constructor
-    public Setting(String name, String date, String components, String status) {
-        this.order_id = order_id; // Lấy từ cơ sở dữ liệu
+    public Setting(int order_id, String name, String date, String components, String status) {
+        this.order_id = order_id;  // Gán giá trị order_id từ cơ sở dữ liệu
         this.name = name;
         this.date = date;
         this.components = components;
@@ -20,8 +19,12 @@ public class Setting {
     }
 
     // Getter và Setter
-    public int getorder_id() {
-        return order_id;
+    public int getOrderId() {
+        return order_id;  // Trả về order_id
+    }
+
+    public void setOrderId(int order_id) {
+        this.order_id = order_id;  // Cập nhật giá trị order_id
     }
 
     public String getName() {
@@ -44,19 +47,11 @@ public class Setting {
         this.isSelected = isSelected;
     }
 
-    public String getstatus() {
-        return status != null ? status : "";
+    public String getStatus() {
+        return status != null ? status : "";  // Trả về status hoặc "" nếu status là null
     }
 
-    public void setstatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 }

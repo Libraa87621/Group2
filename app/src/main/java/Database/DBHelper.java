@@ -14,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -304,7 +305,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursorUsers = db.rawQuery(queryUsers, null);
 
             // Truy vấn lấy thông tin đơn hàng từ bảng Orders
-            String queryOrders = "SELECT " + COLUMN_PAYMENT_DATE + ", " +
+            String queryOrders = "SELECT " + COLUMN_ORDER_ID + ", " + COLUMN_PAYMENT_DATE + ", " +
                     COLUMN_COMPONENTS + ", " + COLUMN_ORDER_STATUS +
                     " FROM " + TABLE_ORDERS;
             cursorOrders = db.rawQuery(queryOrders, null);
@@ -319,6 +320,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     String components = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_COMPONENTS));
                     String status = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_ORDER_STATUS));
 
+                    // Lấy orderId và chuyển đổi từ String sang int
+                    int orderId = Integer.parseInt(cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_ORDER_ID)));
+
                     // Kiểm tra giá trị null và thay thế bằng giá trị mặc định nếu cần
                     name = name != null ? name : "name";
                     date = date != null ? date : "";
@@ -326,15 +330,17 @@ public class DBHelper extends SQLiteOpenHelper {
                     status = status != null ? status : "Chưa xác nhận";
 
                     // Thêm vào danh sách Setting
-                    settings.add(new Setting(name, date, components, status));
+                    settings.add(new Setting(orderId, name, date, components, status));
 
                     // Di chuyển con trỏ đến bản ghi tiếp theo
                     cursorUsers.moveToNext();
                     cursorOrders.moveToNext();
                 }
+            } else {
+                Log.d("DatabaseStatus", "Không có dữ liệu từ Users hoặc Orders.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("DatabaseError", "Lỗi khi truy vấn cơ sở dữ liệu: " + e.getMessage());
         } finally {
             // Đảm bảo đóng các con trỏ và cơ sở dữ liệu
             if (cursorUsers != null) cursorUsers.close();
@@ -343,9 +349,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         // Trả về danh sách settings
+        Log.d("DatabaseStatus", "Số lượng settings lấy được: " + settings.size());
         return settings;
     }
-
 
 
 
@@ -547,15 +553,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);  // Trả về Cursor chứa kết quả truy vấn
     }
 
-
-    public void updateOrderStatus(int order_id, String status) {
+    public boolean updateOrderStatus(int orderId, String status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_ORDER_STATUS, status); // Cập nhật trạng thái
+        contentValues.put("status", status);
 
-        String whereClause = COLUMN_ORDER_ID + "=?";
-        String[] whereArgs = new String[]{String.valueOf(order_id)};
+        // Cập nhật trạng thái cho đơn hàng với order_id
+        int rowsAffected = db.update("orders", contentValues, "order_id = ?", new String[]{String.valueOf(orderId)});
 
-        db.update(TABLE_ORDERS, contentValues, whereClause, whereArgs);
+        // Nếu có ít nhất một dòng bị ảnh hưởng, trả về true
+        return rowsAffected > 0;  // Nếu rowsAffected = 0 thì không có đơn hàng nào được cập nhật
     }
+
+
+
 }
