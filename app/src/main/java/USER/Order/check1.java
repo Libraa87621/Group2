@@ -22,7 +22,7 @@ public class check1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check1);
+        setContentView(R.layout.activity_check_oder);
 
         // Retrieve Combo object from Intent
         Combo combo = getIntent().getParcelableExtra("combo");
@@ -41,7 +41,7 @@ public class check1 extends AppCompatActivity {
             int imageResId = combo.getImageResId();
 
             LayoutInflater inflater = LayoutInflater.from(this); // lệnh lưu trữ combo lên linerlayout
-            LinearLayout itemLayout = (LinearLayout) inflater.inflate(R.layout.item_order, container, false);
+            LinearLayout itemLayout = (LinearLayout) inflater.inflate(R.layout.item_combo, container, false);
 
             ImageView imgCombo = itemLayout.findViewById(R.id.imgCombo);
             TextView tvComboName = itemLayout.findViewById(R.id.tvComboName);
