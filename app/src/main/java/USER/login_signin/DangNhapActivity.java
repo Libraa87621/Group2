@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class DangNhapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dang_nhap2);
 
         // Initialize views
+        ImageButton btnimgProfile = findViewById(R.id.btnimg_profile);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -76,6 +78,14 @@ public class DangNhapActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+        btnimgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Điền thông tin admin vào các EditText
+                editTextEmail.setText("admin");
+                editTextPassword.setText("admin123");
+            }
         });
     }
 

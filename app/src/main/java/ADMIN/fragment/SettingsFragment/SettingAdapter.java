@@ -58,14 +58,16 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.ViewHold
             holder.componentsLayout.addView(componentTextView);
         }
 
+        // Hiển thị trạng thái đơn hàng từ cơ sở dữ liệu
         TextView statusTextView = holder.itemView.findViewById(R.id.Trangthai);
-        statusTextView.setText(setting.getOrderStatus());
+        statusTextView.setText(setting.getstatus());
 
         // Lắng nghe thay đổi checkbox
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             setting.setSelected(isChecked);
         });
     }
+
 
 
     @Override

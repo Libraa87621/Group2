@@ -1,14 +1,11 @@
 package ADMIN.fragment.SettingsFragment;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -31,7 +28,6 @@ public class SettingsFragment extends Fragment {
     private List<Setting> settingList;
     private DBHelper dbHelper;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_donhang_adm, container, false);
@@ -51,29 +47,35 @@ public class SettingsFragment extends Fragment {
             Toast.makeText(getContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         } else {
             settingList.addAll(settingsFromDb);
-            settingAdapter.notifyDataSetChanged();
+            settingAdapter.notifyDataSetChanged(); // Đảm bảo RecyclerView nhận được dữ liệu
         }
-
-
 
         confirmButton.setOnClickListener(v -> {
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
-                    setting.setOrderStatus("Đã giao");
+                    dbHelper.updateOrderStatus(setting.getOrderId(), "Đã giao"); // Cập nhật trạng thái
                 }
             }
-            settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+            refreshSettingsList(); // Làm mới dữ liệu
         });
 
         cancelButton.setOnClickListener(v -> {
             for (Setting setting : settingList) {
                 if (setting.isSelected()) {
-                    setting.setOrderStatus("Đã hủy");
+                    dbHelper.updateOrderStatus(setting.getOrderId(), "Đã hủy"); // Cập nhật trạng thái
                 }
             }
-            settingAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+            refreshSettingsList(); // Làm mới dữ liệu
         });
 
         return rootView;
     }
+
+    private void refreshSettingsList() {
+        settingList.clear();
+        List<Setting> updatedSettings = dbHelper.getAllSettings(); // Lấy dữ liệu từ DB
+        settingList.addAll(updatedSettings); // Cập nhật lại dữ liệu
+        settingAdapter.notifyDataSetChanged(); // Làm mới RecyclerView
+    }
 }
+

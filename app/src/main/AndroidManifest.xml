@@ -19,7 +19,12 @@
         <!-- Main Launcher Activity -->
         <activity
             android:name="USER.login_signin.DangNhapActivity"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Other Activities -->
         <activity
@@ -31,10 +36,7 @@
         <activity
             android:name="USER.Home.HomeActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+
     </activity>
 
     <activity
