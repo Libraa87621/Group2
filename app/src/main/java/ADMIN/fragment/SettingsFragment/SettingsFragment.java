@@ -72,10 +72,11 @@ public class SettingsFragment extends Fragment {
     }
 
     private void refreshSettingsList() {
-        settingList.clear();
-        List<Setting> updatedSettings = dbHelper.getAllSettings(); // Lấy dữ liệu từ DB
-        settingList.addAll(updatedSettings); // Cập nhật lại dữ liệu
+        settingList.clear(); // Xóa dữ liệu cũ
+        List<Setting> updatedSettings = dbHelper.getAllSettings(); // Lấy dữ liệu mới từ DB
+        settingList.addAll(updatedSettings); // Cập nhật dữ liệu vào danh sách
         settingAdapter.notifyDataSetChanged(); // Làm mới RecyclerView
     }
+
 }
 
