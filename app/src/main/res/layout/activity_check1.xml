@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Header and Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EA0000"
+        android:orientation="horizontal"
+        android:padding="30px">
+        <ImageButton
+            android:layout_width="90px"
+            android:layout_height="100px"
+            android:src="@drawable/img_menu"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:layout_gravity="start"/>
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:text="ĐẶT HÀNG"
+            android:layout_marginLeft="260dp"
+            android:background="@drawable/button_background" />
+    </LinearLayout>
+
+    <!-- Combo Image -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_1"
+        android:layout_marginTop="50px"
+        android:layout_marginBottom="30px"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bo2goctren">
+
+        <!-- Existing containerLinearLayout -->
+        <LinearLayout
+            android:id="@+id/containerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/bo2goctren">
+
+        </LinearLayout>
+
+        <!-- New LinearLayout wrapping the CheckBox and TextView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- CheckBox -->
+            <CheckBox
+                android:id="@+id/checkboxUtensils"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lấy dụng cụ ăn uống nhựa?"
+                android:textSize="16sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_gravity="center_vertical"/>
+
+            <!-- TextView below the CheckBox -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chúng tôi sẽ gửi dụng cụ ăn uống nhựa như muỗng, nĩa..."
+                android:paddingStart="40dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Total Money Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="start|center_vertical">
+
+            <!-- Label for Total Money -->
+            <TextView
+                android:id="@+id/totalPriceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="Tổng tiền: "
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Value for Total Money -->
+            <TextView
+                android:id="@+id/totalPrice"
+                android:layout_marginLeft="480px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 VND"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#FF0000"
+                android:layout_weight="1" /> <!-- Using layout_weight to align it to the right -->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnConfirmOrder"
+            android:layout_gravity="center"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="THANH TOÁN"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
