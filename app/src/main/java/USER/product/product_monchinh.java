@@ -39,30 +39,29 @@ public class product_monchinh extends AppCompatActivity {
         Button btnCart = findViewById(R.id.btnCart);
         ImageButton btnquayve = findViewById(R.id.btnquayve);
 
-        // Lấy thông tin từ layout (có thể dùng nếu cần truyền động)
+
         String productName = tvProductName.getText().toString();
         String productPriceText = tvProductPrice.getText().toString();
-        // Convert price to float by removing non-numeric characters
+
         float productPrice = Float.parseFloat(productPriceText.replace(",", "").replace("đ", "").trim());
 
-        // Set the product image URL (as a String)
-        String productImageUrl = "https://example.com/path_to_image.jpg";  // Example URL or local path
 
-        // Tạo đối tượng Product từ thông tin UI
-        Product product = new Product(productName, productPrice, productImageUrl, 1);  // Product constructor updated
+        String productImageUrl = "https://example.com/path_to_image.jpg";
 
-        // Thêm sản phẩm vào giỏ hàng khi nhấn nút
+        Product product = new Product(productName, productPrice, productImageUrl, 1);
+
+
+
         btnCart.setOnClickListener(v -> {
-
-            Toast.makeText(this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show(); // Show toast message
+            dbHelper.addToCart(product);
+            Toast.makeText(this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
         });
 
 
-        // Chuyển tới màn hình đặt hàng
         btnOrder.setOnClickListener(v -> {
             cartList.add(product);
             Intent intent = new Intent(product_monchinh.this, choosefoodActivity.class);
-            intent.putParcelableArrayListExtra("cart_list", cartList); // Truyền danh sách giỏ hàng
+            intent.putParcelableArrayListExtra("cart_list", cartList);
             startActivity(intent);
         });
 

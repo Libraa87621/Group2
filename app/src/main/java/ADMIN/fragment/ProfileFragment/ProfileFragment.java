@@ -2,6 +2,8 @@ package ADMIN.fragment.ProfileFragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DBHelper;
+import USER.Home.HomeActivity;
+import USER.login_signin.DangNhapActivity;
+import USER.product.CartActivity;
 
 public class ProfileFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -49,6 +54,7 @@ public class ProfileFragment extends Fragment {
             customerList.addAll(customerFromDb);
             customerAdapter.notifyDataSetChanged();
         }
+
 
         // Thiết lập sự kiện cho nút sửa
         ImageView btnEdit = rootView.findViewById(R.id.btnsua);
