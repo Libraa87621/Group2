@@ -31,13 +31,8 @@
             android:exported="true" />
         <activity
             android:name="USER.Home.HomeActivity"
-            android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true"/>
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
         <activity
             android:name="USER.product.CartActivity"
             android:exported="false" />
@@ -73,7 +68,13 @@
             android:exported="true" />
         <activity
             android:name="ADMIN.fragment.HomeFragment.fragmentActivity"
-            android:exported="true" />
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
     </application>
 
 </manifest>

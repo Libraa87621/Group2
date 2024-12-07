@@ -19,7 +19,7 @@ public class Orders {
         this.name = name;
         this.price = price;
         this.description = ""; // Mặc định mô tả là rỗng
-        this.imageResourceId = 0;
+        this.imageResourceId = 0; // Mặc định hình ảnh là 0
     }
 
     // Getter và Setter cho các thuộc tính
@@ -47,6 +47,12 @@ public class Orders {
         this.description = description;
     }
 
+    // Phương thức trả về ID hình ảnh
+    public int getImageId() {
+        return imageResourceId;
+    }
+
+    // Phương thức trả về ID hình ảnh (tên cũ)
     public int getImageResourceId() {
         return imageResourceId;
     }
@@ -55,4 +61,3 @@ public class Orders {
         this.imageResourceId = imageResourceId;
     }
 }
-

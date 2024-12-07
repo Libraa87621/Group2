@@ -1,6 +1,8 @@
 package ADMIN.fragment.OrdersFragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,38 +31,30 @@ public class OrdersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_datdo_adm, container, false);
 
-        // Lấy RecyclerView từ layout
         recyclerView = view.findViewById(R.id.recyclerView);
-
-        // Sử dụng GridLayoutManager để tạo 2 cột
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2); // 2 là số cột
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Tạo dữ liệu cứng cho danh sách Orders
-        orderList = getDefaultOrders();
+        // Lấy dữ liệu từ SharedPreferences hoặc dùng dữ liệu mặc định
+        orderList = getOrdersFromPreferences();
+        if (orderList.isEmpty()) {
+            orderList = getDefaultOrders();
+        }
 
-        // Tạo và gắn adapter
         ordersAdapter = new OrdersAdapter(orderList);
-
-        // Thêm listener cho nút sửa
-        ordersAdapter.setEditOrderListener((order, position) -> {
-            openAddOrderDialog(order, position); // Mở dialog sửa đơn hàng
-        });
-
+        ordersAdapter.setEditOrderListener((order, position) -> openAddOrderDialog(order, position));
         recyclerView.setAdapter(ordersAdapter);
 
-        // Thiết lập nút để mở dialog thêm đơn hàng
-        Button btnAddOrder = view.findViewById(R.id.btnAddProduct); // Giữ nguyên ID nút
-        btnAddOrder.setOnClickListener(v -> openAddOrderDialog(null, -1)); // Mở dialog thêm mới
+        Button btnAddOrder = view.findViewById(R.id.btnAddProduct);
+        btnAddOrder.setOnClickListener(v -> openAddOrderDialog(null, -1));
 
         return view;
     }
 
-    // Hàm khởi tạo danh sách dữ liệu cứng
+    // Tạo danh sách dữ liệu mặc định
     private List<Orders> getDefaultOrders() {
         List<Orders> defaultOrders = new ArrayList<>();
         defaultOrders.add(new Orders("COMBO VUI VẺ", "160000", "2 Miếng gà giòn, 1 nước, 1 khoai chiên", R.drawable.combovuive));
@@ -71,19 +65,17 @@ public class OrdersFragment extends Fragment {
         return defaultOrders;
     }
 
-    // Hàm mở dialog thêm hoặc sửa đơn hàng
+    // Mở dialog thêm hoặc sửa đơn hàng
     private void openAddOrderDialog(Orders orderToEdit, int position) {
-        // Sử dụng lại layout dialog thêm sản phẩm
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_product, null);
         EditText orderNameInput = dialogView.findViewById(R.id.productNameInput);
         EditText orderPriceInput = dialogView.findViewById(R.id.productPriceInput);
-        EditText orderDescriptionInput = dialogView.findViewById(R.id.productDescriptionInput); // Thêm EditText cho mô tả
+        EditText orderDescriptionInput = dialogView.findViewById(R.id.productDescriptionInput);
 
-        // Nếu đang sửa đơn hàng, điền thông tin vào các input
         if (orderToEdit != null) {
             orderNameInput.setText(orderToEdit.getName());
             orderPriceInput.setText(orderToEdit.getPrice());
-            orderDescriptionInput.setText(orderToEdit.getDescription()); // Thêm mô tả vào trường input
+            orderDescriptionInput.setText(orderToEdit.getDescription());
         }
 
         new AlertDialog.Builder(getContext())
@@ -92,36 +84,32 @@ public class OrdersFragment extends Fragment {
                 .setPositiveButton("Lưu", (dialog, which) -> {
                     String orderName = orderNameInput.getText().toString().trim();
                     String orderPrice = orderPriceInput.getText().toString().trim();
-                    String orderDescription = orderDescriptionInput.getText().toString().trim(); // Lấy mô tả từ input
+                    String orderDescription = orderDescriptionInput.getText().toString().trim();
 
-                    // Kiểm tra các trường nhập có bị bỏ trống không
                     if (orderName.isEmpty() || orderPrice.isEmpty() || orderDescription.isEmpty()) {
                         Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
-                        // Kiểm tra giá có hợp lệ không
                         double price = Double.parseDouble(orderPrice);
                         if (price <= 0) {
                             Toast.makeText(getContext(), "Giá đơn hàng phải lớn hơn 0!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        // Nếu là thêm mới đơn hàng
                         if (orderToEdit == null) {
-                            orderList.add(new Orders(orderName, String.format("%.2f", price), orderDescription, R.drawable.default_image)); // Thêm mô tả vào constructor
+                            orderList.add(new Orders(orderName, String.format("%.2f", price), orderDescription, R.drawable.default_image));
                             Toast.makeText(getContext(), "Thêm đơn hàng thành công!", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Nếu là sửa đơn hàng
                             orderToEdit.setName(orderName);
                             orderToEdit.setPrice(String.format("%.2f", price));
-                            orderToEdit.setDescription(orderDescription); // Cập nhật mô tả
+                            orderToEdit.setDescription(orderDescription);
                             Toast.makeText(getContext(), "Cập nhật đơn hàng thành công!", Toast.LENGTH_SHORT).show();
                         }
 
-                        // Cập nhật adapter
                         ordersAdapter.notifyDataSetChanged();
+                        saveOrdersToPreferences(); // Lưu sau khi thêm hoặc chỉnh sửa
                     } catch (NumberFormatException e) {
                         Toast.makeText(getContext(), "Vui lòng nhập giá hợp lệ!", Toast.LENGTH_SHORT).show();
                     }
@@ -129,5 +117,44 @@ public class OrdersFragment extends Fragment {
                 .setNegativeButton("Hủy", null)
                 .create()
                 .show();
+    }
+
+    // Lưu danh sách đơn hàng vào SharedPreferences
+    private void saveOrdersToPreferences() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("OrdersPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        StringBuilder data = new StringBuilder();
+        for (Orders order : orderList) {
+            data.append(order.getName()).append("|")
+                    .append(order.getPrice()).append("|")
+                    .append(order.getDescription()).append("|")
+                    .append(order.getImageId()).append("\n");
+        }
+
+        editor.putString("orders", data.toString());
+        editor.apply();
+    }
+
+    // Đọc danh sách đơn hàng từ SharedPreferences
+    private List<Orders> getOrdersFromPreferences() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("OrdersPrefs", Context.MODE_PRIVATE);
+        String savedData = sharedPreferences.getString("orders", null);
+
+        List<Orders> orders = new ArrayList<>();
+        if (savedData != null) {
+            String[] rows = savedData.split("\n");
+            for (String row : rows) {
+                String[] fields = row.split("\\|");
+                if (fields.length == 4) {
+                    String name = fields[0];
+                    String price = fields[1];
+                    String description = fields[2];
+                    int imageId = Integer.parseInt(fields[3]);
+                    orders.add(new Orders(name, price, description, imageId));
+                }
+            }
+        }
+        return orders;
     }
 }
