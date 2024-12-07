@@ -63,10 +63,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ORDER_STATUS = "status";
 
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
+        db.execSQL(CREATE_TABLE_CART);
         db.execSQL(CREATE_TABLE_ORDERS);
         db.execSQL(CREATE_TABLE_PRODUCTS);
         String createTableSQL = "CREATE TABLE IF NOT EXISTS transactions (" +
@@ -76,6 +76,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createTableSQL);
     }
 
+    private static final String CREATE_TABLE_CART = "CREATE TABLE IF NOT EXISTS cart (" +
+            "cart_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "cartname TEXT, " +
+            "cartprice REAL, " +
+            "cartimageUrl TEXT, " +
+            "cartquantity INTEGER);";
 
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + " (" +
             COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -85,10 +91,6 @@ public class DBHelper extends SQLiteOpenHelper {
             COLUMN_ADDRESS + " TEXT, " +
             COLUMN_PASSWORD + " TEXT, " +
             COLUMN_PHONE + " TEXT);";
-
-
-
-
 
 
     private static final String CREATE_TABLE_ORDERS = "CREATE TABLE " + TABLE_ORDERS + " (" +
@@ -144,7 +146,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 return R.drawable.default_image; // Nếu không tìm thấy, trả về hình ảnh mặc định
         }
     }
-
 
 
     // Delete cart item by product name
@@ -208,15 +209,16 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, "id=?", new String[]{String.valueOf(id)});
     }
+
     public Cursor getAllOders() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT " +  COLUMN_DATE + ", " + COLUMN_COMPONENTS  + " FROM " + TABLE_ORDERS, null);
+        return db.rawQuery("SELECT " + COLUMN_DATE + ", " + COLUMN_COMPONENTS + " FROM " + TABLE_ORDERS, null);
     }
+
     public Cursor getAllUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " + COLUMN_NAME + ", " + COLUMN_EMAIL + ", " + COLUMN_PHONE + ", " + COLUMN_ADDRESS + " FROM " + TABLE_USERS, null);
     }
-
 
 
     // class doanh thu
@@ -255,6 +257,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return totalRevenue;
     }
+
     // Phương thức lấy doanh thu theo tháng (tháng được định dạng là yyyy-MM)
     public double getTotalRevenueByMonth(String month) {
         double totalRevenue = 0;
@@ -293,6 +296,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return totalRevenue;
     }
 
+
     public List<Setting> getAllSettings() {
         List<Setting> settings = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -301,7 +305,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         try {
             // Truy vấn lấy tên từ bảng Users
-            String queryUsers = "SELECT " + COLUMN_NAME + " FROM " + TABLE_USERS;
+            String queryUsers = "SELECT " + COLUMN_NAME + " AS name FROM " + TABLE_USERS;
             cursorUsers = db.rawQuery(queryUsers, null);
 
             // Truy vấn lấy thông tin đơn hàng từ bảng Orders
@@ -310,12 +314,16 @@ public class DBHelper extends SQLiteOpenHelper {
                     " FROM " + TABLE_ORDERS;
             cursorOrders = db.rawQuery(queryOrders, null);
 
-            // Kiểm tra xem cả hai con trỏ đều có dữ liệu
+            // Kiểm tra xem con trỏ Users và Orders có dữ liệu hay không
             if (cursorUsers != null && cursorUsers.moveToFirst() && cursorOrders != null && cursorOrders.moveToFirst()) {
                 // Di chuyển qua các bản ghi
-                while (!cursorUsers.isAfterLast() && !cursorOrders.isAfterLast()) {
-                    // Lấy dữ liệu từ các cột
-                    String name = cursorUsers.getString(cursorUsers.getColumnIndexOrThrow(COLUMN_NAME));
+                do {
+                    // Lấy dữ liệu từ bảng Users
+                    String name = cursorUsers.getString(cursorUsers.getColumnIndexOrThrow("name"));
+                    Log.d("DatabaseStatus", "Name: " + name); // Log giá trị name
+                    name = (name != null && !name.isEmpty()) ? name : "name";  // Kiểm tra null và thay thế nếu cần
+
+                    // Lấy dữ liệu từ bảng Orders
                     String date = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_PAYMENT_DATE));
                     String components = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_COMPONENTS));
                     String status = cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_ORDER_STATUS));
@@ -324,18 +332,14 @@ public class DBHelper extends SQLiteOpenHelper {
                     int orderId = Integer.parseInt(cursorOrders.getString(cursorOrders.getColumnIndexOrThrow(COLUMN_ORDER_ID)));
 
                     // Kiểm tra giá trị null và thay thế bằng giá trị mặc định nếu cần
-                    name = name != null ? name : "name";
-                    date = date != null ? date : "";
-                    components = components != null ? components : "";
-                    status = status != null ? status : "Chưa xác nhận";
+                    date = (date != null) ? date : "";
+                    components = (components != null) ? components : "";
+                    status = (status != null) ? status : "Chưa xác nhận";
 
-                    // Thêm vào danh sách Setting
+                    // Thêm vào danh sách settings
                     settings.add(new Setting(orderId, name, date, components, status));
 
-                    // Di chuyển con trỏ đến bản ghi tiếp theo
-                    cursorUsers.moveToNext();
-                    cursorOrders.moveToNext();
-                }
+                } while (cursorUsers.moveToNext() && cursorOrders.moveToNext());
             } else {
                 Log.d("DatabaseStatus", "Không có dữ liệu từ Users hoặc Orders.");
             }
@@ -352,9 +356,6 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DatabaseStatus", "Số lượng settings lấy được: " + settings.size());
         return settings;
     }
-
-
-
 
 
     public List<Customer> getAllCustomer() {
@@ -411,6 +412,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(TABLE_USERS, values, COLUMN_PHONE + " = ?", new String[]{customer.getPhone()});
         db.close();
     }
+
     public void addCustomer(Customer customer) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -425,14 +427,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_USERS, null, values);
         db.close();
     }
+
     public void deleteCustomer(int customerId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, COLUMN_ID + " = ?", new String[]{String.valueOf(customerId)});
         db.close();
     }
-
-
-
 
 
     // Cập nhật tổng doanh thu mới
@@ -462,8 +462,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update("orders_summary", contentValues, whereClause, whereArgs);
         db.close();
     }
-
-
 
 
     public int getTotalOrders() {
@@ -530,7 +528,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-
     public boolean insertUser(String firstName, String lastName, String email, String birthdate, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -564,7 +561,5 @@ public class DBHelper extends SQLiteOpenHelper {
         // Nếu có ít nhất một dòng bị ảnh hưởng, trả về true
         return rowsAffected > 0;  // Nếu rowsAffected = 0 thì không có đơn hàng nào được cập nhật
     }
-
-
 
 }
